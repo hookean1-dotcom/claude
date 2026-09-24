@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Subtle Image Studio</title>
+<meta name="description" content="Upload an image, subtly change its colour set, soften lines and apply other effects, then save the result as a JPEG.">
+<style>
+  :root {
+    --bg: #f4f3ef;
+    --panel: #ffffff;
+    --panel-2: #f8f7f4;
+    --text: #1d1d1b;
+    --muted: #6b6a65;
+    --border: #e2e0da;
+    --accent: #3d6b5a;
+    --accent-text: #ffffff;
+    --track: #dddad2;
+    --canvas-bg: #e9e7e1;
+    --shadow: 0 1px 2px rgba(0,0,0,.05), 0 4px 16px rgba(0,0,0,.05);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #151514;
+      --panel: #1f1f1d;
+      --panel-2: #262624;
+      --text: #ecebe6;
+      --muted: #9d9b94;
+      --border: #34332f;
+      --accent: #7fb89f;
+      --accent-text: #10201a;
+      --track: #3a3935;
+      --canvas-bg: #0e0e0d;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 4px 16px rgba(0,0,0,.25);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #151514;
+    --panel: #1f1f1d;
+    --panel-2: #262624;
+    --text: #ecebe6;
+    --muted: #9d9b94;
+    --border: #34332f;
+    --accent: #7fb89f;
+    --accent-text: #10201a;
+    --track: #3a3935;
+    --canvas-bg: #0e0e0d;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 4px 16px rgba(0,0,0,.25);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font: 14px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    min-height: 100vh;
+  }
+  header {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    padding: 14px 20px; border-bottom: 1px solid var(--border); background: var(--panel);
+    flex-wrap: wrap;
+  }
+  header h1 { font-size: 17px; margin: 0; font-weight: 650; letter-spacing: -.01em; }
+  header p { margin: 0; color: var(--muted); font-size: 13px; }
+  .header-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+  button, .btn {
+    font: inherit; cursor: pointer; border-radius: 8px; padding: 7px 12px;
+    border: 1px solid var(--border); background: var(--panel-2); color: var(--text);
+    display: inline-flex; align-items: center; gap: 6px; user-select: none;
+  }
+  button:hover:not(:disabled), .btn:hover { border-color: var(--muted); }
+  button:disabled { opacity: .45; cursor: not-allowed; }
+  button.primary, .btn.primary { background: var(--accent); color: var(--accent-text); border-color: var(--accent); font-weight: 600; }
+  button:focus-visible, .btn:focus-within, select:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  main {
+    display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 16px;
+    padding: 16px 20px; align-items: start;
+  }
+  @media (max-width: 860px) {
+    main { grid-template-columns: 1fr; padding: 16px; }
+  }
+
+  .stage {
+    background: var(--canvas-bg); border: 1px solid var(--border); border-radius: 12px;
+    min-height: 60vh; display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden; box-shadow: var(--shadow);
+  }
+  @media (min-width: 861px) { .stage { position: sticky; top: 16px; height: calc(100vh - 110px); } }
+  .stage canvas { max-width: 100%; max-height: 100%; display: block; }
+  .stage.has-image canvas { max-height: calc(100vh - 150px); }
+  .stage.drag { outline: 3px dashed var(--accent); outline-offset: -10px; }
+
+  .empty {
+    text-align: center; padding: 40px 20px; color: var(--muted); max-width: 380px;
+  }
+  .empty svg { width: 56px; height: 56px; opacity: .6; margin-bottom: 8px; }
+  .empty h2 { color: var(--text); font-size: 18px; margin: 0 0 6px; }
+  .empty p { margin: 0 0 16px; }
+
+  .stage-bar {
+    position: absolute; left: 12px; right: 12px; bottom: 12px;
+    display: none; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap;
+    pointer-events: none;
+  }
+  .stage.has-image .stage-bar { display: flex; }
+  .stage-bar > * { pointer-events: auto; }
+  .pill {
+    background: rgba(0,0,0,.55); color: #fff; border-radius: 999px; padding: 4px 10px; font-size: 12px;
+    backdrop-filter: blur(6px);
+  }
+  .compare-btn { background: rgba(0,0,0,.55); color: #fff; border-color: transparent; backdrop-filter: blur(6px); }
+  .compare-btn.active { background: var(--accent); color: var(--accent-text); }
+
+  .busy {
+    position: absolute; inset: 0; display: none; align-items: center; justify-content: center;
+    background: rgba(0,0,0,.35); color: #fff; font-weight: 600; font-size: 15px;
+  }
+  .busy.show { display: flex; }
+
+  aside { display: flex; flex-direction: column; gap: 12px; }
+  .card {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow);
+  }
+  details.card > summary {
+    list-style: none; cursor: pointer; padding: 12px 14px; font-weight: 600;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  details.card > summary::-webkit-details-marker { display: none; }
+  details.card > summary::after { content: "▾"; color: var(--muted); transition: transform .15s; }
+  details.card:not([open]) > summary::after { transform: rotate(-90deg); }
+  .card-body { padding: 0 14px 14px; display: flex; flex-direction: column; gap: 12px; }
+
+  .ctl { display: flex; flex-direction: column; gap: 4px; }
+  .ctl-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+  .ctl-head label { cursor: default; }
+  .ctl-head output { color: var(--muted); font-variant-numeric: tabular-nums; font-size: 12px; min-width: 3ch; text-align: right; }
+  .hint { color: var(--muted); font-size: 12px; margin: 0; }
+
+  input[type=range] {
+    -webkit-appearance: none; appearance: none; width: 100%; height: 22px; background: transparent; margin: 0;
+  }
+  input[type=range]::-webkit-slider-runnable-track { height: 4px; background: var(--track); border-radius: 2px; }
+  input[type=range]::-moz-range-track { height: 4px; background: var(--track); border-radius: 2px; }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%; margin-top: -6px;
+    background: var(--accent); border: 2px solid var(--panel); box-shadow: 0 0 0 1px var(--accent);
+  }
+  input[type=range]::-moz-range-thumb {
+    width: 14px; height: 14px; border-radius: 50%; background: var(--accent);
+    border: 2px solid var(--panel); box-shadow: 0 0 0 1px var(--accent);
+  }
+
+  select {
+    font: inherit; color: var(--text); background: var(--panel-2); border: 1px solid var(--border);
+    border-radius: 8px; padding: 7px 10px; width: 100%;
+  }
+  .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .row > label { display: flex; align-items: center; gap: 6px; color: var(--muted); font-size: 13px; }
+  input[type=color] { width: 36px; height: 28px; border: 1px solid var(--border); border-radius: 6px; padding: 0 2px; background: var(--panel-2); cursor: pointer; }
+  input[type=text] {
+    font: inherit; color: var(--text); background: var(--panel-2); border: 1px solid var(--border);
+    border-radius: 8px; padding: 7px 10px; width: 100%;
+  }
+  .swatches { display: flex; flex-wrap: wrap; gap: 4px; }
+  .swatches span { width: 22px; height: 22px; border-radius: 5px; border: 1px solid var(--border); }
+  .hidden { display: none !important; }
+  .export .card-body { padding-top: 14px; }
+  .export h3 { margin: 0; font-size: 14px; }
+  .full { width: 100%; justify-content: center; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>Subtle Image Studio</h1>
+    <p>Recolour, soften and re-texture a photo, then save it as a new JPEG.</p>
+  </div>
+  <div class="header-actions">
+    <label class="btn primary">
+      <input type="file" id="fileInput" accept="image/*" class="sr-only">
+      Upload image
+    </label>
+    <button id="surpriseBtn" disabled title="Apply a random set of gentle adjustments">Surprise me</button>
+    <button id="resetBtn" disabled>Reset all</button>
+  </div>
+</header>
+
+<main>
+  <section class="stage" id="stage" aria-label="Image preview">
+    <div class="empty" id="empty">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+        <rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m21 16-5-5-9 9"/>
+      </svg>
+      <h2>Drop an image here</h2>
+      <p>or choose one from your device. You can also paste an image. Nothing is uploaded to a server; all editing happens in your browser.</p>
+      <label class="btn primary">
+        <input type="file" id="fileInput2" accept="image/*" class="sr-only">
+        Choose image
+      </label>
+    </div>
+    <canvas id="preview" class="hidden"></canvas>
+    <div class="stage-bar">
+      <span class="pill" id="sizeInfo"></span>
+      <button class="compare-btn" id="compareBtn" title="Hold to see the original (or hold the C key)">Hold to compare</button>
+    </div>
+    <div class="busy" id="busy">Working…</div>
+  </section>
+
+  <aside>
+    <details class="card" open>
+      <summary>Light</summary>
+      <div class="card-body" data-group="light"></div>
+    </details>
+
+    <details class="card" open>
+      <summary>Colour</summary>
+      <div class="card-body" data-group="colour"></div>
+    </details>
+
+    <details class="card" open>
+      <summary>Colour set</summary>
+      <div class="card-body">
+        <div class="ctl">
+          <div class="ctl-head"><label for="preset">Palette</label></div>
+          <select id="preset">
+            <option value="none">None (keep original colours)</option>
+            <option value="palette">Limited palette from image</option>
+            <option value="warm">Warm afternoon</option>
+            <option value="cool">Cool morning</option>
+            <option value="tealorange">Teal &amp; orange film</option>
+            <option value="vintage">Vintage print</option>
+            <option value="pastel">Pastel</option>
+            <option value="sepia">Sepia</option>
+            <option value="bw">Black &amp; white</option>
+            <option value="duotone">Duotone (pick two colours)</option>
+          </select>
+        </div>
+        <div class="row hidden" id="duotoneRow">
+          <label>Shadows <input type="color" id="duoA" value="#1f2a44"></label>
+          <label>Highlights <input type="color" id="duoB" value="#f2d6a2"></label>
+        </div>
+        <div class="hidden" id="paletteRow">
+          <div data-group="palette"></div>
+          <div class="swatches" id="swatches" aria-label="Extracted palette"></div>
+        </div>
+        <div data-group="colourset"></div>
+      </div>
+    </details>
+
+    <details class="card" open>
+      <summary>Lines &amp; texture</summary>
+      <div class="card-body" data-group="texture"></div>
+    </details>
+
+    <details class="card" open>
+      <summary>Finish</summary>
+      <div class="card-body" data-group="finish"></div>
+    </details>
+
+    <section class="card export">
+      <div class="card-body">
+        <h3>Save as JPEG</h3>
+        <div data-group="export"></div>
+        <div class="ctl">
+          <div class="ctl-head"><label for="fileName">File name</label></div>
+          <input type="text" id="fileName" value="edited-image" spellcheck="false">
+        </div>
+        <button class="primary full" id="saveBtn" disabled>Download JPEG</button>
+        <p class="hint" id="saveHint">Saved at the image's full original resolution.</p>
+      </div>
+    </section>
+    <p class="hint">Tip: double-click a slider to reset it.</p>
+  </aside>
+</main>
+
+<script>
+(() => {
+  'use strict';
+
+  // ---------- Controls ----------
+  const CONTROLS = [
+    { id: 'exposure',   group: 'light',    label: 'Exposure',            min: -100, max: 100, def: 0 },
+    { id: 'contrast',   group: 'light',    label: 'Contrast',            min: -100, max: 100, def: 0 },
+    { id: 'shadows',    group: 'light',    label: 'Shadows',             min: -100, max: 100, def: 0 },
+    { id: 'highlights', group: 'light',    label: 'Highlights',          min: -100, max: 100, def: 0 },
+    { id: 'fade',       group: 'light',    label: 'Fade (lift blacks)',  min: 0,    max: 100, def: 0 },
+
+    { id: 'temperature', group: 'colour',  label: 'Temperature',         min: -100, max: 100, def: 0 },
+    { id: 'tint',        group: 'colour',  label: 'Tint (green ↔ magenta)', min: -100, max: 100, def: 0 },
+    { id: 'hue',         group: 'colour',  label: 'Hue shift',           min: -180, max: 180, def: 0, unit: '°' },
+    { id: 'saturation',  group: 'colour',  label: 'Saturation',          min: -100, max: 100, def: 0 },
+    { id: 'vibrance',    group: 'colour',  label: 'Vibrance',            min: -100, max: 100, def: 0 },
+
+    { id: 'paletteSize', group: 'palette', label: 'Number of colours',   min: 2,    max: 24,  def: 8 },
+    { id: 'strength',    group: 'colourset', label: 'Palette strength',  min: 0,    max: 100, def: 50, unit: '%' },
+    { id: 'posterize',   group: 'colourset', label: 'Posterize (fewer tones)', min: 0, max: 100, def: 0 },
+
+    { id: 'soften',     group: 'texture',  label: 'Soften lines ↔ Sharpen', min: -100, max: 100, def: 0 },
+    { id: 'smooth',     group: 'texture',  label: 'Smooth surfaces (keeps edges)', min: 0, max: 100, def: 0 },
+    { id: 'glow',       group: 'texture',  label: 'Dreamy glow',         min: 0,    max: 100, def: 0 },
+    { id: 'grain',      group: 'texture',  label: 'Film grain',          min: 0,    max: 100, def: 0 },
+
+    { id: 'vignette',   group: 'finish',   label: 'Vignette (dark ↔ light)', min: -100, max: 100, def: 0 },
+
+    { id: 'quality',    group: 'export',   label: 'JPEG quality',        min: 50,   max: 100, def: 92, unit: '%', noRender: true },
+  ];
+
+  const params = {};
+  const inputs = {};
+  CONTROLS.forEach(c => { params[c.id] = c.def; });
+  params.preset = 'none';
+  params.duoA = '#1f2a44';
+  params.duoB = '#f2d6a2';
+
+  // Soften slider: left softens, right sharpens. Vignette: left darkens corners.
+  function buildControls() {
+    CONTROLS.forEach(c => {
+      const host = document.querySelector(`[data-group="${c.group}"]`);
+      const wrap = document.createElement('div');
+      wrap.className = 'ctl';
+      const id = 'ctl-' + c.id;
+      wrap.innerHTML = `
+        <div class="ctl-head"><label for="${id}">${c.label}</label><output for="${id}"></output></div>
+        <input type="range" id="${id}" min="${c.min}" max="${c.max}" step="1" value="${c.def}">`;
+      host.appendChild(wrap);
+      const input = wrap.querySelector('input');
+      const out = wrap.querySelector('output');
+      const show = () => { out.textContent = input.value + (c.unit || ''); };
+      input.addEventListener('input', () => {
+        params[c.id] = +input.value; show();
+        if (c.id === 'paletteSize') state.palette = null;
+        if (!c.noRender) scheduleRender();
+      });
+      input.addEventListener('dblclick', () => setParam(c.id, c.def));
+      inputs[c.id] = { input, show, def: c.def };
+      show();
+    });
+  }
+
+  function setParam(id, value, silent) {
+    params[id] = value;
+    if (inputs[id]) { inputs[id].input.value = value; inputs[id].show(); }
+    if (id === 'paletteSize') state.palette = null;
+    if (!silent) scheduleRender();
+  }
+
+  // ---------- Image state ----------
+  const state = {
+    image: null,          // HTMLImageElement / ImageBitmap at full size
+    name: 'image',
+    preview: null,        // ImageData at preview size
+    previewCache: new Map(),
+    palette: null,
+    renderPending: false,
+    comparing: false,
+  };
+
+  const PREVIEW_MAX = 1400;
+  const EXPORT_MAX = 8000;
+
+  const $ = s => document.querySelector(s);
+  const stage = $('#stage');
+  const canvas = $('#preview');
+  const ctx = canvas.getContext('2d', { willReadFrequently: true });
+  const busy = $('#busy');
+
+  function drawToImageData(img, maxDim) {
+    const scale = Math.min(1, maxDim / Math.max(img.width, img.height));
+    const w = Math.max(1, Math.round(img.width * scale));
+    const h = Math.max(1, Math.round(img.height * scale));
+    const c = document.createElement('canvas');
+    c.width = w; c.height = h;
+    const cx = c.getContext('2d', { willReadFrequently: true });
+    cx.fillStyle = '#ffffff';          // JPEG has no transparency
+    cx.fillRect(0, 0, w, h);
+    cx.imageSmoothingQuality = 'high';
+    cx.drawImage(img, 0, 0, w, h);
+    return cx.getImageData(0, 0, w, h);
+  }
+
+  function loadFile(file) {
+    if (!file || !file.type.startsWith('image/')) return;
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = () => {
+      state.image = img;
+      state.name = file.name ? file.name.replace(/\.[^.]+$/, '') : 'image';
+      $('#fileName').value = state.name + '-edited';
+      state.preview = drawToImageData(img, PREVIEW_MAX);
+      state.previewCache = new Map();
+      state.palette = null;
+      canvas.width = state.preview.width;
+      canvas.height = state.preview.height;
+      canvas.classList.remove('hidden');
+      $('#empty').classList.add('hidden');
+      stage.classList.add('has-image');
+      $('#sizeInfo').textContent = `${img.width} × ${img.height}px`;
+      ['#saveBtn', '#resetBtn', '#surpriseBtn'].forEach(s => $(s).disabled = false);
+      scheduleRender();
+    };
+    img.onerror = () => alert('Sorry, that image could not be opened.');
+    img.src = url;
+  }
+
+  // ---------- Rendering ----------
+  function scheduleRender() {
+    if (!state.preview || state.renderPending) return;
+    state.renderPending = true;
+    requestAnimationFrame(() => {
+      state.renderPending = false;
+      if (state.comparing) { ctx.putImageData(state.preview, 0, 0); return; }
+      const out = processImage(state.preview, params, state.previewCache, getPalette());
+      ctx.putImageData(out, 0, 0);
+    });
+  }
+
+  function getPalette() {
+    if (params.preset !== 'palette' || !state.preview) return null;
+    if (!state.palette) {
+      state.palette = extractPalette(state.preview, params.paletteSize);
+      const sw = $('#swatches');
+      sw.innerHTML = '';
+      state.palette.forEach(([r, g, b]) => {
+        const s = document.createElement('span');
+        s.style.background = `rgb(${r|0},${g|0},${b|0})`;
+        sw.appendChild(s);
+      });
+    }
+    return state.palette;
+  }
+
+  // ---------- Image processing ----------
+  function clamp01(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
+  function smoothstep(a, b, x) { const t = clamp01((x - a) / (b - a)); return t * t * (3 - 2 * t); }
+  function hexToRgb(hex) {
+    const n = parseInt(hex.slice(1), 16);
+    return [((n >> 16) & 255) / 255, ((n >> 8) & 255) / 255, (n & 255) / 255];
+  }
+  function mulberry32(a) {
+    return function () {
+      a |= 0; a = a + 0x6D2B79F5 | 0;
+      let t = Math.imul(a ^ a >>> 15, 1 | a);
+      t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+      return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    };
+  }
+
+  // One box-blur pass over an interleaved RGB float buffer.
+  function boxPass(s, d, w, h, r, horizontal) {
+    const inv = 1 / (2 * r + 1);
+    const lines = horizontal ? h : w;
+    const len = horizontal ? w : h;
+    const step = horizontal ? 3 : w * 3;
+    for (let l = 0; l < lines; l++) {
+      const base = horizontal ? l * w * 3 : l * 3;
+      for (let c = 0; c < 3; c++) {
+        const o = base + c;
+        let sum = 0;
+        for (let k = -r; k <= r; k++) {
+          const p = k < 0 ? 0 : (k >= len ? len - 1 : k);
+          sum += s[o + p * step];
+        }
+        for (let p = 0; p < len; p++) {
+          d[o + p * step] = sum * inv;
+          const pi = p + r + 1 >= len ? len - 1 : p + r + 1;
+          const po = p - r < 0 ? 0 : p - r;
+          sum += s[o + pi * step] - s[o + po * step];
+        }
+      }
+    }
+  }
+
+  // Three box passes each way approximate a gaussian blur.
+  function blurRGB(rgb, w, h, r) {
+    const a = new Float32Array(rgb);
+    const b = new Float32Array(rgb.length);
+    for (let i = 0; i < 3; i++) {
+      boxPass(a, b, w, h, r, true);
+      boxPass(b, a, w, h, r, false);
+    }
+    return a;
+  }
+
+  function extractPalette(img, k) {
+    const { data, width, height } = img;
+    const n = width * height;
+    const stride = Math.max(1, Math.floor(n / 6000));
+    const samples = [];
+    for (let i = 0; i < n; i += stride) {
+      const j = i * 4;
+      samples.push([data[j], data[j + 1], data[j + 2]]);
+    }
+    // Deterministic start: spread centres across the luminance range.
+    const lum = p => 0.2126 * p[0] + 0.7152 * p[1] + 0.0722 * p[2];
+    const sorted = samples.slice().sort((a, b) => lum(a) - lum(b));
+    let centres = [];
+    for (let i = 0; i < k; i++) {
+      centres.push(sorted[Math.floor((i + 0.5) / k * sorted.length)].slice());
+    }
+    const assign = new Int32Array(samples.length);
+    for (let iter = 0; iter < 14; iter++) {
+      const sums = centres.map(() => [0, 0, 0, 0]);
+      for (let s = 0; s < samples.length; s++) {
+        const p = samples[s];
+        let best = 0, bd = Infinity;
+        for (let c = 0; c < k; c++) {
+          const q = centres[c];
+          const dr = p[0] - q[0], dg = p[1] - q[1], db = p[2] - q[2];
+          const d = 0.3 * dr * dr + 0.59 * dg * dg + 0.11 * db * db;
+          if (d < bd) { bd = d; best = c; }
+        }
+        assign[s] = best;
+        const t = sums[best];
+        t[0] += p[0]; t[1] += p[1]; t[2] += p[2]; t[3]++;
+      }
+      centres = centres.map((c, i) => {
+        const t = sums[i];
+        return t[3] ? [t[0] / t[3], t[1] / t[3], t[2] / t[3]] : c;
+      });
+    }
+    return centres.sort((a, b) => lum(a) - lum(b));
+  }
+
+  function hueMatrix(deg) {
+    const a = deg * Math.PI / 180, c = Math.cos(a), s = Math.sin(a);
+    return [
+      0.213 + c * 0.787 - s * 0.213, 0.715 - c * 0.715 - s * 0.715, 0.072 - c * 0.072 + s * 0.928,
+      0.213 - c * 0.213 + s * 0.143, 0.715 + c * 0.285 + s * 0.140, 0.072 - c * 0.072 - s * 0.283,
+      0.213 - c * 0.213 - s * 0.787, 0.715 - c * 0.715 + s * 0.715, 0.072 + c * 0.928 + s * 0.072,
+    ];
+  }
+
+  function processImage(src, p, cache, palette) {
+    const { width: w, height: h, data } = src;
+    const n = w * h;
+    const minDim = Math.min(w, h);
+
+    // Original pixels as 0..255 floats (cached per source).
+    let orig = cache.get('orig');
+    if (!orig) {
+      orig = new Float32Array(n * 3);
+      for (let i = 0, j = 0; i < n; i++, j += 4) {
+        orig[i * 3] = data[j]; orig[i * 3 + 1] = data[j + 1]; orig[i * 3 + 2] = data[j + 2];
+      }
+      cache.set('orig', orig);
+    }
+    const blur = r => {
+      r = Math.max(1, Math.round(r));
+      const key = 'blur' + r;
+      let b = cache.get(key);
+      if (!b) { b = blurRGB(orig, w, h, r); cache.set(key, b); }
+      return b;
+    };
+
+    // --- Spatial effects ---
+    const soften = -p.soften / 100;   // positive = soften
+    const sharpen = p.soften / 100;   // positive = sharpen
+    const smooth = p.smooth / 100;
+    const glow = p.glow / 100;
+
+    const bSoft = soften > 0 ? blur(minDim * 0.007 * soften) : null;
+    const softMix = soften > 0 ? Math.min(1, soften * 4) : 0;
+    const bSharp = sharpen > 0 ? blur(minDim * 0.002) : null;
+    const bSmooth = smooth > 0 ? blur(minDim * 0.008) : null;
+    const smoothSigma = 6 + smooth * 22;
+    const smoothDen = 1 / (2 * smoothSigma * smoothSigma);
+    const bGlow = glow > 0 ? blur(minDim * 0.03) : null;
+
+    // --- Colour setup ---
+    const expo = Math.pow(2, p.exposure / 100);
+    const contrast = Math.pow(2, p.contrast / 100);
+    const shadows = p.shadows / 100;
+    const highlights = p.highlights / 100;
+    const fade = p.fade / 100 * 0.22;
+    const temp = p.temperature / 100;
+    const tint = p.tint / 100;
+    const sat = 1 + p.saturation / 100;
+    const vib = p.vibrance / 100;
+    const hm = p.hue ? hueMatrix(p.hue) : null;
+    const preset = p.preset;
+    const strength = p.strength / 100;
+    const duoA = hexToRgb(p.duoA), duoB = hexToRgb(p.duoB);
+    const pal = palette ? palette.map(c => [c[0] / 255, c[1] / 255, c[2] / 255]) : null;
+    const levels = p.posterize > 0 ? Math.max(2, Math.round(32 - 29 * p.posterize / 100)) : 0;
+    const vig = -p.vignette / 100;     // positive = darken corners
+    const grain = p.grain / 100 * 0.14;
+    const rand = mulberry32(12345);
+    const cx = w / 2, cy = h / 2;
+
+    const out = new ImageData(w, h);
+    const od = out.data;
+
+    for (let y = 0; y < h; y++) {
+      const dy = (y - cy) / cy;
+      for (let x = 0; x < w; x++) {
+        const i = y * w + x;
+        const k = i * 3;
+        let r = orig[k], g = orig[k + 1], b = orig[k + 2];
+
+        if (bSmooth) {
+          const sr = bSmooth[k], sg = bSmooth[k + 1], sb = bSmooth[k + 2];
+          const dl = (0.3 * (sr - r) + 0.59 * (sg - g) + 0.11 * (sb - b));
+          const wgt = Math.exp(-dl * dl * smoothDen) * smooth;
+          r += (sr - r) * wgt; g += (sg - g) * wgt; b += (sb - b) * wgt;
+        }
+        if (bSoft) {
+          r += (bSoft[k] - r) * softMix; g += (bSoft[k + 1] - g) * softMix; b += (bSoft[k + 2] - b) * softMix;
+        }
+        if (bSharp) {
+          const amt = sharpen * 1.6;
+          r += (orig[k] - bSharp[k]) * amt; g += (orig[k + 1] - bSharp[k + 1]) * amt; b += (orig[k + 2] - bSharp[k + 2]) * amt;
+        }
+
+        r /= 255; g /= 255; b /= 255;
+
+        if (bGlow) {
+          const a = glow * 0.55;
+          const gr = bGlow[k] / 255 * a, gg = bGlow[k + 1] / 255 * a, gb = bGlow[k + 2] / 255 * a;
+          r = 1 - (1 - r) * (1 - gr); g = 1 - (1 - g) * (1 - gg); b = 1 - (1 - b) * (1 - gb);
+        }
+
+        // Exposure & contrast
+        r *= expo; g *= expo; b *= expo;
+        if (contrast !== 1) {
+          r = (r - 0.5) * contrast + 0.5; g = (g - 0.5) * contrast + 0.5; b = (b - 0.5) * contrast + 0.5;
+        }
+
+        // Shadows / highlights (tone-weighted lift or pull)
+        if (shadows || highlights) {
+          const L = clamp01(0.2126 * r + 0.7152 * g + 0.0722 * b);
+          const sw = (1 - L) * (1 - L);
+          const hw = L * L;
+          const adj = shadows * sw * 0.35 + highlights * hw * 0.35;
+          r += adj; g += adj; b += adj;
+        }
+
+        // White balance
+        if (temp) { r += temp * 0.08; b -= temp * 0.08; }
+        if (tint) { g -= tint * 0.06; r += tint * 0.02; b += tint * 0.02; }
+
+        // Hue
+        if (hm) {
+          const nr = hm[0] * r + hm[1] * g + hm[2] * b;
+          const ng = hm[3] * r + hm[4] * g + hm[5] * b;
+          const nb = hm[6] * r + hm[7] * g + hm[8] * b;
+          r = nr; g = ng; b = nb;
+        }
+
+        // Saturation & vibrance
+        if (sat !== 1 || vib) {
+          const L = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+          let f = sat;
+          if (vib) {
+            const mx = Math.max(r, g, b), mn = Math.min(r, g, b);
+            const s = mx > 0 ? (mx - mn) / mx : 0;
+            f *= 1 + vib * (1 - s);
+          }
+          r = L + (r - L) * f; g = L + (g - L) * f; b = L + (b - L) * f;
+        }
+
+        // Colour set
+        if (preset !== 'none' && strength > 0) {
+          r = clamp01(r); g = clamp01(g); b = clamp01(b);
+          const L = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+          let pr = r, pg = g, pb = b;
+          switch (preset) {
+            case 'bw': pr = pg = pb = L; break;
+            case 'sepia':
+              pr = 0.393 * r + 0.769 * g + 0.189 * b;
+              pg = 0.349 * r + 0.686 * g + 0.168 * b;
+              pb = 0.272 * r + 0.534 * g + 0.131 * b; break;
+            case 'warm': pr = r * 1.08 + 0.03; pg = g * 1.02 + 0.01; pb = b * 0.85; break;
+            case 'cool': pr = r * 0.9; pg = g * 0.98 + 0.01; pb = b * 1.08 + 0.04; break;
+            case 'tealorange': {
+              const t = 2 * L - 1;
+              pr = r + 0.12 * t; pg = g + 0.02 * t; pb = b - 0.14 * t;
+              break;
+            }
+            case 'vintage': {
+              const m = 0.75;
+              pr = (L + (r - L) * m) * 0.88 + 0.1;
+              pg = (L + (g - L) * m) * 0.84 + 0.08;
+              pb = (L + (b - L) * m) * 0.7 + 0.12;
+              break;
+            }
+            case 'pastel': {
+              const m = 0.6;
+              pr = 0.22 + 0.78 * (L + (r - L) * m);
+              pg = 0.22 + 0.78 * (L + (g - L) * m);
+              pb = 0.24 + 0.76 * (L + (b - L) * m);
+              break;
+            }
+            case 'duotone':
+              pr = duoA[0] + (duoB[0] - duoA[0]) * L;
+              pg = duoA[1] + (duoB[1] - duoA[1]) * L;
+              pb = duoA[2] + (duoB[2] - duoA[2]) * L; break;
+            case 'palette':
+              if (pal) {
+                let bd = Infinity, best = pal[0];
+                for (let c = 0; c < pal.length; c++) {
+                  const q = pal[c];
+                  const dr = r - q[0], dg = g - q[1], db = b - q[2];
+                  const d = 0.3 * dr * dr + 0.59 * dg * dg + 0.11 * db * db;
+                  if (d < bd) { bd = d; best = q; }
+                }
+                pr = best[0]; pg = best[1]; pb = best[2];
+              }
+              break;
+          }
+          r += (pr - r) * strength; g += (pg - g) * strength; b += (pb - b) * strength;
+        }
+
+        // Fade
+        if (fade) { r = fade + r * (1 - fade); g = fade + g * (1 - fade); b = fade + b * (1 - fade); }
+
+        // Posterize
+        if (levels) {
+          const lv = levels - 1;
+          r = Math.round(clamp01(r) * lv) / lv; g = Math.round(clamp01(g) * lv) / lv; b = Math.round(clamp01(b) * lv) / lv;
+        }
+
+        // Vignette
+        if (vig) {
+          const dx = (x - cx) / cx;
+          const f = smoothstep(0.35, 1, Math.sqrt(dx * dx + dy * dy) / Math.SQRT2);
+          if (vig > 0) { const m = 1 - vig * 0.55 * f; r *= m; g *= m; b *= m; }
+          else { const m = -vig * 0.5 * f; r += (1 - r) * m; g += (1 - g) * m; b += (1 - b) * m; }
+        }
+
+        // Grain (luminance noise)
+        if (grain) {
+          const nz = (rand() + rand() - 1) * grain;
+          r += nz; g += nz; b += nz;
+        }
+
+        const o = i * 4;
+        od[o] = r * 255; od[o + 1] = g * 255; od[o + 2] = b * 255; od[o + 3] = 255;
+      }
+    }
+    return out;
+  }
+
+  // ---------- Export ----------
+  function exportJpeg() {
+    if (!state.image) return;
+    busy.textContent = 'Creating full-size image…';
+    busy.classList.add('show');
+    // Let the overlay paint before the heavy work starts.
+    setTimeout(() => {
+      try {
+        const full = drawToImageData(state.image, EXPORT_MAX);
+        const out = processImage(full, params, new Map(), getPalette());
+        const c = document.createElement('canvas');
+        c.width = out.width; c.height = out.height;
+        c.getContext('2d').putImageData(out, 0, 0);
+        c.toBlob(blob => {
+          busy.classList.remove('show');
+          if (!blob) { alert('Could not create the JPEG.'); return; }
+          const name = ($('#fileName').value.trim() || 'edited-image').replace(/[\\/:*?"<>|]/g, '_');
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(blob);
+          a.download = name.toLowerCase().endsWith('.jpg') ? name : name + '.jpg';
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+          setTimeout(() => URL.revokeObjectURL(a.href), 5000);
+          $('#saveHint').textContent = `Saved ${out.width} × ${out.height}px, ${(blob.size / 1024 / 1024).toFixed(2)} MB.`;
+        }, 'image/jpeg', params.quality / 100);
+      } catch (err) {
+        busy.classList.remove('show');
+        alert('Something went wrong while saving: ' + err.message);
+      }
+    }, 30);
+  }
+
+  // ---------- Surprise / reset ----------
+  function resetAll() {
+    CONTROLS.forEach(c => { if (!c.noRender) setParam(c.id, c.def, true); });
+    $('#preset').value = 'none';
+    params.preset = 'none';
+    updatePresetUI();
+    scheduleRender();
+  }
+
+  function surprise() {
+    const rnd = (a, b) => Math.round(a + Math.random() * (b - a));
+    resetAll();
+    setParam('exposure', rnd(-12, 12), true);
+    setParam('contrast', rnd(-15, 20), true);
+    setParam('shadows', rnd(-10, 25), true);
+    setParam('highlights', rnd(-25, 5), true);
+    setParam('fade', rnd(0, 20), true);
+    setParam('temperature', rnd(-25, 25), true);
+    setParam('tint', rnd(-10, 10), true);
+    setParam('hue', rnd(-8, 8), true);
+    setParam('saturation', rnd(-20, 15), true);
+    setParam('vibrance', rnd(0, 30), true);
+    setParam('soften', rnd(-30, 25), true);
+    setParam('smooth', rnd(0, 40), true);
+    setParam('glow', rnd(0, 25), true);
+    setParam('grain', rnd(0, 18), true);
+    setParam('vignette', rnd(-5, 30) * -1, true);
+    const presets = ['none', 'warm', 'cool', 'tealorange', 'vintage', 'pastel', 'palette'];
+    params.preset = presets[rnd(0, presets.length - 1)];
+    $('#preset').value = params.preset;
+    setParam('strength', rnd(20, 45), true);
+    setParam('paletteSize', rnd(10, 20), true);
+    updatePresetUI();
+    scheduleRender();
+  }
+
+  function updatePresetUI() {
+    $('#duotoneRow').classList.toggle('hidden', params.preset !== 'duotone');
+    $('#paletteRow').classList.toggle('hidden', params.preset !== 'palette');
+  }
+
+  // ---------- Wiring ----------
+  buildControls();
+
+  $('#fileInput').addEventListener('change', e => loadFile(e.target.files[0]));
+  $('#fileInput2').addEventListener('change', e => loadFile(e.target.files[0]));
+  $('#saveBtn').addEventListener('click', exportJpeg);
+  $('#resetBtn').addEventListener('click', resetAll);
+  $('#surpriseBtn').addEventListener('click', surprise);
+
+  $('#preset').addEventListener('change', e => {
+    params.preset = e.target.value;
+    updatePresetUI();
+    scheduleRender();
+  });
+  $('#duoA').addEventListener('input', e => { params.duoA = e.target.value; scheduleRender(); });
+  $('#duoB').addEventListener('input', e => { params.duoB = e.target.value; scheduleRender(); });
+
+  // Hold-to-compare
+  const cmp = $('#compareBtn');
+  const startCompare = () => {
+    if (!state.preview || state.comparing) return;
+    state.comparing = true; cmp.classList.add('active');
+    ctx.putImageData(state.preview, 0, 0);
+  };
+  const endCompare = () => {
+    if (!state.comparing) return;
+    state.comparing = false; cmp.classList.remove('active');
+    scheduleRender();
+  };
+  cmp.addEventListener('pointerdown', e => { e.preventDefault(); startCompare(); });
+  ['pointerup', 'pointerleave', 'pointercancel'].forEach(ev => cmp.addEventListener(ev, endCompare));
+  document.addEventListener('keydown', e => {
+    if ((e.key === 'c' || e.key === 'C') && !e.repeat && !/INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName)) startCompare();
+  });
+  document.addEventListener('keyup', e => { if (e.key === 'c' || e.key === 'C') endCompare(); });
+
+  // Drag & drop and paste
+  ['dragenter', 'dragover'].forEach(ev => stage.addEventListener(ev, e => { e.preventDefault(); stage.classList.add('drag'); }));
+  ['dragleave', 'drop'].forEach(ev => stage.addEventListener(ev, e => { e.preventDefault(); stage.classList.remove('drag'); }));
+  stage.addEventListener('drop', e => loadFile(e.dataTransfer.files[0]));
+  document.addEventListener('paste', e => {
+    const item = [...(e.clipboardData?.items || [])].find(i => i.type.startsWith('image/'));
+    if (item) loadFile(item.getAsFile());
+  });
+})();
+</script>
+</body>
+</html>
