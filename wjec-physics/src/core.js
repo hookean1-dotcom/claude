@@ -24,7 +24,7 @@ function mx(s, roman) {
   while (i < s.length) {
     const c = s[i];
     if (s.startsWith('@frac', i)) { i += 5; const a = group(), b = group(); out += `<span class="fr"><span class="nu">${mx(a, roman)}</span><span class="de">${mx(b, roman)}</span></span>`; continue; }
-    if (s.startsWith('@sqrt', i)) { i += 5; const a = group(); out += `<span class="sq">√<span class="ra">${mx(a, roman)}</span></span>`; continue; }
+    if (s.startsWith('@sqrt', i)) { i += 5; const a = group(); out += `<span class="sq"><svg class="rs" viewBox="0 0 10 100" preserveAspectRatio="none" aria-hidden="true"><path d="M0.6,62 L3.2,55 L5.6,97 L10,0.8"/></svg><span class="vh">√</span><span class="ra">${mx(a, roman)}</span></span>`; continue; }
     if (s.startsWith('@bar', i)) { i += 4; const a = group(); out += `<span class="ov">${mx(a, roman)}</span>`; continue; }
     if (s.startsWith('@,', i)) { out += '&thinsp;'; i += 2; continue; }
     const tag = s.slice(i).match(/^<\/?(sup|sub|b|i)>/); if (tag) { out += tag[0]; i += tag[0].length; continue; }
