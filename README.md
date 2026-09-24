@@ -12,3 +12,9 @@ Open `index.html` in any modern browser. No build step, server or internet conne
 - **Finish:** darkening or lightening vignette.
 - **Tools:** hold-to-compare (or hold `C`), "Surprise me" random subtle edits, double-click a slider to reset it.
 - **Export:** downloads a JPEG at full original resolution with adjustable quality.
+
+---
+
+# Spectra — WJEC A-level Physics
+
+The `wjec-physics/` folder contains **Spectra**, a self-contained study app for the WJEC AS/A level Physics specification. Open `wjec-physics/index.html` in a browser. See [`wjec-physics/README.md`](wjec-physics/README.md) for details.
