@@ -408,18 +408,28 @@ SIMS.drift = {
     { id: 'A1', label: 'Area of thick section', min: 1, max: 4, step: 0.5, value: 2, fmt: v => v.toFixed(1) + ' mm²' }
   ],
   readouts: ['n (carriers m⁻³)', 'Drift v (thick)', 'Drift v (thin, ½ area)', 'Thermal speed (random)'],
-  note: 'The thin section has half the area, so electrons drift twice as fast there (I = nAve is the same everywhere in series). Random thermal motion is far faster than the drift!',
-  init(st) { st.e = Array.from({ length: 170 }, () => ({ x: Math.random(), y: Math.random(), vx: 0, vy: 0 })); },
+  note: 'Free electrons fill the whole wire evenly (n is fixed by the metal). The thin section has half the area, so to carry the same current (I = nAve is the same everywhere in series) electrons there drift twice as fast. Their random thermal motion is far faster than the drift.',
+  /* Electrons are spread uniformly through the whole metal (n is a property of the material).
+     Each follows a streamline: moving from the thin section into the wide one, its height is
+     stretched in proportion to the width, so density stays uniform while the drift speed halves. */
+  init(st) {
+    st.e = Array.from({ length: 240 }, () => {
+      const thick = Math.random() < 2 / 3; // wide part has 2/3 of the metal's volume
+      return thick ? { x: Math.random() * 0.5, y: Math.random(), jx: 0, jy: 0 } : { x: 0.5 + Math.random() * 0.5, y: 0.25 + Math.random() * 0.5, jx: 0, jy: 0 };
+    });
+  },
   n(st) { return 8.5e28; },
   vd(st, A) { return st.p.I / (this.n(st) * A * 1e-6 * 1.6e-19); },
   step(st, dt) {
-    const W = st.W, H = st.H; st.e.forEach(e => {
-      const inThin = e.x > 0.5; const h = inThin ? 0.5 : 1;
-      const vis = st.p.I * 0.03 * (inThin ? 2 : 1);
-      e.vx += (Math.random() - .5) * 6 * dt; e.vy += (Math.random() - .5) * 6 * dt; e.vx *= .9; e.vy *= .9;
-      e.x -= (vis) * dt * 1.0 - e.vx * dt * .3; e.y += e.vy * dt * .3;
-      if (e.x < 0) { e.x += 1; } if (e.x > 1) e.x -= 1;
-      const lo = 0.5 - h / 2, hi = 0.5 + h / 2; if (e.y < lo) e.y = lo + (lo - e.y); if (e.y > hi) e.y = hi - (e.y - hi); e.y = clamp(e.y, lo, hi);
+    const base = st.p.I * 0.03 * (2 / st.p.A1); // on-screen drift in the wide section (∝ I/A)
+    st.e.forEach(e => {
+      const thin = e.x > 0.5;
+      const nx = e.x - base * (thin ? 2 : 1) * dt; // electrons drift opposite to conventional current
+      if (thin && nx <= 0.5) e.y = 0.5 + (e.y - 0.5) * 2; // thin → wide: spread out across the full width
+      e.x = nx;
+      if (e.x < 0) { e.x += 1; e.y = 0.5 + (e.y - 0.5) / 2; } // leave on the left, re-enter the thin end on the right
+      // random thermal motion: a fast jiggle about the drifting position, much larger than the drift
+      e.jx = (e.jx + (Math.random() - .5) * 0.02) * 0.9; e.jy = (e.jy + (Math.random() - .5) * 0.04) * 0.9;
     });
   },
   draw(c, W, H, st, C) {
@@ -428,8 +438,7 @@ SIMS.drift = {
     c.fillStyle = 'rgba(184,115,51,.18)';
     c.beginPath(); c.moveTo(X(0), cy - hh / 2); c.lineTo(X(.5), cy - hh / 2); c.lineTo(X(.5), cy - hh / 4); c.lineTo(X(1), cy - hh / 4); c.lineTo(X(1), cy + hh / 4); c.lineTo(X(.5), cy + hh / 4); c.lineTo(X(.5), cy + hh / 2); c.lineTo(X(0), cy + hh / 2); c.closePath(); c.fill();
     c.strokeStyle = C.ink; c.lineWidth = 1.5; c.stroke();
-    const show = st.e;
-    show.forEach(e => CV.circle(c, X(e.x), Y(e.y), 3.2, C.u4));
+    st.e.forEach(e => { const thin = e.x > 0.5, x = thin ? clamp(e.x + e.jx, 0.5, 0.996) : clamp(e.x + e.jx, 0.004, 0.5), lo = thin ? 0.25 : 0, hi = thin ? 0.75 : 1; CV.circle(c, X(x), Y(clamp(e.y + e.jy, lo + 0.02, hi - 0.02)), 3.2, C.u4); });
     CV.arrow(c, X(.2), cy + hh / 2 + 30, X(.4), cy + hh / 2 + 30, C.u1, 2.4); CV.text(c, 'conventional current I', X(.3), cy + hh / 2 + 48, C.u1, 12, 'center', 600);
     CV.arrow(c, X(.8), cy + hh / 2 + 30, X(.6), cy + hh / 2 + 30, C.u4, 2.4); CV.text(c, 'electron drift', X(.7), cy + hh / 2 + 48, C.u4, 12, 'center', 600);
     CV.mono(c, 'A', X(.25), cy - hh / 2 - 14, C.ink, 12, 'center'); CV.mono(c, 'A/2', X(.75), cy - hh / 4 - 14, C.ink, 12, 'center');
