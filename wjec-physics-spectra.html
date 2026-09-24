@@ -566,11 +566,25 @@ function mx(s, roman) {
 }
 const M = s => `<span class="m">${mx(s)}</span>`;
 /* rich(): typeset $maths$ and expand [[d:diagram]] placeholders inside content HTML */
+/* sqrtify(): turn plain-text roots such as √(m/k), √2 or 1/√r into drawn radicals (outside $maths$) */
+function sqrtify(t) {
+  if (!t || String(t).indexOf('√') < 0) return t;
+  t = String(t); let out = '', i = 0;
+  while (i < t.length) {
+    const j = t.indexOf('√', i); if (j < 0) { out += t.slice(i); break; }
+    out += t.slice(i, j); let k = j + 1, inner = null;
+    if (t[k] === '(') { let d = 1, e = k + 1; while (e < t.length && d) { if (t[e] === '(') d++; else if (t[e] === ')') d--; e++; } if (!d) { inner = t.slice(k + 1, e - 1); k = e; } }
+    else { const m = t.slice(k).match(/^[A-Za-z0-9α-ω]+(\.[0-9]+)?/); if (m) { inner = m[0]; k += m[0].length; } }
+    if (inner == null) { out += '√'; i = j + 1; continue; }
+    out += `<span class="m">${mx('@sqrt{' + inner.replace(/<(\/?)(sub|sup)>/g, '\u0001$1$2\u0002').replace(/[{}]/g, '') .replace(/\u0001(\/?)(sub|sup)\u0002/g, '<$1$2>') + '}')}</span>`; i = k;
+  }
+  return out;
+}
 function rich(html) {
   if (html == null) return '';
   return String(html)
     .replace(/\[\[d:([\w-]+)\]\]/g, (_, k) => (window.DIAG && DIAG[k]) ? `<figure class="fig">${DIAG[k]()}</figure>` : '')
-    .replace(/\$([^$]+)\$/g, (_, m) => M(m));
+    .split(/(\$[^$]+\$)/).map(seg => seg.startsWith('$') && seg.endsWith('$') && seg.length > 1 ? M(seg.slice(1, -1)) : sqrtify(seg)).join('');
 }
 
 /* ---------- Numbers ---------- */
@@ -4252,7 +4266,7 @@ function mountSim(host, key) {
   const ctl = (def.controls || []).map(c => {
     if (c.type === 'seg') return `<div class="ctl"><label>${c.label}</label><div class="seg" data-id="${c.id}">${c.options.map(o => `<button type="button" data-v="${esc(o[0])}" class="${o[0] == c.value ? 'on' : ''}">${o[1]}</button>`).join('')}</div></div>`;
     if (c.type === 'button') return `<button type="button" class="btn sm" data-act="${c.act}">${c.label}</button>`;
-    return `<div class="ctl"><label for="sc-${key}-${c.id}">${c.label}<output>${c.fmt ? c.fmt(c.value) : c.value}</output></label><input id="sc-${key}-${c.id}" type="range" min="${c.min}" max="${c.max}" step="${c.step}" value="${c.value}" data-id="${c.id}"></div>`;
+    return `<div class="ctl"><label for="sc-${key}-${c.id}">${sqrtify(c.label)}<output>${c.fmt ? c.fmt(c.value) : c.value}</output></label><input id="sc-${key}-${c.id}" type="range" min="${c.min}" max="${c.max}" step="${c.step}" value="${c.value}" data-id="${c.id}"></div>`;
   }).join('');
   const btnRow = (def.controls || []).filter(c => c.type === 'button').length;
   host.innerHTML = `<div class="sim"><div class="sim-stage" style="height:${(def.hNarrow && innerWidth < 600 ? def.hNarrow : def.h) || 440}px"><canvas aria-label="${esc(def.title)} simulation"></canvas></div>
@@ -4260,7 +4274,7 @@ function mountSim(host, key) {
     <div class="row" style="gap:6px">${def.noPlay ? '' : `<button type="button" class="icon-btn" data-act="__play" title="Play / pause" aria-label="Play or pause">${st.run ? ICON.pause : ICON.play}</button>`}<button type="button" class="icon-btn" data-act="__reset" title="Reset" aria-label="Reset">${ICON.reset}</button></div></div>
     ${ctl.replace(/<button type="button" class="btn sm"[\s\S]*?<\/button>/g, '')}
     ${btnRow ? `<div class="row" style="gap:8px">${(def.controls || []).filter(c => c.type === 'button').map(c => `<button type="button" class="btn sm" data-act="${c.act}">${c.label}</button>`).join('')}</div>` : ''}
-    <div class="readouts">${(def.readouts || []).map((r, i) => `<div class="ro"><span>${r}</span><b data-ro="${i}">—</b></div>`).join('')}</div>
+    <div class="readouts">${(def.readouts || []).map((r, i) => `<div class="ro"><span>${sqrtify(r)}</span><b data-ro="${i}">—</b></div>`).join('')}</div>
     ${def.note ? `<div class="sim-note">${rich(def.note)}</div>` : ''}</div></div>`;
   const cv = $('canvas', host), stage = $('.sim-stage', host), c = cv.getContext('2d');
   let W = 0, H = 0;
@@ -4991,7 +5005,7 @@ SIMS.shm = {
     { id: 'A', label: 'Initial amplitude', min: 0.02, max: 0.2, step: 0.01, value: 0.12, fmt: v => (v * 100).toFixed(0) + ' cm' },
     { id: 'b', label: 'Damping', min: 0, max: 4, step: 0.05, value: 0, fmt: v => v === 0 ? 'none' : v.toFixed(2) + ' kg s⁻¹' }
   ],
-  readouts: ['Period T = 2π√(m/k)', 'Displacement x', 'Velocity v', 'Acceleration a'],
+  readouts: ['Period T', 'Displacement x', 'Velocity v', 'Acceleration a'],
   note: 'Watch the graphs: a is always opposite to x (a = −ω²x). Velocity is maximum at x = 0. Add damping to see the amplitude decay; set it near 2√(mk) for critical damping.',
   init(st) { st.x = st.p.A; st.v = 0; st.hist = []; st.tt = 0; },
   change(st, id) { if (id !== 'b') this.init(st); },
@@ -5688,7 +5702,7 @@ const App = (() => {
       <section id="s-pf"><h3><span class="k">AVOID</span>Common mistakes</h3><div class="box warn"><b class="lbl">Examiners often see</b><ul>${t.pitfalls.map(p => `<li>${rich(p)}</li>`).join('')}</ul></div></section>
     </article>
     <aside class="aside"><div class="card flat" style="padding:14px 10px"><div class="eyebrow" style="padding:0 10px 8px">On this page</div><div class="toc">${t.learn.map((sec, i) => `<a href="#s${i}" data-anchor="s${i}">${sec.h}</a>`).join('')}<a href="#s-eq" data-anchor="s-eq">Equations</a><a href="#s-wk" data-anchor="s-wk">Worked examples</a><a href="#s-pf" data-anchor="s-pf">Common mistakes</a></div></div>
-      <div class="card flat" style="padding:16px"><div class="eyebrow">Specification checklist</div><p class="small muted" style="margin:6px 0 10px">Rate your confidence: red, amber, green.</p><div class="spec-list">${t.spec.map((sp, i) => `<div class="spec-item"><div class="rag" data-i="${i}">${[1, 2, 3].map(v => `<button data-v="${v}" class="${s.spec[i] === v ? 'on' : ''}" aria-label="${['Not confident', 'Getting there', 'Confident'][v - 1]}: ${esc(sp)}"></button>`).join('')}</div><span>${esc(sp)}</span></div>`).join('')}</div></div>
+      <div class="card flat" style="padding:16px"><div class="eyebrow">Specification checklist</div><p class="small muted" style="margin:6px 0 10px">Rate your confidence: red, amber, green.</p><div class="spec-list">${t.spec.map((sp, i) => `<div class="spec-item"><div class="rag" data-i="${i}">${[1, 2, 3].map(v => `<button data-v="${v}" class="${s.spec[i] === v ? 'on' : ''}" aria-label="${['Not confident', 'Getting there', 'Confident'][v - 1]}: ${esc(sp)}"></button>`).join('')}</div><span>${rich(esc(sp))}</span></div>`).join('')}</div></div>
       <a class="btn primary" href="#/t/${t.id}/quiz">Test yourself ${ICON.arrow}</a></aside></div>`;
     $$('[data-anchor]', host).forEach(a => a.onclick = e => { e.preventDefault(); document.getElementById(a.dataset.anchor).scrollIntoView({ behavior: 'smooth', block: 'start' }); });
     $$('.worked', host).forEach(w => { const lis = $$('li', w), ans = $('.ans', w); let k = 1; const show = n => { lis.forEach((li, j) => li.classList.toggle('hid', j >= n)); if (n >= lis.length) { ans.hidden = false; $('[data-step]', w).disabled = true; } }; $('[data-step]', w).onclick = () => show(++k); $('[data-all]', w).onclick = () => { k = lis.length; show(k); }; });

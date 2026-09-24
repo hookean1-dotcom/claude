@@ -39,7 +39,7 @@ SIMS.shm = {
     { id: 'A', label: 'Initial amplitude', min: 0.02, max: 0.2, step: 0.01, value: 0.12, fmt: v => (v * 100).toFixed(0) + ' cm' },
     { id: 'b', label: 'Damping', min: 0, max: 4, step: 0.05, value: 0, fmt: v => v === 0 ? 'none' : v.toFixed(2) + ' kg s⁻¹' }
   ],
-  readouts: ['Period T = 2π√(m/k)', 'Displacement x', 'Velocity v', 'Acceleration a'],
+  readouts: ['Period T', 'Displacement x', 'Velocity v', 'Acceleration a'],
   note: 'Watch the graphs: a is always opposite to x (a = −ω²x). Velocity is maximum at x = 0. Add damping to see the amplitude decay; set it near 2√(mk) for critical damping.',
   init(st) { st.x = st.p.A; st.v = 0; st.hist = []; st.tt = 0; },
   change(st, id) { if (id !== 'b') this.init(st); },

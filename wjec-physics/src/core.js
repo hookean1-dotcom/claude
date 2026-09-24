@@ -48,11 +48,25 @@ function mx(s, roman) {
 }
 const M = s => `<span class="m">${mx(s)}</span>`;
 /* rich(): typeset $maths$ and expand [[d:diagram]] placeholders inside content HTML */
+/* sqrtify(): turn plain-text roots such as √(m/k), √2 or 1/√r into drawn radicals (outside $maths$) */
+function sqrtify(t) {
+  if (!t || String(t).indexOf('√') < 0) return t;
+  t = String(t); let out = '', i = 0;
+  while (i < t.length) {
+    const j = t.indexOf('√', i); if (j < 0) { out += t.slice(i); break; }
+    out += t.slice(i, j); let k = j + 1, inner = null;
+    if (t[k] === '(') { let d = 1, e = k + 1; while (e < t.length && d) { if (t[e] === '(') d++; else if (t[e] === ')') d--; e++; } if (!d) { inner = t.slice(k + 1, e - 1); k = e; } }
+    else { const m = t.slice(k).match(/^[A-Za-z0-9α-ω]+(\.[0-9]+)?/); if (m) { inner = m[0]; k += m[0].length; } }
+    if (inner == null) { out += '√'; i = j + 1; continue; }
+    out += `<span class="m">${mx('@sqrt{' + inner.replace(/<(\/?)(sub|sup)>/g, '\u0001$1$2\u0002').replace(/[{}]/g, '') .replace(/\u0001(\/?)(sub|sup)\u0002/g, '<$1$2>') + '}')}</span>`; i = k;
+  }
+  return out;
+}
 function rich(html) {
   if (html == null) return '';
   return String(html)
     .replace(/\[\[d:([\w-]+)\]\]/g, (_, k) => (window.DIAG && DIAG[k]) ? `<figure class="fig">${DIAG[k]()}</figure>` : '')
-    .replace(/\$([^$]+)\$/g, (_, m) => M(m));
+    .split(/(\$[^$]+\$)/).map(seg => seg.startsWith('$') && seg.endsWith('$') && seg.length > 1 ? M(seg.slice(1, -1)) : sqrtify(seg)).join('');
 }
 
 /* ---------- Numbers ---------- */

@@ -55,7 +55,7 @@ function mountSim(host, key) {
   const ctl = (def.controls || []).map(c => {
     if (c.type === 'seg') return `<div class="ctl"><label>${c.label}</label><div class="seg" data-id="${c.id}">${c.options.map(o => `<button type="button" data-v="${esc(o[0])}" class="${o[0] == c.value ? 'on' : ''}">${o[1]}</button>`).join('')}</div></div>`;
     if (c.type === 'button') return `<button type="button" class="btn sm" data-act="${c.act}">${c.label}</button>`;
-    return `<div class="ctl"><label for="sc-${key}-${c.id}">${c.label}<output>${c.fmt ? c.fmt(c.value) : c.value}</output></label><input id="sc-${key}-${c.id}" type="range" min="${c.min}" max="${c.max}" step="${c.step}" value="${c.value}" data-id="${c.id}"></div>`;
+    return `<div class="ctl"><label for="sc-${key}-${c.id}">${sqrtify(c.label)}<output>${c.fmt ? c.fmt(c.value) : c.value}</output></label><input id="sc-${key}-${c.id}" type="range" min="${c.min}" max="${c.max}" step="${c.step}" value="${c.value}" data-id="${c.id}"></div>`;
   }).join('');
   const btnRow = (def.controls || []).filter(c => c.type === 'button').length;
   host.innerHTML = `<div class="sim"><div class="sim-stage" style="height:${(def.hNarrow && innerWidth < 600 ? def.hNarrow : def.h) || 440}px"><canvas aria-label="${esc(def.title)} simulation"></canvas></div>
@@ -63,7 +63,7 @@ function mountSim(host, key) {
     <div class="row" style="gap:6px">${def.noPlay ? '' : `<button type="button" class="icon-btn" data-act="__play" title="Play / pause" aria-label="Play or pause">${st.run ? ICON.pause : ICON.play}</button>`}<button type="button" class="icon-btn" data-act="__reset" title="Reset" aria-label="Reset">${ICON.reset}</button></div></div>
     ${ctl.replace(/<button type="button" class="btn sm"[\s\S]*?<\/button>/g, '')}
     ${btnRow ? `<div class="row" style="gap:8px">${(def.controls || []).filter(c => c.type === 'button').map(c => `<button type="button" class="btn sm" data-act="${c.act}">${c.label}</button>`).join('')}</div>` : ''}
-    <div class="readouts">${(def.readouts || []).map((r, i) => `<div class="ro"><span>${r}</span><b data-ro="${i}">—</b></div>`).join('')}</div>
+    <div class="readouts">${(def.readouts || []).map((r, i) => `<div class="ro"><span>${sqrtify(r)}</span><b data-ro="${i}">—</b></div>`).join('')}</div>
     ${def.note ? `<div class="sim-note">${rich(def.note)}</div>` : ''}</div></div>`;
   const cv = $('canvas', host), stage = $('.sim-stage', host), c = cv.getContext('2d');
   let W = 0, H = 0;
