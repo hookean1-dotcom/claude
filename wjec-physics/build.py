@@ -15,6 +15,7 @@ full = ('<!DOCTYPE html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n'
 head_end = body.index('<div class="app">')
 full += body[:head_end] + '</head>\n<body>\n' + body[head_end:] + '</body>\n</html>\n'
 (root / 'index.html').write_text(full, encoding='utf-8')
+(root.parent / 'wjec-physics-spectra.html').write_text(full, encoding='utf-8')  # easy-to-find copy at repo root
 if len(sys.argv) > 1:  # optional: fragment without document skeleton (for hosts that add their own)
     pathlib.Path(sys.argv[1]).write_text(body, encoding='utf-8')
 print(f'index.html: {len(full.encode()) / 1024:.0f} KB')

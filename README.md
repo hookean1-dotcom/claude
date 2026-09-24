@@ -17,4 +17,4 @@ Open `index.html` in any modern browser. No build step, server or internet conne
 
 # Spectra — WJEC A-level Physics
 
-The `wjec-physics/` folder contains **Spectra**, a self-contained study app for the WJEC AS/A level Physics specification. Open `wjec-physics/index.html` in a browser. See [`wjec-physics/README.md`](wjec-physics/README.md) for details.
+The `wjec-physics/` folder contains **Spectra**, a self-contained study app for the WJEC AS/A level Physics specification. Download **`wjec-physics-spectra.html`** (repository root) and open it in any browser — it is one self-contained file. The same app is also at `wjec-physics/index.html`. See [`wjec-physics/README.md`](wjec-physics/README.md) for details.
