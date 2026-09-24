@@ -127,10 +127,10 @@ SIMS.moments = {
     const px = cx; c.fillStyle = C.muted; c.beginPath(); c.moveTo(px, cy + 4); c.lineTo(px - 22, cy + 44); c.lineTo(px + 22, cy + 44); c.closePath(); c.fill();
     CV.line(c, px - 60, cy + 44, px + 60, cy + 44, C.ink, 2);
     c.save(); c.translate(px, cy); c.rotate(st.ang);
-    const off = -p.piv * L; // beam centre relative to pivot (m → px scale L per metre... beam is 2 m long)
-    const sc = L; // px per metre (beam half-length 1 m)
-    CV.rrect(c, off - sc, -6, 2 * sc, 12, 4, bal ? C.good : C.ink);
-    for (let m = -1; m <= 1.001; m += 0.1) CV.line(c, off + m * sc, -6, off + m * sc, Math.abs(m % 0.5) < 0.01 ? 4 : 0, C.bg, 1);
+    const sc = L / 1.4; // px per metre (beam half-length 1.4 m, so weights up to 1.0 m from an offset pivot stay on the beam)
+    const off = -p.piv * sc; // beam centre relative to the pivot
+    CV.rrect(c, off - 1.4 * sc, -6, 2.8 * sc, 12, 4, bal ? C.good : C.ink);
+    for (let m = -1.4; m <= 1.401; m += 0.1) CV.line(c, off + m * sc, -6, off + m * sc, Math.abs(m % 0.5) < 0.01 ? 4 : 0, C.bg, 1);
     const hang = (x, w, col, lab) => { CV.line(c, x, 6, x, 40, C.muted, 1.2); const s = 16 + w * 1.6; CV.rrect(c, x - s / 2, 40, s, s, 4, col); CV.mono(c, lab, x, 40 + s + 12, C.ink, 11, 'center'); };
     hang(-p.d1 * sc, p.m1, C.u1, p.m1 + ' N'); hang(p.d2 * sc, p.m2, C.u4, p.m2 + ' N');
     if (p.bw > 0) { CV.arrow(c, off, 6, off, 46, C.u3, 2); CV.mono(c, 'W = ' + p.bw + ' N', off, 58, C.u3, 11, 'center'); }
@@ -207,7 +207,7 @@ SIMS.collisions = {
   init(st) { const p = st.p; st.x1 = 1.5; st.x2 = 5; st.v1 = p.u1; st.v2 = p.u2; st.hit = false; st.run = true; },
   change(st) { this.init(st); },
   action(st, a) { if (a === 'go') this.init(st); },
-  after(p) { const P = p.m1 * p.u1 + p.m2 * p.u2, M = p.m1 + p.m2; return [(P - p.m2 * p.e * (p.u1 - p.u2)) / M, (P + p.m1 * p.e * (p.u1 - p.u2)) / M]; },
+  after(p) { if (p.u1 <= p.u2) return [p.u1, p.u2]; /* A never catches B: no collision */ const P = p.m1 * p.u1 + p.m2 * p.u2, M = p.m1 + p.m2; return [(P - p.m2 * p.e * (p.u1 - p.u2)) / M, (P + p.m1 * p.e * (p.u1 - p.u2)) / M]; },
   step(st, dt) {
     const p = st.p, w1 = 0.25 + p.m1 * 0.06, w2 = 0.25 + p.m2 * 0.06;
     st.x1 += st.v1 * dt * 0.6; st.x2 += st.v2 * dt * 0.6;
@@ -223,9 +223,9 @@ SIMS.collisions = {
     const [a, b] = this.after(p), Pb = p.m1 * p.u1 + p.m2 * p.u2, Pa = p.m1 * a + p.m2 * b, Kb = .5 * p.m1 * p.u1 ** 2 + .5 * p.m2 * p.u2 ** 2, Ka = .5 * p.m1 * a * a + .5 * p.m2 * b * b;
     const by = H * 0.62, bw = Math.min(70, W / 10), x0 = W * 0.12, maxK = Math.max(Kb, 1), maxP = Math.max(Math.abs(Pb), 1);
     const bar = (x, val, max, col, lab) => { const hh = (H * 0.28) * val / max; CV.rrect(c, x, by + H * 0.3 - Math.max(0, hh), bw, Math.abs(hh), 4, col); CV.text(c, lab, x + bw / 2, by + H * 0.3 + 12, C.muted, 11, 'center'); CV.mono(c, val.toFixed(2), x + bw / 2, by + H * 0.3 - Math.max(0, hh) - 10, C.ink, 11, 'center'); };
-    CV.text(c, 'Momentum (kg m s⁻¹)', x0, by - 4, C.ink, 12, 'left', 600);
+    CV.text(c, 'Momentum (kg m s⁻¹)', x0, by - 24, C.ink, 12, 'left', 600);
     bar(x0, Pb, maxP, C.u2, 'before'); bar(x0 + bw + 12, Pa, maxP, C.u2, 'after');
-    const x1 = W * 0.55; CV.text(c, 'Kinetic energy (J)', x1, by - 4, C.ink, 12, 'left', 600);
+    const x1 = W * 0.55; CV.text(c, 'Kinetic energy (J)', x1, by - 24, C.ink, 12, 'left', 600);
     bar(x1, Kb, maxK, C.u5, 'before'); bar(x1 + bw + 12, Ka, maxK, C.u5, 'after');
     if (Kb - Ka > 0.005) { const hh = H * 0.28 * (Kb - Ka) / maxK; CV.rrect(c, x1 + 2 * (bw + 12), by + H * 0.3 - hh, bw, hh, 4, hexA(C.bad, .7)); CV.text(c, 'lost', x1 + 2 * (bw + 12) + bw / 2, by + H * 0.3 + 12, C.muted, 11, 'center'); CV.mono(c, (Kb - Ka).toFixed(2), x1 + 2 * (bw + 12) + bw / 2, by + H * 0.3 - hh - 10, C.bad, 11, 'center'); }
   },
@@ -354,7 +354,7 @@ SIMS.blackbody = {
       fills: [{ col: hexA(C.u2, .15), pts: Array.from({ length: 201 }, (_, i) => { const l = 20 + i * (xr - 20) / 200; return [l, this.P(l, T) / ref]; }) }],
       series: [...(st.p.cmp === 'sun' ? [{ f: l => l < 20 ? NaN : this.P(l, 5800) / ref, col: C.muted, dash: [5, 4], w: 1.6 }] : []), { f: l => l < 20 ? NaN : this.P(l, T) / ref, col: C.u2, w: 2.6 }],
       dots: [[lm, this.P(lm, T) / ref, C.accent]] });
-    for (let l = 0; l <= xr; l += 500) CV.mono(c, l, g2.X(l), b.y + b.h + 10, C.muted, 10, 'center');
+    for (let l = 0; l < xr; l += 500) CV.mono(c, l, g2.X(l), b.y + b.h + 10, C.muted, 10, 'center');
     CV.line(c, g2.X(lm), g2.Y(0), g2.X(lm), g2.Y(this.P(lm, T) / ref), C.accent, 1.2, [4, 3]);
     // star swatch
     const col = this.col(T), sx = W - 70, sy = 70, r = 26;
@@ -454,11 +454,17 @@ SIMS.iv = {
   controls: [
     { id: 'comp', type: 'seg', label: 'Component', value: 'wire', options: [['wire', 'Metal wire'], ['lamp', 'Filament lamp']] },
     { id: 'V', label: 'Supply pd', min: -12, max: 12, step: 0.2, value: 6, fmt: v => v.toFixed(1) + ' V' },
-    { id: 'T', label: 'Wire temperature (wire only)', min: 0, max: 200, step: 5, value: 20, fmt: v => v + ' °C' }
+    { id: 'T', label: 'Temperature of the wire (kept constant)', min: 0, max: 200, step: 5, value: 20, fmt: v => v + ' °C' }
   ],
-  readouts: ['Current', 'Resistance V/I', 'Power', 'Filament temperature'],
-  note: 'The lamp’s resistance rises as it heats: the lattice ions vibrate more and collide more often with free electrons. Heating the wire does the same thing, making its line less steep.',
-  I(st, V) { if (st.p.comp === 'wire') { const R = 10 * (1 + 0.0039 * (st.p.T - 20)); return V / R; } return Math.sign(V) * 0.2 * Math.pow(Math.abs(V) / 12, 0.55) * 1.0; },
+  readouts: ['Current', 'Resistance V/I', 'Power', 'Temperature'],
+  note: 'Wire: at a constant temperature it obeys Ohm’s law — a straight line. Set a higher (constant) temperature and the line is less steep. Lamp: the current itself heats the filament, so its resistance rises as V increases and the curve bends over; its temperature is set by the current, so it has no temperature slider.',
+  /* Wire: R fixed by its (controlled) temperature, R = R₂₀(1 + αΔθ). Lamp: the filament heats as the current rises,
+     so R climbs from ≈6 Ω cold to 60 Ω at 12 V (tungsten: about ten times) — finite at V = 0, rising with |V|. */
+  R(st, V) { if (st.p.comp === 'wire') return 10 * (1 + 0.0039 * (st.p.T - 20)); return 6 + 54 * Math.pow(Math.abs(V) / 12, 0.75); },
+  I(st, V) { return V / this.R(st, V); },
+  syncControls(st) { const el = document.getElementById('sc-iv-T'); if (el) el.closest('.ctl').hidden = st.p.comp === 'lamp'; },
+  init(st) { setTimeout(() => this.syncControls(st)); },
+  change(st) { this.syncControls(st); },
   draw(c, W, H, st, C) {
     CV.grid(c, W, H, C); const V = st.p.V, I = this.I(st, V);
     const b = { x: 50, y: 30, w: W * 0.6 - 60, h: H - 80 };
@@ -469,9 +475,9 @@ SIMS.iv = {
     const lx = W * 0.8, ly = H * 0.42;
     if (st.p.comp === 'lamp') { const P = Math.abs(V * I), br = clamp(P / 2.4, 0, 1); const grd = c.createRadialGradient(lx, ly, 2, lx, ly, 90); grd.addColorStop(0, `rgba(255,220,140,${.9 * br})`); grd.addColorStop(1, 'rgba(255,200,100,0)'); c.fillStyle = grd; c.beginPath(); c.arc(lx, ly, 90, 0, 7); c.fill(); CV.circle(c, lx, ly, 34, null, C.ink, 2); c.strokeStyle = br > .05 ? `rgb(255,${180 + 60 * br | 0},80)` : C.ink; c.lineWidth = 2; c.beginPath(); for (let i = 0; i <= 12; i++) c.lineTo(lx - 18 + i * 3, ly + (i % 2 ? -6 : 6)); c.stroke(); CV.rrect(c, lx - 14, ly + 32, 28, 20, 3, C.muted); }
     else { const hot = clamp((st.p.T - 20) / 180, 0, 1); c.strokeStyle = `rgb(${184 + 70 * hot | 0},${115 - 40 * hot | 0},${51})`; c.lineWidth = 4; c.beginPath(); for (let i = 0; i <= 40; i++) c.lineTo(lx - 60 + i * 3, ly + Math.sin(i * .8) * 10); c.stroke(); }
-    CV.mono(c, 'R = V/I (slope of the dashed chord, not the tangent)', b.x, H - 14, C.muted, 10.5);
+    CV.mono(c, 'R = V/I at the point (the dashed line from the origin), not from the tangent', b.x, H - 14, C.muted, 10.5);
   },
-  read(st) { const V = st.p.V, I = this.I(st, V), R = Math.abs(I) > 1e-6 ? V / I : NaN, Tf = st.p.comp === 'lamp' ? (20 + 2400 * Math.pow(Math.abs(V) / 12, 0.9)) : st.p.T; return [I.toFixed(3) + ' A', isFinite(R) ? R.toFixed(1) + ' Ω' : '—', Math.abs(V * I).toFixed(2) + ' W', Tf.toFixed(0) + ' °C']; }
+  read(st) { const V = st.p.V, I = this.I(st, V), R = Math.abs(I) > 1e-6 ? V / I : NaN, Tf = st.p.comp === 'lamp' ? 20 + (this.R(st, V) / 6 - 1) / 0.0045 : st.p.T; return [I.toFixed(3) + ' A', isFinite(R) ? R.toFixed(1) + ' Ω' : '—', Math.abs(V * I).toFixed(2) + ' W', Tf.toFixed(0) + ' °C']; }
 };
 
 /* ==========================================================
@@ -528,8 +534,8 @@ SIMS.wave = {
     { id: 'A', label: 'Amplitude', min: 0.1, max: 0.6, step: 0.05, value: 0.35, fmt: v => v.toFixed(2) + ' m' },
     { id: 'dx', label: 'Separation of P and Q', min: 0, max: 4, step: 0.05, value: 0.5, fmt: v => v.toFixed(2) + ' m' }
   ],
-  readouts: ['Wave speed c = fλ', 'Period T', 'Phase difference P→Q', 'In phase?'],
-  note: 'Watch individual particles: they oscillate about fixed positions while the wave (energy) moves along. Set P–Q to λ/2 for antiphase.',
+  readouts: ['Wave speed c = fλ', 'Period T', 'Separation of P and Q', 'P and Q oscillate'],
+  note: 'Watch individual particles: they oscillate about fixed positions while the wave (energy) moves along. Points a whole number of wavelengths apart are in phase; set P–Q to λ/2 (or 1½λ…) for antiphase.',
   draw(c, W, H, st, C) {
     CV.grid(c, W, H, C); const p = st.p, sc = (W - 60) / 8, cy = H * 0.45, k = 2 * Math.PI / p.lam, w = 2 * Math.PI * p.f;
     const X0 = 30, xp = 1.5, xq = xp + p.dx;
@@ -548,7 +554,7 @@ SIMS.wave = {
     // displacement-time of P
     const b = { x: 40, y: H - 90, w: W * 0.45, h: 50 }; if (W > 500) { CV.plot(c, C, b, { xr: [st.t - 4, st.t], yr: [-p.A * 1.2, p.A * 1.2], xl: 't', yl: 'P and Q displacement', series: [{ f: t => p.A * Math.sin(w * t - k * xp), col: C.u1 }, { f: t => p.A * Math.sin(w * t - k * xq), col: C.u4, dash: [4, 3] }] }); }
   },
-  read(st) { const p = st.p, ph = (2 * Math.PI * p.dx / p.lam) % (2 * Math.PI), inph = Math.abs(ph) < 0.02 || Math.abs(ph - 2 * Math.PI) < 0.02, anti = Math.abs(ph - Math.PI) < 0.02; return [(p.f * p.lam).toFixed(2) + ' m s⁻¹', (1 / p.f).toFixed(2) + ' s', (ph / Math.PI).toFixed(2) + 'π rad (' + (ph / deg).toFixed(0) + '°)', inph ? 'in phase' : anti ? 'antiphase' : 'no']; }
+  read(st) { const p = st.p, r = p.dx / p.lam, fr = r - Math.floor(r + 1e-9), inph = fr < 0.01 || fr > 0.99, anti = Math.abs(fr - 0.5) < 0.01; return [(p.f * p.lam).toFixed(2) + ' m s⁻¹', (1 / p.f).toFixed(2) + ' s', r.toFixed(2) + ' λ', inph ? 'in phase' : anti ? 'in antiphase' : 'neither']; }
 };
 
 /* ==========================================================
@@ -704,12 +710,13 @@ SIMS.levels = {
   E: n => -13.6 / (n * n),
   init(st) { st.sel = null; st.lines = []; st.last = null; st.anim = null; },
   action(st, a) { if (a === 'clear') { st.lines = []; st.last = null; } },
-  y(n, H) { const e = -13.6 / (n * n); return 40 + (1 - Math.pow((e + 13.6) / 13.6, .6)) * (H * 0.66 - 40); },
+  y(n, H) { return 40 + (1 / n) * (H * 0.66 - 40); },
   pointer(type, x, y, st) { if (type !== 'down') return; let best = null, bd = 18; for (let n = 1; n <= 6; n++) { const d = Math.abs(y - this.y(n, st.H)); if (d < bd && x < st.W * 0.62) { bd = d; best = n; } } if (!best) return; if (st.sel == null) { st.sel = best; sfx.tick(); } else if (best !== st.sel) { const up = st.sel, lo = best; const dE = Math.abs(this.E(up) - this.E(lo)), lam = 1240 / dE; st.last = { up, lo, dE, lam, emit: up > lo }; if (up > lo) st.lines.push(lam); st.anim = { t: 0, ...st.last }; st.sel = null; sfx.good(); } else st.sel = null; },
   step(st, dt) { if (st.anim) { st.anim.t += dt; if (st.anim.t > 1.5) st.anim = null; } },
   draw(c, W, H, st, C) {
     CV.grid(c, W, H, C); const x0 = 60, x1 = W * 0.6;
-    for (let n = 1; n <= 6; n++) { const y = this.y(n, H); CV.line(c, x0, y, x1, y, st.sel === n ? C.accent : C.ink, st.sel === n ? 3.5 : 2); CV.mono(c, `n = ${n}   ${this.E(n).toFixed(2)} eV`, x1 + 10, y, C.ink, 11); }
+    let ly = 1e9; for (let n = 1; n <= 6; n++) { const y = this.y(n, H); CV.line(c, x0, y, x1, y, st.sel === n ? C.accent : C.ink, st.sel === n ? 3.5 : 2); const t = Math.min(y, ly - 15); ly = t; if (t !== y) CV.line(c, x1 + 2, y, x1 + 8, t, C.muted, 1); CV.mono(c, `n = ${n}   ${this.E(n).toFixed(2)} eV`, x1 + 10, t, C.ink, 11); }
+    CV.text(c, 'level spacing not to scale', x0, H * 0.66 + 22, C.muted, 11);
     CV.line(c, x0, 40 - 12, x1, 40 - 12, C.muted, 1, [4, 4]); CV.mono(c, '0 eV (ionised)', x1 + 10, 28, C.muted, 11);
     const a = st.anim; if (a) { const xa = x0 + (x1 - x0) * .5, y1 = this.y(a.up, H), y2 = this.y(a.lo, H), col = a.lam >= 380 && a.lam <= 750 ? nmCSS(a.lam) : C.u5; CV.arrow(c, xa, a.emit ? y1 : y2, xa, a.emit ? y2 : y1, col, 3); const pr = a.t / 1.5, px = xa + 20 + pr * 200; c.strokeStyle = col; c.lineWidth = 2; c.beginPath(); for (let i = 0; i < 30; i++) c.lineTo(px + i * 2, (y1 + y2) / 2 + Math.sin(i * .9) * 6); c.stroke(); }
     // spectrum strip

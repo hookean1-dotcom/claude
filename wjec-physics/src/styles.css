@@ -389,7 +389,8 @@ h1,h2,h3,h4{text-wrap:balance;margin:0}
 .readouts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .ro{padding:8px 10px;border-radius:10px;background:var(--surface-2);border:1px solid var(--line)}
 .ro span{display:block;font-size:11px;color:var(--muted);line-height:1.3}
-.ro b{font:600 15px var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.ro{min-width:0}
+.ro b{font:600 15px var(--f-mono);font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
 .sim-note{font-size:13px;color:var(--ink-2);line-height:1.5;padding:10px 12px;border-radius:10px;background:var(--accent-soft)}
 .sim-pick{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
 @media (max-width:900px){.sim{grid-template-columns:1fr}.sim-stage{border-right:0;border-bottom:1px solid var(--line);min-height:300px}}

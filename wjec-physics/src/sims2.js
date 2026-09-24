@@ -22,9 +22,9 @@ SIMS.circular = {
     CV.circle(c, cx, cy, 5, C.ink);
     let x, y; if (st.free) { x = cx + st.free.x * sc; y = cy - st.free.y * sc; } else { x = cx + p.r * sc * Math.cos(st.th); y = cy - p.r * sc * Math.sin(st.th); CV.line(c, cx, cy, x, y, C.ink, 1.5); }
     const v = p.w * p.r, a = p.w * p.w * p.r;
-    if (!st.free) { CV.arrow(c, x, y, x - Math.sin(st.th) * v * 22, y - Math.cos(st.th) * v * 22, C.u4, 2.6); CV.arrow(c, x, y, x - Math.cos(st.th) * Math.min(a, 40) * 5, y + Math.sin(st.th) * Math.min(a, 40) * 5, C.u1, 2.6); }
-    else CV.arrow(c, x, y, x + st.free.vx * 22, y - st.free.vy * 22, C.u4, 2.6);
     CV.circle(c, x, y, 8 + p.m * 5, C.u3);
+    if (!st.free) { const la = Math.min(a * 11, p.r * sc * 0.8); CV.arrow(c, x, y, x - Math.sin(st.th) * v * 22, y - Math.cos(st.th) * v * 22, C.u4, 2.6); CV.arrow(c, x, y, x - Math.cos(st.th) * la, y + Math.sin(st.th) * la, C.u1, 2.6); }
+    else CV.arrow(c, x, y, x + st.free.vx * 22, y - st.free.vy * 22, C.u4, 2.6);
     CV.text(c, '→ velocity (tangent)', W - 20, 30, C.u4, 12, 'right', 600); CV.text(c, '→ acceleration & force (to centre)', W - 20, 50, C.u1, 12, 'right', 600);
   },
   read(st) { const p = st.p, v = p.w * p.r, a = p.w * p.w * p.r; return [v.toFixed(2) + ' m s⁻¹', a.toFixed(2) + ' m s⁻²', (p.m * a).toFixed(2) + ' N', (2 * Math.PI / p.w).toFixed(2) + ' s']; }
@@ -45,9 +45,9 @@ SIMS.shm = {
   change(st, id) { if (id !== 'b') this.init(st); },
   step(st, dt) { const p = st.p; const a = -p.k / p.m * st.x - p.b / p.m * st.v; st.v += a * dt; st.x += st.v * dt; st.tt += dt; st.acc = a; st.hist.push([st.tt, st.x, st.v, a]); if (st.hist.length > 1600) st.hist.shift(); },
   draw(c, W, H, st, C) {
-    CV.grid(c, W, H, C); const p = st.p, sx = 70, top = 30, eq = H * 0.45, sc = 900;
+    CV.grid(c, W, H, C); const p = st.p, sx = 70, top = 30, eq = H * 0.48, sc = 600;
     CV.line(c, sx - 40, top, sx + 40, top, C.ink, 4);
-    const y = eq + st.x * sc, coils = 16; c.strokeStyle = C.ink; c.lineWidth = 1.8; c.beginPath(); c.moveTo(sx, top); for (let i = 0; i <= coils; i++) c.lineTo(sx + (i % 2 ? 12 : -12) * (i && i < coils ? 1 : 0), top + (y - 26 - top) * i / coils); c.lineTo(sx, y - 26); c.stroke();
+    const y = eq - st.x * sc, coils = 16; c.strokeStyle = C.ink; c.lineWidth = 1.8; c.beginPath(); c.moveTo(sx, top); for (let i = 0; i <= coils; i++) c.lineTo(sx + (i % 2 ? 12 : -12) * (i && i < coils ? 1 : 0), top + (y - 26 - top) * i / coils); c.lineTo(sx, y - 26); c.stroke();
     CV.rrect(c, sx - 24, y - 26, 48, 44, 6, C.u3); CV.mono(c, p.m.toFixed(2) + ' kg', sx, y - 4, '#fff', 10.5, 'center');
     CV.line(c, sx - 50, eq, sx + 60, eq, C.muted, 1, [4, 4]); CV.mono(c, 'x = 0', sx + 64, eq, C.muted, 10);
     const b = { x: 180, w: W - 210, h: (H - 110) / 3 };
@@ -75,9 +75,11 @@ SIMS.resonance = {
     if (st.sweep) { p.fd += 0.05 * dt * 2; if (p.fd > 2.5) p.fd = 0.2; const inp = document.getElementById('sc-resonance-fd'); if (inp) { inp.value = p.fd; inp.previousElementSibling.querySelector('output').textContent = p.fd.toFixed(2) + ' Hz'; inp.style.setProperty('--p', ((p.fd - .2) / 2.3 * 100) + '%'); } } },
   draw(c, W, H, st, C) {
     CV.grid(c, W, H, C); const p = st.p, w = 2 * Math.PI * p.fd, cy = H * 0.3, x0 = 60;
-    const dx = Math.cos(w * st.tt) * 18; CV.rrect(c, x0 - 20 + dx, cy - 60, 40, 14, 4, C.u5); CV.text(c, 'driver', x0 + dx, cy - 76, C.u5, 11, 'center');
-    const ox = st.x * 4 * 70; CV.line(c, x0 + dx, cy - 46, x0 + 120 + ox, cy, C.ink, 1.5); CV.circle(c, x0 + 120 + ox, cy, 16, C.u3);
-    CV.line(c, x0 + 120, cy + 24, x0 + 120, cy + 34, C.muted, 1);
+    const xc = W * 0.2, sy = 50, by = H * 0.62, dx = Math.cos(w * st.tt) * 10, ox = 110 * Math.tanh(st.x * 280 / 110);
+    CV.line(c, xc - 90, sy - 12, xc + 90, sy - 12, C.ink, 3);
+    CV.rrect(c, xc - 20 + dx, sy - 7, 40, 14, 4, C.u5); CV.text(c, 'driver', xc + dx, sy - 26, C.u5, 11, 'center');
+    CV.line(c, xc, by + 22, xc, by + 34, C.muted, 1); CV.mono(c, 'rest', xc, by + 44, C.muted, 10, 'center');
+    CV.line(c, xc + dx, sy + 7, xc + ox, by, C.ink, 1.5); CV.circle(c, xc + ox, by, 16, C.u3);
     const b = { x: W * 0.42, y: 30, w: W * 0.54, h: H - 90 }, pk = this.amp(1, p.b), top = this.amp(1, 0.05) * 0.2;
     const g2 = CV.plot(c, C, b, { xr: [0.2, 2.5], yr: [0, Math.max(pk * 1.15, top)], xl: 'driving frequency / Hz', yl: 'amplitude', series: [{ f: f => this.amp(f, 3), col: hexA(C.muted, .4), dash: [3, 4], w: 1.2 }, { f: f => this.amp(f, p.b), col: C.u3, w: 2.6 }], dots: [[p.fd, this.amp(p.fd, p.b), C.accent, 6]] });
     CV.line(c, g2.X(1), b.y, g2.X(1), b.y + b.h, C.muted, 1, [3, 4]); CV.mono(c, 'f₀', g2.X(1), b.y + b.h + 12, C.muted, 10, 'center');
@@ -95,14 +97,14 @@ SIMS.gas = {
   ],
   readouts: ['Measured pressure (wall hits)', 'Predicted p ∝ NT/V', 'Mean KE ∝ T', 'rms speed ∝ √T'],
   note: 'Pressure comes from molecules changing momentum at the walls. Double T → molecules move √2 faster, hit harder and more often → pressure doubles.',
-  init(st) { const N = 200; st.m = Array.from({ length: N }, () => { const a = Math.random() * 7, s = this.spd(st.p.T) * (0.5 + Math.random()); return { x: Math.random(), y: Math.random(), vx: Math.cos(a) * s, vy: Math.sin(a) * s }; }); st.imp = 0; st.pm = 0; st.win = 0; st.lastT = st.p.T; },
+  init(st) { const N = 200; st.m = Array.from({ length: N }, () => { const g = () => Math.sqrt(-2 * Math.log(1 - Math.random())) * Math.cos(2 * Math.PI * Math.random()), s = this.spd(st.p.T) / Math.SQRT2; return { x: Math.random(), y: Math.random(), vx: g() * s, vy: g() * s }; }); st.imp = 0; st.pm = 0; st.win = 0; st.lastT = st.p.T; },
   spd(T) { return 0.35 * Math.sqrt(T / 300); },
   step(st, dt) {
     const p = st.p, f = Math.sqrt(p.T / st.lastT); if (f !== 1) { st.m.forEach(m => { m.vx *= f; m.vy *= f; }); st.lastT = p.T; }
     const Vx = p.V; st.m.slice(0, p.N).forEach(m => { m.x += m.vx * dt; m.y += m.vy * dt;
       if (m.x < 0) { m.x = -m.x; m.vx = -m.vx; st.imp += 2 * Math.abs(m.vx); } if (m.x > Vx) { m.x = 2 * Vx - m.x; m.vx = -Math.abs(m.vx); st.imp += 2 * Math.abs(m.vx); }
       if (m.y < 0) { m.y = -m.y; m.vy = -m.vy; st.imp += 2 * Math.abs(m.vy); } if (m.y > 1) { m.y = 2 - m.y; m.vy = -m.vy; st.imp += 2 * Math.abs(m.vy); } });
-    st.win += dt; if (st.win > 1.5) { const per = 2 * (p.V + 1); st.pm = st.pm * .5 + .5 * st.imp / st.win / per; st.imp = 0; st.win = 0; }
+    st.win += dt; if (st.win > 1.5) { const per = 2 * (p.V + 1); const m = st.imp / st.win / per; st.pm = st.pm ? st.pm * .5 + .5 * m : m; st.imp = 0; st.win = 0; }
   },
   draw(c, W, H, st, C) {
     CV.grid(c, W, H, C); const p = st.p, bx = 30, by = 30, bh = H - 60, bw = Math.min(W * 0.55, bh * 1.2);
@@ -117,7 +119,7 @@ SIMS.gas = {
       CV.text(c, 'blue = slow · red = fast', hx, H * 0.36 + 80, C.muted, 11);
     }
   },
-  read(st) { const p = st.p, pred = p.N * 1.0833 * this.spd(p.T) ** 2 / (2 * p.V); return [(st.pm * 100).toFixed(2) + ' (sim units)', (pred * 100).toFixed(2) + ' (sim units)', (p.T / 300).toFixed(2) + ' × at 300 K', Math.sqrt(p.T / 300).toFixed(2) + ' × at 300 K']; }
+  read(st) { const p = st.p, pred = st.m.slice(0, p.N).reduce((t, m) => t + m.vx * m.vx + m.vy * m.vy, 0) / (2 * p.V); return [(st.pm * 100).toFixed(2) + ' (sim units)', (pred * 100).toFixed(2) + ' (sim units)', (p.T / 300).toFixed(2) + ' × at 300 K', Math.sqrt(p.T / 300).toFixed(2) + ' × at 300 K']; }
 };
 
 /* ---------- 3.4 p–V processes ---------- */
@@ -144,7 +146,7 @@ SIMS.pv = {
       fills: st.p.proc !== 'v' ? [{ col: hexA(C.u3, .2), pts: xs.map((x, i) => [x, ys[i]]) }] : [],
       series: [{ f: V => 8.31 * 300 / (V / 1000) / 1000, col: hexA(C.muted, .35), dash: [4, 4], w: 1 }, { pts: xs.map((x, i) => [x, ys[i]]), col: C.u3, w: 3 }],
       dots: [[xs[0], ys[0], C.ink, 5], [xs[xs.length - 1], ys[ys.length - 1], C.accent, 6]] });
-    for (let v = 0; v <= 70; v += 10) CV.mono(c, v, g2.X(v), b.y + b.h + 10, C.muted, 10, 'center');
+    for (let v = 0; v <= 60; v += 10) CV.mono(c, v, g2.X(v), b.y + b.h + 10, C.muted, 10, 'center');
     // energy bars
     const bx = b.x + b.w + 50, bw = Math.min(40, (W - bx - 20) / 3 - 10), base = H * 0.55, scl = (H * 0.36) / Math.max(1, Math.abs(k.Q), Math.abs(k.W), Math.abs(k.dU));
     [[k.Q, 'Q', C.u2], [k.W, 'W', C.u3], [k.dU, 'ΔU', C.u5]].forEach(([v, l, col], i) => { const x = bx + i * (bw + 12), hh = v * scl; CV.rrect(c, x, hh > 0 ? base - hh : base, bw, Math.abs(hh), 4, col); CV.text(c, l, x + bw / 2, base + (hh > 0 ? 14 : -14), C.ink, 12, 'center', 600); CV.mono(c, (v / 1000).toFixed(2) + ' kJ', x + bw / 2, hh > 0 ? base - hh - 10 : base - hh + 12, C.muted, 10, 'center'); });
@@ -193,8 +195,8 @@ SIMS.binding = {
   draw(c, W, H, st, C) {
     CV.grid(c, W, H, C); const b = { x: 60, y: 30, w: W - 90, h: H - 90 }; st.box = b;
     const g2 = CV.plot(c, C, b, { xr: [0, 250], yr: [0, 10], xl: 'nucleon number A', yl: 'BE per nucleon / MeV', series: [{ f: A => A < 1 ? NaN : this.BA(A), col: C.u3, w: 2.6 }] });
-    for (let A = 0; A <= 250; A += 50) CV.mono(c, A, g2.X(A), b.y + b.h + 10, C.muted, 10, 'center');
-    [[56, '⁵⁶Fe'], [4, '⁴He'], [235, '²³⁵U'], [2, '²H'], [12, '¹²C']].forEach(([A, l]) => { CV.circle(c, g2.X(A), g2.Y(this.BA(A)), 4, C.ink); CV.mono(c, l, g2.X(A) + 6, g2.Y(this.BA(A)) - 10, C.ink, 11); });
+    for (let A = 0; A <= 200; A += 50) CV.mono(c, A, g2.X(A), b.y + b.h + 10, C.muted, 10, 'center');
+    [[56, '⁵⁶Fe'], [4, '⁴He'], [235, '²³⁵U'], [2, '²H'], [12, '¹²C']].forEach(([A, l]) => { CV.circle(c, g2.X(A), g2.Y(this.BA(A)), 4, C.ink); CV.mono(c, l, g2.X(A) + 6, g2.Y(this.BA(A)) + (A === 12 ? 12 : -10), C.ink, 11); });
     if (st.p.rx === 'fis') { CV.arrow(c, g2.X(235), g2.Y(this.BA(235)), g2.X(141), g2.Y(this.BA(141)), C.u4, 2.4); CV.arrow(c, g2.X(235), g2.Y(this.BA(235)), g2.X(92), g2.Y(this.BA(92)), C.u4, 2.4); }
     if (st.p.rx === 'fus') { CV.arrow(c, g2.X(2), g2.Y(this.BA(2)), g2.X(4), g2.Y(this.BA(4)), C.u1, 2.4); CV.arrow(c, g2.X(3), g2.Y(this.BA(3)), g2.X(4), g2.Y(this.BA(4)), C.u1, 2.4); }
     const A = st.A; CV.line(c, g2.X(A), b.y, g2.X(A), b.y + b.h, C.accent, 1, [3, 3]); CV.circle(c, g2.X(A), g2.Y(this.BA(A)), 6, C.accent);
@@ -259,7 +261,7 @@ SIMS.field = {
     const starts = []; st.q.forEach(q => { if (st.p.kind === 'G' || q.q > 0) for (let k = 0; k < 16; k++) { const a = k / 16 * Math.PI * 2; starts.push([q.x * W + 14 * Math.cos(a), q.y * H + 14 * Math.sin(a), st.p.kind === 'G' ? -1 : 1]); } });
     if (!st.q.some(q => q.q > 0) && st.p.kind === 'E') st.q.forEach(q => { for (let k = 0; k < 16; k++) { const a = k / 16 * Math.PI * 2; starts.push([q.x * W + 14 * Math.cos(a), q.y * H + 14 * Math.sin(a), -1]); } });
     c.strokeStyle = hexA(C.ink, .55); c.lineWidth = 1.3;
-    starts.forEach(([x, y, dir]) => { c.beginPath(); c.moveTo(x, y); let px = x, py = y; for (let i = 0; i < 400; i++) { const [ex, ey] = this.E(st, px, py); const m = Math.hypot(ex, ey); if (m === 0) break; px += dir * ex / m * 4; py += dir * ey / m * 4; c.lineTo(px, py); if (px < -10 || py < -10 || px > W + 10 || py > H + 10) break; if (st.q.some(q => Math.hypot(q.x * W - px, q.y * H - py) < 10)) break; if (i === 60) { const [ex2, ey2] = this.E(st, px, py); const a = Math.atan2(dir * ey2, dir * ex2); c.stroke(); c.fillStyle = hexA(C.ink, .6); c.beginPath(); c.moveTo(px + 6 * Math.cos(a), py + 6 * Math.sin(a)); c.lineTo(px + 6 * Math.cos(a + 2.5), py + 6 * Math.sin(a + 2.5)); c.lineTo(px + 6 * Math.cos(a - 2.5), py + 6 * Math.sin(a - 2.5)); c.fill(); c.beginPath(); c.moveTo(px, py); } } c.stroke(); });
+    starts.forEach(([x, y, dir]) => { c.beginPath(); c.moveTo(x, y); let px = x, py = y; for (let i = 0; i < 400; i++) { const [ex, ey] = this.E(st, px, py); const m = Math.hypot(ex, ey); if (m === 0) break; px += dir * ex / m * 4; py += dir * ey / m * 4; c.lineTo(px, py); if (px < -10 || py < -10 || px > W + 10 || py > H + 10) break; if (st.q.some(q => Math.hypot(q.x * W - px, q.y * H - py) < 10)) break; if (i === 60) { const [ex2, ey2] = this.E(st, px, py); const a = Math.atan2(ey2, ex2); c.stroke(); c.fillStyle = hexA(C.ink, .6); c.beginPath(); c.moveTo(px + 6 * Math.cos(a), py + 6 * Math.sin(a)); c.lineTo(px + 6 * Math.cos(a + 2.5), py + 6 * Math.sin(a + 2.5)); c.lineTo(px + 6 * Math.cos(a - 2.5), py + 6 * Math.sin(a - 2.5)); c.fill(); c.beginPath(); c.moveTo(px, py); } } c.stroke(); });
     st.q.forEach(q => { CV.circle(c, q.x * W, q.y * H, 13, st.p.kind === 'G' ? C.u3 : q.q > 0 ? C.u1 : C.u4); CV.text(c, st.p.kind === 'G' ? 'M' : q.q > 0 ? '+' : '−', q.x * W, q.y * H + 1, '#fff', 15, 'center', 700); });
     if (st.cur) { const [ex, ey] = this.E(st, ...st.cur), m = Math.hypot(ex, ey); if (m > 0) CV.arrow(c, st.cur[0], st.cur[1], st.cur[0] + ex / m * 30, st.cur[1] + ey / m * 30, C.accent, 2.4); }
   },
@@ -268,34 +270,48 @@ SIMS.field = {
 
 /* ---------- 4.3 Orbits ---------- */
 SIMS.orbit = {
-  title: 'Kepler’s laws', h: 480, substeps: 40,
+  title: 'Kepler’s laws', h: 480, substeps: 20,
   controls: [
-    { id: 'v', label: 'Launch speed ÷ circular speed', min: 0.6, max: 1.35, step: 0.01, value: 1.2, fmt: v => v.toFixed(2) },
+    { id: 'v', label: 'Launch speed ÷ circular speed', min: 0.75, max: 1.3, step: 0.01, value: 1.2, fmt: v => v.toFixed(2) },
     { id: 'M', label: 'Star mass', min: 0.5, max: 2, step: 0.1, value: 1, fmt: v => v.toFixed(1) + ' M⊙' },
-    { id: 'sec', type: 'seg', label: 'Show equal-time sectors', value: 1, options: [[1, 'Yes'], [0, 'No']] }
+    { id: 'sec', type: 'seg', label: 'Equal-time sectors (Kepler 2)', value: 1, options: [[1, 'Show'], [0, 'Hide']] }
   ],
-  readouts: ['Distance r', 'Speed', 'Period (measured)', 'T² / a³ (Kepler 3)'],
-  note: 'Kepler 2: each shaded sector takes the same time and has the same area — so the planet moves fastest nearest the star. Kepler 3: T²/a³ stays constant for a given star mass.',
-  init(st) { const p = st.p, GM = 4 * Math.PI ** 2 * p.M; st.x = 1; st.y = 0; st.vx = 0; st.vy = p.v * Math.sqrt(GM); st.tt = 0; st.trail = []; st.sectors = []; st.secStart = { t: 0, pts: [[1, 0]] }; st.lastCross = null; st.T = null; st.lastCross = 0; st.minr = 1; st.maxr = 1; st.prevY = 0; },
-  change(st) { this.init(st); },
-  step(st, dt) { const p = st.p, GM = 4 * Math.PI ** 2 * p.M, h = dt * 0.25; const r = Math.hypot(st.x, st.y), a = -GM / (r * r * r);
-    st.vx += a * st.x * h / 2; st.vy += a * st.y * h / 2; st.x += st.vx * h; st.y += st.vy * h; const r2 = Math.hypot(st.x, st.y), a2 = -GM / (r2 * r2 * r2); st.vx += a2 * st.x * h / 2; st.vy += a2 * st.y * h / 2; st.tt += h;
-    st.minr = Math.min(st.minr, r2); st.maxr = Math.max(st.maxr, r2);
-    if (st.prevY < 0 && st.y >= 0 && st.x > 0) { if (st.lastCross != null) st.T = st.tt - st.lastCross; st.lastCross = st.tt; } st.prevY = st.y;
-    if (Math.random() < 0.3) { st.trail.push([st.x, st.y]); if (st.trail.length > 900) st.trail.shift(); }
-    const s = st.secStart; s.pts.push([st.x, st.y]); if (st.tt - s.t > 0.08) { st.sectors.push(s.pts); if (st.sectors.length > 14) st.sectors.shift(); st.secStart = { t: st.tt, pts: [[st.x, st.y]] }; } },
-  draw(c, W, H, st, C) {
-    c.fillStyle = '#04070B'; c.fillRect(0, 0, W, H); const cx = W * 0.45, cy = H / 2, R = Math.max(st.maxr, 1.2), sc = Math.min(W * 0.42, H * 0.46) / R;
-    for (let i = 0; i < 60; i++) { const x = (i * 97 % W), y = (i * 57 % H); c.fillStyle = 'rgba(255,255,255,.35)'; c.fillRect(x, y, 1, 1); }
-    if (st.p.sec) st.sectors.forEach((pts, i) => { c.fillStyle = i % 2 ? 'rgba(22,163,198,.28)' : 'rgba(255,181,71,.28)'; c.beginPath(); c.moveTo(cx, cy); pts.forEach(q => c.lineTo(cx + q[0] * sc, cy - q[1] * sc)); c.closePath(); c.fill(); });
-    c.strokeStyle = 'rgba(200,215,230,.5)'; c.lineWidth = 1.2; c.beginPath(); st.trail.forEach((q, i) => i ? c.lineTo(cx + q[0] * sc, cy - q[1] * sc) : c.moveTo(cx + q[0] * sc, cy - q[1] * sc)); c.stroke();
-    const grd = c.createRadialGradient(cx, cy, 2, cx, cy, 30); grd.addColorStop(0, '#fff'); grd.addColorStop(.3, '#FFD27A'); grd.addColorStop(1, 'rgba(255,180,70,0)'); c.fillStyle = grd; c.beginPath(); c.arc(cx, cy, 30, 0, 7); c.fill();
-    CV.circle(c, cx + st.x * sc, cy - st.y * sc, 6, '#5AB0EA');
-    CV.arrow(c, cx + st.x * sc, cy - st.y * sc, cx + st.x * sc + st.vx * 6, cy - st.y * sc - st.vy * 6, '#4CC67A', 2);
-    CV.mono(c, 'units: AU and years', 12, H - 14, '#8FA2B1', 10.5);
+  readouts: ['Distance r', 'Speed', 'Period T', 'T² / a³ (Kepler 3)', 'Area of each sector', 'Semi-major axis a'],
+  note: 'Kepler 1: the orbit is an ellipse with the star at one focus. Kepler 2: each shaded sector is swept in the same time (T/12) and all have the same area — so the planet moves fastest when nearest the star. Kepler 3: T²/a³ = 1/M in these units, whatever the launch speed.',
+  G4: 4 * Math.PI ** 2, // GM for 1 solar mass in AU³ yr⁻²
+  accel(M, x, y) { const r = Math.hypot(x, y), k = -this.G4 * M / (r * r * r); return [k * x, k * y]; },
+  init(st) {
+    const p = st.p, GM = this.G4 * p.M; let x = 1, y = 0, vx = 0, vy = p.v * Math.sqrt(GM);
+    // precompute one full orbit with small leapfrog steps; stop when it returns to the +x axis
+    const h = 2e-4, pts = [[x, y, 0]]; let t = 0, prevY = 0;
+    for (let i = 0; i < 400000; i++) { let [ax, ay] = this.accel(p.M, x, y); vx += ax * h / 2; vy += ay * h / 2; x += vx * h; y += vy * h; [ax, ay] = this.accel(p.M, x, y); vx += ax * h / 2; vy += ay * h / 2; t += h;
+      if (i % 5 === 0) pts.push([x, y, t]); if (prevY < 0 && y >= 0) break; prevY = y; }
+    const T = t, xs = pts.map(q => q[0]), minX = Math.min(...xs), maxX = Math.max(...xs), ys = pts.map(q => q[1]);
+    st.orb = { pts, T, a: (maxX - minX) / 2, cx: (maxX + minX) / 2, halfH: Math.max(...ys.map(Math.abs)) };
+    // 12 equal time slices; shade alternate ones and measure their areas (shoelace with the star at the origin)
+    const n = 12; st.orb.wedges = []; st.orb.areas = [];
+    for (let k = 0; k < n; k += 2) { const t0 = T * k / n, t1 = T * (k + 1) / n, seg = pts.filter(q => q[2] >= t0 && q[2] <= t1); let A = 0; for (let i = 1; i < seg.length; i++) A += (seg[i - 1][0] * seg[i][1] - seg[i][0] * seg[i - 1][1]) / 2; st.orb.wedges.push(seg); st.orb.areas.push(A); }
+    st.x = 1; st.y = 0; st.vx = 0; st.vy = p.v * Math.sqrt(GM); st.tt = 0;
   },
-  read(st) { const r = Math.hypot(st.x, st.y), v = Math.hypot(st.vx, st.vy), a = (st.minr + st.maxr) / 2; const esc = st.p.v >= Math.SQRT2 - 1e-3; return [r.toFixed(2) + ' AU', v.toFixed(2) + ' AU yr⁻¹', st.T ? st.T.toFixed(2) + ' yr' : 'measuring…', st.T ? (st.T ** 2 / a ** 3).toFixed(2) + ' (= 1/M: ' + (1 / st.p.M).toFixed(2) + ')' : '—']; }
+  change(st) { this.init(st); },
+  step(st, dt) { const h = dt * 0.3; let [ax, ay] = this.accel(st.p.M, st.x, st.y); st.vx += ax * h / 2; st.vy += ay * h / 2; st.x += st.vx * h; st.y += st.vy * h; [ax, ay] = this.accel(st.p.M, st.x, st.y); st.vx += ax * h / 2; st.vy += ay * h / 2; st.tt += h; },
+  draw(c, W, H, st, C) {
+    c.fillStyle = '#04070B'; c.fillRect(0, 0, W, H); const o = st.orb;
+    for (let i = 0; i < 70; i++) { c.fillStyle = 'rgba(255,255,255,.3)'; c.fillRect((i * 97) % W, (i * 57) % H, 1, 1); }
+    // frame the whole ellipse, centred, with a fixed scale for this orbit
+    const sc = Math.min((W - 60) / (2 * o.a), (H - 60) / (2 * o.halfH)), cx = W / 2 - o.cx * sc, cy = H / 2;
+    const P = q => [cx + q[0] * sc, cy - q[1] * sc];
+    if (st.p.sec) o.wedges.forEach((seg, i) => { c.fillStyle = i % 2 ? 'rgba(22,163,198,.35)' : 'rgba(255,181,71,.35)'; c.beginPath(); c.moveTo(cx, cy); seg.forEach(q => c.lineTo(...P(q))); c.closePath(); c.fill(); });
+    c.strokeStyle = 'rgba(200,215,230,.55)'; c.lineWidth = 1.3; c.beginPath(); o.pts.forEach((q, i) => i ? c.lineTo(...P(q)) : c.moveTo(...P(q))); c.closePath(); c.stroke();
+    const grd = c.createRadialGradient(cx, cy, 2, cx, cy, 26); grd.addColorStop(0, '#fff'); grd.addColorStop(.3, '#FFD27A'); grd.addColorStop(1, 'rgba(255,180,70,0)'); c.fillStyle = grd; c.beginPath(); c.arc(cx, cy, 26, 0, 7); c.fill();
+    const [px, py] = P([st.x, st.y]); CV.circle(c, px, py, 6, '#5AB0EA');
+    CV.arrow(c, px, py, px + st.vx * 5, py - st.vy * 5, '#4CC67A', 2);
+    CV.mono(c, 'star at one focus · units: AU and years', 12, H - 14, '#8FA2B1', 10.5);
+  },
+  read(st) { const o = st.orb, r = Math.hypot(st.x, st.y), v = Math.hypot(st.vx, st.vy), A = o.areas, lo = Math.min(...A), hi = Math.max(...A);
+    return [r.toFixed(2) + ' AU', v.toFixed(2) + ' AU yr⁻¹', o.T.toFixed(3) + ' yr', (o.T ** 2 / o.a ** 3).toFixed(3) + ' = 1/M', hi - lo < 0.01 * hi ? A[0].toFixed(3) + ' AU² each' : lo.toFixed(3) + '–' + hi.toFixed(3) + ' AU²', o.a.toFixed(3) + ' AU']; }
 };
+
 
 SIMS.galaxy = {
   title: 'Galaxy rotation & dark matter', h: 460,
@@ -319,37 +335,49 @@ SIMS.galaxy = {
 
 /* ---------- 4.4 Charged particle in fields ---------- */
 SIMS.bfield = {
-  title: 'Charged particles in B (and E) fields', h: 460, substeps: 8,
+  title: 'Charged particles in B (and E) fields', h: 480, substeps: 4,
   controls: [
-    { id: 'q', type: 'seg', label: 'Particle', value: 'p', options: [['p', 'Proton'], ['e', 'Electron'], ['a', 'Alpha']] },
+    { id: 'q', type: 'seg', label: 'Particle', value: 'p', options: [['p', 'Proton'], ['a', 'Alpha'], ['e', 'Electron']] },
     { id: 'v', label: 'Speed', min: 1, max: 10, step: 0.5, value: 5, fmt: v => v.toFixed(1) + ' × 10⁵ m s⁻¹' },
     { id: 'B', label: 'B (into page)', min: 0, max: 0.1, step: 0.002, value: 0.04, fmt: v => (v * 1000).toFixed(0) + ' mT' },
     { id: 'E', label: 'E field (downwards) — velocity selector', min: 0, max: 6000, step: 100, value: 0, fmt: v => v + ' V m⁻¹' }
   ],
   readouts: ['Radius r = mv/Bq', 'Period 2πm/Bq', 'Undeflected speed E/B', 'Force on particle'],
-  note: 'With only B, the force is perpendicular to v: circular motion at constant speed. Turn on E and tune so E = Bv — the particle passes straight through (velocity selector).',
+  note: 'Every particle is drawn to the same scale, so you can compare them: r = mv/Bq. An alpha particle (4× the mass, 2× the charge) curves in a circle twice as big as a proton’s; an electron (1/1836 of the mass) curls up in a circle far too small to see. With E on, particles pass straight through when E = Bv — whatever their mass or charge.',
   P: { p: [1.67e-27, 1.6e-19, 'p⁺'], e: [9.11e-31, -1.6e-19, 'e⁻'], a: [6.64e-27, 3.2e-19, 'α'] },
-  init(st) { st.x = 0; st.y = 0; st.vx = st.p.v * 1e5; st.vy = 0; st.path = [[0, 0]]; },
+  SC: 0.13, // metres shown by 0.2 × the smaller canvas dimension (fixed for all particles)
+  init(st) { st.x = 0; st.y = 0; st.vx = st.p.v * 1e5; st.vy = 0; st.path = [[0, 0]]; st.tt = 0; },
   change(st) { this.init(st); },
-  Ls(st) { const [m, q] = this.P[st.p.q]; return m * st.p.v * 1e5 / (Math.abs(q) * 0.05); },
-  step(st, dt) { const [m, q] = this.P[st.p.q], B = st.p.B, E = st.p.E; const h = dt * m / (Math.abs(q) * 0.05) / 0.5;
-    const Fx = q * (-B * st.vy), Fy = q * (B * st.vx - E);
-    st.vx += Fx / m * h; st.vy += Fy / m * h; st.x += st.vx * h; st.y += st.vy * h;
-    st.path.push([st.x, st.y]); if (st.path.length > 2500) st.path.shift();
-    const L = this.Ls(st); if (Math.abs(st.y) > 2.2 * L || st.x > 5 * L || st.x < -1.5 * L) this.init(st); },
+  step(st, dt) {
+    // Boris integrator: exact |v| in a pure B field for any step size, so electrons (very fast gyration) stay stable
+    const [m, q] = this.P[st.p.q], B = st.p.B, E = st.p.E, h = dt * 6e-7, k = q / m * h / 2;
+    let vx = st.vx, vy = st.vy + k * -E;           // half electric kick (E points down: −y)
+    const t = k * -B, s2 = 2 * t / (1 + t * t);     // B into page: Bz = −B
+    const px = vx + vy * t, py = vy - vx * t;       // v' = v + v × t
+    vx = vx + py * s2; vy = vy - px * s2;           // v⁺ = v + v' × s
+    vy += k * -E;                                   // second half kick
+    st.vx = vx; st.vy = vy; st.x += vx * h; st.y += vy * h; st.tt += h;
+    st.path.push([st.x, st.y]); if (st.path.length > 3000) st.path.shift();
+    if (Math.abs(st.y) > 0.6 || Math.abs(st.x) > 0.6) this.init(st);
+  },
   draw(c, W, H, st, C) {
-    CV.grid(c, W, H, C); const L = this.Ls(st), sc = Math.min(W, H) * 0.2 / L, ox = 60, oy = H / 2;
+    CV.grid(c, W, H, C); const sc = Math.min(W, H) * 0.2 / this.SC, ox = W * 0.4, oy = st.p.E > 0 ? H / 2 : H * 0.86; // start low so the upward-curving circles fit
     if (st.p.B > 0) for (let x = 30; x < W; x += 40) for (let y = 30; y < H; y += 40) { CV.line(c, x - 4, y - 4, x + 4, y + 4, hexA(C.muted, .6), 1.2); CV.line(c, x - 4, y + 4, x + 4, y - 4, hexA(C.muted, .6), 1.2); }
     if (st.p.E > 0) { CV.rrect(c, ox, 14, W - ox - 20, 8, 3, hexA(C.u1, .5)); CV.rrect(c, ox, H - 22, W - ox - 20, 8, 3, hexA(C.u4, .5)); CV.mono(c, '+', ox - 12, 18, C.u1, 13); CV.mono(c, '−', ox - 12, H - 18, C.u4, 13); }
-    const col = st.p.q === 'e' ? C.u4 : st.p.q === 'a' ? C.u3 : C.u1;
-    c.strokeStyle = col; c.lineWidth = 2.2; c.beginPath(); st.path.forEach((q, i) => { const X = ox + q[0] * sc, Y = oy - q[1] * sc; i ? c.lineTo(X, Y) : c.moveTo(X, Y); }); c.stroke();
-    const X = ox + st.x * sc, Y = oy - st.y * sc; CV.circle(c, X, Y, 8, col); CV.mono(c, this.P[st.p.q][2], X, Y - 16, C.ink, 11, 'center');
+    const [m, q] = this.P[st.p.q], col = st.p.q === 'e' ? C.u4 : st.p.q === 'a' ? C.u3 : C.u1;
+    // faint reference paths for the other particles at the same speed and field (pure-B circles)
+    if (st.p.B > 0 && st.p.E === 0) Object.entries(this.P).forEach(([k2, [m2, q2]]) => { if (k2 === st.p.q) return; const r = m2 * st.p.v * 1e5 / (Math.abs(q2) * st.p.B) * sc; if (r < 2) return; c.strokeStyle = hexA(C.muted, .35); c.setLineDash([4, 5]); c.lineWidth = 1.2; c.beginPath(); c.arc(ox, oy - Math.sign(q2) * r, r, 0, 7); c.stroke(); c.setLineDash([]); CV.mono(c, this.P[k2][2], ox + r * 0.72 + 6, oy - Math.sign(q2) * r * 1.7, C.muted, 11); });
+    c.strokeStyle = col; c.lineWidth = 2.2; c.beginPath(); st.path.forEach((q3, i) => { const X = ox + q3[0] * sc, Y = oy - q3[1] * sc; i ? c.lineTo(X, Y) : c.moveTo(X, Y); }); c.stroke();
+    const X = ox + st.x * sc, Y = oy - st.y * sc; CV.circle(c, X, Y, 7, col); CV.mono(c, this.P[st.p.q][2], X, Y - 16, C.ink, 11, 'center');
     const v = Math.hypot(st.vx, st.vy) || 1; CV.arrow(c, X, Y, X + st.vx / v * 30, Y - st.vy / v * 30, C.ink, 2);
-    CV.mono(c, '× = B into page', W - 16, H - 40, C.muted, 10.5, 'right');
-    const bar = 0.2 * Math.min(W, H); CV.line(c, W - 16 - bar, H - 56, W - 16, H - 56, C.ink, 2); CV.mono(c, sf(L, 2).replace(/<\/?sup>/g, m => m === '<sup>' ? '^' : ''), W - 16 - bar / 2, H - 68, C.muted, 10, 'center'); CV.mono(c, 'm', W - 12, H - 68, C.muted, 10);
+    const r = st.p.B ? m * st.p.v * 1e5 / (st.p.B * Math.abs(q)) : Infinity;
+    if (st.p.q === 'e' && st.p.B > 0 && st.p.E === 0) CV.text(c, `electron circle radius ${sf(r * 1000, 2).replace(/<\/?sup>/g, '')} mm — about 1/1836 of a proton’s, too small to see at this scale`, W / 2, H - 44, C.ink, 12, 'center', 600);
+    CV.mono(c, '× = B into page', W - 16, H - 24, C.muted, 10.5, 'right');
+    const bar = 0.2 * Math.min(W, H); CV.line(c, 16, H - 30, 16 + bar, H - 30, C.ink, 2); CV.mono(c, (this.SC * 100).toFixed(0) + ' cm', 16 + bar / 2, H - 42, C.muted, 10, 'center');
   },
   read(st) { const [m, q] = this.P[st.p.q], v = st.p.v * 1e5, B = st.p.B, r = B ? m * v / (B * Math.abs(q)) : Infinity; return [B ? sf(r, 3) + ' m' : '∞ (straight)', B ? sf(2 * Math.PI * m / (B * Math.abs(q)), 3) + ' s' : '—', B ? sf(st.p.E / B, 3) + ' m s⁻¹' : '—', sf(Math.abs(q) * Math.abs(v * B - st.p.E), 3) + ' N']; }
 };
+
 
 /* ---------- 4.5 Induction ---------- */
 SIMS.induction = {
@@ -364,13 +392,13 @@ SIMS.induction = {
   init(st) { st.x = -2.2; st.dir = 1; st.hist = []; st.tt = 0; st.prevF = 0; st.emf = 0; },
   change(st, id) { if (id !== 'sp') this.init(st); },
   flux(x) { return 1 / Math.pow(1 + (x / 0.35) ** 2, 1.5); },
-  step(st, dt) { const p = st.p; st.x += st.dir * p.sp * dt; if (st.x > 2.2) { st.x = -2.2; st.hist = []; st.tt = 0; } st.tt += dt; const F = p.N * this.flux(st.x) * p.pole / 300; st.emf = -(F - st.prevF) / dt; st.prevF = F; st.hist.push([st.tt, F, st.emf]); if (st.hist.length > 3000) st.hist.shift(); },
+  step(st, dt) { const p = st.p; st.x += st.dir * p.sp * dt; if (st.x > 2.2) { st.x = -2.2; st.hist = []; st.tt = 0; } st.tt += dt; const F = p.N * this.flux(st.x) * p.pole / 300, u = st.x / 0.35; st.emf = p.N * p.pole / 300 * 3 * u / 0.35 / Math.pow(1 + u * u, 2.5) * st.dir * p.sp; st.prevF = F; st.hist.push([st.tt, F, st.emf]); if (st.hist.length > 3000) st.hist.shift(); },
   draw(c, W, H, st, C) {
     CV.grid(c, W, H, C); const cy = H * 0.26, cx = W / 2, sc = W / 5;
     const turns = Math.round(st.p.N / 50) + 3; for (let i = 0; i < turns; i++) { const x = cx - 50 + i * 100 / turns; c.strokeStyle = '#B87333'; c.lineWidth = 3; c.beginPath(); c.ellipse(x, cy, 8, 46, 0, 0, Math.PI * 2); c.stroke(); }
     const mx = cx + st.x * sc; const nfirst = st.p.pole === 1; CV.rrect(c, mx - 70, cy - 16, 70, 32, 4, nfirst ? C.u4 : C.u1); CV.rrect(c, mx, cy - 16, 70, 32, 4, nfirst ? C.u1 : C.u4); CV.text(c, nfirst ? 'S' : 'N', mx - 35, cy, '#fff', 14, 'center', 700); CV.text(c, nfirst ? 'N' : 'S', mx + 35, cy, '#fff', 14, 'center', 700);
     // galvanometer needle
-    const gx = cx + 170, gy = cy + 10; CV.circle(c, gx, gy, 30, C.surface, C.ink, 1.5); const ang = clamp(st.emf * 0.15, -1.2, 1.2); CV.line(c, gx, gy + 18, gx + Math.sin(ang) * 26, gy + 18 - Math.cos(ang) * 26, C.bad, 2.2); CV.mono(c, '0', gx, gy - 20, C.muted, 9, 'center');
+    const gx = cx + 130, gy = 42; CV.line(c, cx - 50, cy - 46, cx - 50, gy, '#B87333', 1.5); CV.line(c, cx - 50, gy, gx - 26, gy, '#B87333', 1.5); CV.line(c, cx + 50, cy - 46, cx + 50, gy + 14, '#B87333', 1.5); CV.line(c, cx + 50, gy + 14, gx - 24, gy + 14, '#B87333', 1.5); CV.circle(c, gx, gy, 26, C.surface, C.ink, 1.5); const ang = clamp(st.emf * 0.3, -1.2, 1.2); CV.line(c, gx, gy + 16, gx + Math.sin(ang) * 22, gy + 16 - Math.cos(ang) * 22, C.bad, 2.2); CV.mono(c, '0', gx, gy - 17, C.muted, 9, 'center');
     const b = { x: 50, w: W - 90, h: (H * 0.64 - 80) / 2 }, tmax = 4.4 / st.p.sp;
     const mf = st.p.N / 300 * 1.1, me = Math.max(1, ...st.hist.map(h => Math.abs(h[2]))) * 1.1;
     CV.plot(c, C, { x: b.x, y: H * 0.42, w: b.w, h: b.h }, { xr: [0, tmax], yr: [-mf, mf], yl: 'flux linkage NΦ', series: [{ pts: st.hist.map(h => [h[0], h[1]]), col: C.u4, w: 2.2 }] });
@@ -388,20 +416,20 @@ SIMS.ac = {
     { id: 'L', label: 'Inductance L', min: 0.01, max: 0.5, step: 0.01, value: 0.1, fmt: v => v.toFixed(2) + ' H' },
     { id: 'C', label: 'Capacitance C', min: 0.1, max: 10, step: 0.1, value: 1, fmt: v => v.toFixed(1) + ' μF' }
   ],
-  readouts: ['X_L = 2πfL', 'X_C = 1/2πfC', 'Impedance Z', 'Resonant f₀'],
-  note: 'Phasors rotate at 2πf. V_L leads the current by 90°, V_C lags by 90°. At resonance X_L = X_C, they cancel, Z = R and the current is maximum.',
+  readouts: ['X<sub>L</sub> = 2πfL', 'X<sub>C</sub> = 1/(2πfC)', 'Impedance Z', 'Resonant f₀'],
+  note: 'Phasors rotate at 2πf. V<sub>L</sub> leads the current by 90°, V<sub>C</sub> lags by 90°. At resonance X<sub>L</sub> = X<sub>C</sub>, they cancel, Z = R and the current is maximum.',
   k(p) { const w = 2 * Math.PI * p.f, XL = w * p.L, XC = 1 / (w * p.C * 1e-6), Z = Math.hypot(p.R, XL - XC), f0 = 1 / (2 * Math.PI * Math.sqrt(p.L * p.C * 1e-6)); return { w, XL, XC, Z, f0, phi: Math.atan2(XL - XC, p.R) }; },
   draw(c, W, H, st, C) {
     CV.grid(c, W, H, C); const p = st.p, k = this.k(p), I0 = 10 / k.Z, ang = st.t * 2.2;
     const cx = W * 0.2, cy = H * 0.32, s = Math.min(W * 0.16, H * 0.25) / Math.max(10, I0 * Math.max(p.R, k.XL, k.XC)) ;
-    const ph = (len, a, col, lab) => { CV.arrow(c, cx, cy, cx + len * s * Math.cos(a), cy - len * s * Math.sin(a), col, 2.4); CV.mono(c, lab, cx + (len * s + 14) * Math.cos(a), cy - (len * s + 14) * Math.sin(a), col, 11, 'center'); };
+    const ph = (len, a, col, lab) => { CV.arrow(c, cx, cy, cx + len * s * Math.cos(a), cy - len * s * Math.sin(a), col, 2.4); const lx = cx + (len * s + 14) * Math.cos(a), ly = cy - (len * s + 14) * Math.sin(a), [m, sb] = lab.split('_'); CV.text(c, m, lx - (sb ? 3 : 0), ly, col, 12, 'center', 700); if (sb) CV.text(c, sb, lx + 5, ly + 5, col, 9, 'center', 700); };
     CV.circle(c, cx, cy, 3, C.ink);
     ph(I0 * p.R, ang, C.u3, 'V_R'); ph(I0 * k.XL, ang + Math.PI / 2, C.u1, 'V_L'); ph(I0 * k.XC, ang - Math.PI / 2, C.u4, 'V_C'); ph(10, ang + k.phi, C.ink, 'V');
-    CV.text(c, 'phasor diagram (current along V_R)', cx, H * 0.62, C.muted, 11, 'center');
+    CV.text(c, 'phasor diagram', cx, H * 0.62, C.muted, 11, 'center'); CV.text(c, 'current is in phase with V across R', cx, H * 0.62 + 15, C.muted, 11, 'center');
     const b = { x: W * 0.42, y: 30, w: W * 0.54, h: H * 0.36 };
     CV.plot(c, C, b, { xr: [0, 4 * Math.PI], yr: [-12, 12], xl: 'ωt', yl: 'supply V and current I (scaled)', series: [{ f: x => 10 * Math.sin(x + k.phi), col: C.ink, w: 2 }, { f: x => I0 * Math.min(p.R, 100) * 0 + 10 * (I0 / (10 / p.R)) * Math.sin(x), col: C.u3, w: 2, dash: [5, 3] }] });
     const b2 = { x: W * 0.42, y: H * 0.36 + 80, w: W * 0.54, h: H - (H * 0.36 + 130) };
-    CV.plot(c, C, b2, { xr: [20, 2000], yr: [0, 1.1], xl: 'f / Hz', yl: 'I / I_max', series: [{ f: f => { const w = 2 * Math.PI * f; return p.R / Math.hypot(p.R, w * p.L - 1 / (w * p.C * 1e-6)); }, col: C.u5, w: 2.4 }], dots: [[p.f, p.R / k.Z, C.accent, 6]] });
+    CV.plot(c, C, b2, { xr: [20, 2000], yr: [0, 1.1], xl: 'f / Hz', yl: 'I ÷ I at resonance', series: [{ f: f => { const w = 2 * Math.PI * f; return p.R / Math.hypot(p.R, w * p.L - 1 / (w * p.C * 1e-6)); }, col: C.u5, w: 2.4 }], dots: [[p.f, p.R / k.Z, C.accent, 6]] });
   },
   read(st) { const k = this.k(st.p); return [k.XL.toFixed(1) + ' Ω', k.XC.toFixed(1) + ' Ω', k.Z.toFixed(1) + ' Ω', k.f0.toFixed(0) + ' Hz']; }
 };
