@@ -105,7 +105,7 @@ const DIAG = {
       { p: [[0, 0], [0.0021, 420]], c: C4, label: 'brittle (glass): breaks, no plastic region', lp: [0.012, 470] },
       { p: [[0, 0], [0.0015, 220], [0.004, 240], [0.05, 280], [0.15, 310], [0.28, 300], [0.3, 270]], c: C1, label: 'ductile (copper)', lp: [0.2, 330] },
       { p: [[0, 0], [0.1, 6], [0.2, 10], [0.3, 13], [0.4, 22]], c: C3, label: 'rubber (tiny stresses on this scale)', lp: [0.18, 45] }],
-    marks: [{ x: 0.0021, y: 420, c: C4, label: 'fracture', dx: 6 }, { x: 0.3, y: 270, c: C1, label: 'break', dx: -8, dy: -10, a: 'end' }, { x: 0.15, y: 310, c: C1, label: 'UTS', dx: -4, dy: -10, a: 'end' }],
+    marks: [{ x: 0.0021, y: 420, c: C4, label: 'fracture', dx: 6 }, { x: 0.3, y: 270, c: C1, label: 'break', dx: -8, dy: -10, a: 'end' }, { x: 0.15, y: 310, c: C1, label: 'maximum stress', dx: -4, dy: -10, a: 'end' }],
     cap: 'Schematic stress–strain curves (not all to the same material scale). Ductile metals show a long plastic region; brittle solids fracture at the end of the linear region.' }),
   'hooke': () => plot({ x: [0, 12], y: [0, 10], xt: [0, 2, 4, 6, 8, 10, 12], yt: [0, 2, 4, 6, 8, 10], xl: 'extension x / mm', yl: 'F / N',
     segs: [{ p: [[0, 0], [6, 6], [7, 6.8], [9, 7.6], [11, 8]], c: C1 }],
@@ -152,7 +152,7 @@ const DIAG = {
     [1, 2, 3].forEach((n, k) => { const y0 = 45 + k * 70; s += `<circle cx="${L}" cy="${y0}" r="3" fill="${INK}"/><circle cx="${Rr}" cy="${y0}" r="3" fill="${INK}"/>`;
       let d1 = '', d2 = ''; for (let i = 0; i <= 200; i++) { const x = L + (Rr - L) * i / 200, a = 22 * Math.sin(n * Math.PI * i / 200); d1 += (i ? 'L' : 'M') + x + ',' + (y0 - a); d2 += (i ? 'L' : 'M') + x + ',' + (y0 + a); }
       s += `<path d="${d1}" fill="none" stroke="${C2}" stroke-width="2.2"/><path d="${d2}" fill="none" stroke="${C2}" stroke-width="2.2" stroke-dasharray="5 4" opacity=".7"/>`;
-      s += tx(W - 38, y0 + 4, ['f₁', 'f₂ = 2f₁', 'f₃ = 3f₁'][k], { fs: 12, c: INK, a: 'end' }).replace(`x="${W - 38}"`, `x="${W - 2}"`);
+      s += tx(W + 16, y0 + 4, ['1 loop', '2 loops', '3 loops'][k], { fs: 12, c: INK, a: 'end' });
       s += tx(L - 8, y0 + 4, `λ = ${['2L', 'L', '2L/3'][k]}`, { fs: 11.5, a: 'end' }); });
     return svg(W + 20, H, s, 'Harmonics on a string') + '<figcaption>Stationary waves on a string fixed at both ends: nodes at each end, node-to-node distance = λ/2.</figcaption>'; },
   'double-slit': () => svg(540, 230, `

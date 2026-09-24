@@ -22,7 +22,7 @@ const EQ_BANK = [
   ['Internal energy of monatomic gas', 'U = @frac{3}{2}nRT'], ['Specific heat capacity', 'Q = mcΔθ'], ['Activity', 'A = λN'], ['Decay constant and half-life', 'λ = @frac{"ln"@,2}{T_{½}}'],
   ['Parallel-plate capacitance', 'C = @frac{ε_0A}{d}'], ['Energy stored in a capacitor', 'U = @frac{1}{2}CV^2'], ['Capacitor discharge', 'Q = Q_0e^{-t/RC}'], ['Coulomb’s law', 'F = @frac{Q_1Q_2}{4πε_0r^2}'],
   ['Gravitational potential', 'V_g = -@frac{GM}{r}'], ['Kepler’s 3rd law (circular orbit)', 'T^2 = @frac{4π^2}{GM}r^3'], ['Hubble’s law', 'v = H_0D'], ['Critical density', 'ρ_c = @frac{3H_0^2}{8πG}'],
-  ['Force on a current', 'F = BIl@,"sin"@,θ'], ['Force on a moving charge', 'F = Bqv@,"sin"@,θ'], ['Hall voltage', 'V_H = @frac{BI}{nqt}'], ['Field of a long wire', 'B = @frac{μ_0I}{2πa}'],
+  ['Force on a current', 'F = BIl@,"sin"@,θ'], ['Force on a moving charge', 'F = Bqv@,"sin"@,θ'], ['Field of a long wire', 'B = @frac{μ_0I}{2πa}'],
   ['Field in a solenoid', 'B = μ_0nI'], ['Magnetic flux', 'Φ = AB@,"cos"@,θ'], ['emf in a moving rod', 'E = Blv'], ['Doppler shift', '@frac{Δλ}{λ} = @frac{v}{c}']
 ];
 const MAGNITUDES = [

@@ -5,16 +5,17 @@ TOPICS.push({
   id: '1.1', unit: '1', title: 'Basic Physics', short: 'Units, vectors, density, moments',
   summary: 'The toolkit for everything else: SI base units, checking equations, handling vectors, density and the principle of moments.',
   spec: [
-    'State the SI base units (kg, m, s, A, K, mol) and express derived units in base units',
-    'Use prefixes from pico (10⁻¹²) to tera (10¹²)',
-    'Use base units to check that an equation is homogeneous',
-    'Distinguish between scalar and vector quantities with examples',
-    'Add and subtract coplanar vectors by drawing and by calculation',
-    'Resolve a vector into two perpendicular components',
-    'Use density ρ = m / V',
-    'Define the moment of a force and apply the principle of moments',
-    'Understand centre of gravity and use it in calculations',
-    'State and apply the two conditions for a body to be in equilibrium'
+    "(a) The 6 essential base SI units: kg, m, s, A, mol, K",
+    "(b) Represent units in terms of the 6 base SI units and their prefixes",
+    "(c) Check equations for homogeneity using units",
+    "(d) The difference between scalar and vector quantities, with examples (displacement, velocity, acceleration, force, speed, time, density, pressure…)",
+    "(e) Add and subtract coplanar vectors; calculations limited to two perpendicular vectors",
+    "(f) Resolve a vector into two perpendicular components",
+    "(g) Density: use ρ = m/V to calculate mass, density and volume",
+    "(h) The turning effect of a force",
+    "(i) Use the principle of moments",
+    "(j) Centre of gravity, including stability problems; its position in a uniform cylinder, sphere and cuboid (beam)",
+    "(k) In equilibrium the resultant force is zero and the net moment is zero; simple calculations"
   ],
   learn: [
     { h: 'SI base units', html: `
@@ -49,7 +50,12 @@ TOPICS.push({
 [[d:moments]]
 <p>The <b>centre of gravity</b> is the point at which the whole weight of a body may be considered to act. For a uniform beam it is at the midpoint.</p>
 <div class="box def"><b class="lbl">Conditions for equilibrium</b><ol><li>The resultant force is zero (forces balance in every direction).</li><li>The resultant moment about any point is zero.</li></ol></div>
-<div class="box tip"><b class="lbl">Exam tip</b><p>Take moments about the point where an unknown force acts. That force then has zero moment and disappears from the equation.</p></div>` }
+<div class="box tip"><b class="lbl">Exam tip</b><p>Take moments about the point where an unknown force acts. That force then has zero moment and disappears from the equation.</p></div>` },
+    { h: 'Centre of gravity and stability', html: `
+<p>For a body of <b>uniform density</b> the centre of gravity is at its geometric centre: the centre of a <b>sphere</b>, the midpoint of the axis of a <b>cylinder</b>, and the centre of a <b>cuboid</b> (so the midpoint of a uniform beam).</p>
+<div class="box def"><b class="lbl">Stability</b><p>A body resting on a base is stable while the vertical line through its centre of gravity passes through its base. If it is tilted until this line falls outside the base, the weight provides a moment that makes it topple.</p></div>
+<p>A body is more stable if its centre of gravity is <b>low</b> and its base is <b>wide</b>: tilting it then needs a larger angle before the line of action of the weight passes outside the base. This is why buses carry heavy parts low down and why racing cars are low and wide.</p>
+<div class="box tip"><b class="lbl">Exam method</b><p>For “will it topple?”: find the pivot (the edge it tips about), then compare the moment of the weight about that edge with the moment of the applied force.</p></div>` }
   ],
   eqs: [['ρ = @frac{m}{V}', 'density'], ['"moment" = Fd', 'd is the perpendicular distance to the line of action'], ['F_x = F@,"cos"@,θ,  F_y = F@,"sin"@,θ', 'resolving a vector']],
   worked: [
@@ -72,7 +78,9 @@ TOPICS.push({
     ['Define centre of gravity.', 'The point through which the entire weight of the body may be considered to act.'],
     ['Components of force F at angle θ to the horizontal?', 'Horizontal $F@,"cos"@,θ$, vertical $F@,"sin"@,θ$.'],
     ['1 cm<sup>3</sup> in m<sup>3</sup>?', '1 × 10<sup>−6</sup> m<sup>3</sup>'],
-    ['Density of water?', '1000 kg m<sup>−3</sup> (1.00 g cm<sup>−3</sup>)']
+    ['Density of water?', '1000 kg m<sup>−3</sup> (1.00 g cm<sup>−3</sup>)'],
+    ['Where is the centre of gravity of a uniform cylinder, sphere or cuboid?', 'At its geometric centre.'],
+    ['When does a tilted object topple?', 'When the vertical line through its centre of gravity falls outside its base.']
   ],
   quiz: [
     { q: 'Which of these is an SI base unit?', o: ['kelvin', 'newton', 'joule', 'volt'], x: 'The kelvin is the base unit of temperature. The others are derived units.' },
@@ -86,13 +94,15 @@ TOPICS.push({
     { q: 'The moment of a force about a point is', o: ['force × perpendicular distance from the point to the line of action', 'force × distance from the point to where the force acts', 'force ÷ distance', 'force × distance moved'], x: 'Only the perpendicular distance counts.' },
     { q: 'A homogeneous equation may still be incorrect because', o: ['numerical factors have no units and cannot be checked', 'base units can cancel', 'vectors cannot be checked', 'homogeneity only works for SI units'], x: 'Pure numbers such as ½ or 2π are dimensionless.' },
     { q: '3.2 μm written in metres is', o: ['3.2 × 10<sup>−6</sup> m', '3.2 × 10<sup>−3</sup> m', '3.2 × 10<sup>−9</sup> m', '3.2 × 10<sup>−12</sup> m'], x: 'micro = 10<sup>−6</sup>.' },
-    { q: 'A 0.80 m spanner is used to apply a 25 N force perpendicular to the handle. The moment is', o: ['20 N m', '31 N m', '0.032 N m', '25 N m'], x: '25 × 0.80 = 20 N m.' }
+    { q: 'A 0.80 m spanner is used to apply a 25 N force perpendicular to the handle. The moment is', o: ['20 N m', '31 N m', '0.032 N m', '25 N m'], x: '25 × 0.80 = 20 N m.' },
+    { q: 'A tall box on a lorry is more likely to topple on a bend than a short, wide box of the same mass because the tall box has', o: ['a higher centre of gravity and a narrower base', 'a lower centre of gravity', 'a larger weight', 'a smaller moment of inertia'], x: 'It needs a smaller tilt before the line of action of its weight falls outside its base.' }
   ],
   exam: [
     { q: 'Explain the difference between a scalar and a vector quantity, giving one example of each.', m: 2, ms: ['Scalar has magnitude only; vector has magnitude and direction.', 'Correct example of each (e.g. mass / force).'] },
     { q: 'Show that the equation $x = ut + @frac{1}{2}at^2$ is homogeneous.', m: 3, ms: ['LHS unit: m.', 'ut: m s<sup>−1</sup> × s = m.', '½at²: m s<sup>−2</sup> × s² = m, so all terms are in m.'] },
     { q: 'A uniform metre rule of weight 1.2 N is pivoted at its 30.0 cm mark. A mass hangs at the 5.0 cm mark so that the rule balances horizontally. Calculate the weight of the hanging mass.', m: 3, ms: ['Weight of rule acts at 50.0 cm, i.e. 0.200 m from pivot.', 'Moments: W × 0.250 = 1.2 × 0.200.', 'W = 0.96 N.'] },
-    { q: 'Describe how you would determine the density of an irregularly shaped stone.', m: 4, ms: ['Measure mass with a top-pan balance (tare first).', 'Partly fill a measuring cylinder / displacement can with water; record volume.', 'Lower stone in fully submerged; volume displaced = volume of stone (read at eye level, bottom of meniscus).', 'ρ = m / V; repeat and average.'] }
+    { q: 'Describe how you would determine the density of an irregularly shaped stone.', m: 4, ms: ['Measure mass with a top-pan balance (tare first).', 'Partly fill a measuring cylinder / displacement can with water; record volume.', 'Lower stone in fully submerged; volume displaced = volume of stone (read at eye level, bottom of meniscus).', 'ρ = m / V; repeat and average.'] },
+    { q: 'Explain why a racing car is designed with a low centre of gravity and a wide wheelbase.', m: 2, ms: ['When the car tilts, the line of action of its weight stays inside the base (wheels) for a larger angle.', 'So a larger moment is needed to topple it — it is more stable.'] }
   ],
   sims: ['moments'], gens: ['vecres', 'moments1', 'density1']
 });
@@ -101,12 +111,13 @@ TOPICS.push({
   id: '1.2', unit: '1', title: 'Kinematics', short: 'Describing motion, suvat, projectiles',
   summary: 'Describing motion with displacement, velocity and acceleration: graphs, the equations of uniformly accelerated motion, free fall and projectiles.',
   spec: [
-    'Define displacement, mean and instantaneous speed and velocity, and acceleration',
-    'Interpret displacement–time and velocity–time graphs (gradients and areas)',
-    'Derive and use the equations for uniformly accelerated motion in a straight line',
-    'Describe the motion of bodies falling in the Earth’s gravitational field',
-    'Apply the equations to projectiles, treating horizontal and vertical motion independently',
-    'Describe how to determine g by free fall (specified practical)'
+    "(a) Displacement, and mean and instantaneous values of speed, velocity and acceleration",
+    "(b) Represent displacement, speed, velocity and acceleration graphically",
+    "(c) Properties of displacement–time and velocity–time graphs; interpret speed and displacement–time graphs for non-uniform acceleration",
+    "(d) Derive and use the equations for uniformly accelerated motion in a straight line",
+    "(e) Bodies falling in a gravitational field with and without air resistance — terminal velocity",
+    "(f) The independence of vertical and horizontal motion of a body moving freely under gravity",
+    "(g) Motion with uniform velocity in one direction and uniform acceleration in a perpendicular direction; simple calculations"
   ],
   learn: [
     { h: 'Definitions', html: `
@@ -122,6 +133,7 @@ TOPICS.push({
 <li>Gradient of a velocity–time graph = acceleration. <b>Area</b> under a velocity–time graph = displacement.</li></ul>
 [[d:st-graph]]
 [[d:vt-area]]
+<p>For <b>non-uniform acceleration</b> the graphs are curves: the instantaneous velocity is the gradient of the <b>tangent</b> to a displacement–time curve (which differs from the mean velocity over an interval), and the displacement is still the area under the velocity–time curve — estimate it by counting squares.</p>
 <div class="box tip"><b class="lbl">Exam tip</b><p>When calculating an area under a v–t graph, split it into rectangles and triangles, and read the scales carefully (km h<sup>−1</sup> or minutes are common traps).</p></div>` },
     { h: 'Equations of uniformly accelerated motion', html: `
 <p>For <b>constant acceleration</b> in a straight line, with u = initial velocity, v = final velocity, a = acceleration, t = time and x = displacement:</p>
@@ -163,7 +175,6 @@ TOPICS.push({
     ['Horizontal acceleration of a projectile (no air resistance)?', 'Zero — horizontal velocity is constant.'],
     ['Acceleration at the top of a projectile’s path?', 'g = 9.81 m s<sup>−2</sup> downwards.'],
     ['Why does a skydiver reach terminal velocity?', 'Drag rises with speed until it equals the weight; resultant force and acceleration become zero.'],
-    ['Launch angle for maximum range on level ground (no air resistance)?', '45°'],
     ['Graph to plot for g by free fall?', 'h against t<sup>2</sup>: gradient = g/2.']
   ],
   quiz: [
@@ -177,8 +188,8 @@ TOPICS.push({
     { q: 'The equations of uniformly accelerated motion can only be used when', o: ['acceleration is constant', 'velocity is constant', 'the object starts from rest', 'there is no gravity'], x: 'They are derived assuming a straight-line v–t graph.' },
     { q: 'A ball is thrown vertically upwards at 12 m s<sup>−1</sup>. Its maximum height is about', o: ['7.3 m', '14.7 m', '1.2 m', '3.7 m'], x: '0 = 12² − 2(9.81)h, so h = 7.3 m.' },
     { q: 'A horizontal line above the time axis on a velocity–time graph means', o: ['constant velocity', 'constant acceleration', 'the object is stationary', 'increasing displacement at an increasing rate'], x: 'Gradient zero → acceleration zero.' },
-    { q: 'Ignoring air resistance, the launch angle that gives the greatest range on level ground is', o: ['45°', '30°', '60°', '90°'], x: 'Range = u² sin 2θ / g, maximum when 2θ = 90°.' },
-    { q: 'In a g by free fall experiment, a graph of h (y-axis) against t² (x-axis) has gradient', o: ['g / 2', 'g', '2g', '√g'], x: 'h = ½gt², so gradient = ½g.' }
+    { q: 'In a g by free fall experiment, a graph of h (y-axis) against t² (x-axis) has gradient', o: ['g / 2', 'g', '2g', '√g'], x: 'h = ½gt², so gradient = ½g.' },
+    { q: 'A ball is thrown horizontally at 8.0 m s<sup>−1</sup> from a height of 4.9 m. Ignoring air resistance, its horizontal distance travelled before landing is about', o: ['8.0 m', '4.0 m', '16 m', '5.6 m'], x: 'Time to fall 4.9 m = √(2 × 4.9/9.81) = 1.0 s; horizontal distance = 8.0 × 1.0 m.' }
   ],
   exam: [
     { q: 'A cyclist accelerates uniformly from 4.0 m s<sup>−1</sup> to 10.0 m s<sup>−1</sup> in 5.0 s. Calculate (i) the acceleration and (ii) the distance travelled in this time.', m: 3, ms: ['a = (10.0 − 4.0)/5.0', '= 1.2 m s<sup>−2</sup>', 'x = ½(4.0 + 10.0) × 5.0 = 35 m'] },
@@ -193,14 +204,12 @@ TOPICS.push({
   id: '1.3', unit: '1', title: 'Dynamics', short: 'Newton’s laws and momentum',
   summary: 'Why things move the way they do: Newton’s three laws, free-body diagrams, momentum, collisions and explosions.',
   spec: [
-    'Draw and interpret free-body diagrams',
-    'State and apply Newton’s three laws of motion',
-    'Identify Newton’s third law pairs',
-    'Define momentum p = mv and apply F = Δp / Δt',
-    'State and apply the principle of conservation of momentum',
-    'Distinguish between elastic and inelastic collisions',
-    'Recognise that the area under a force–time graph equals the change of momentum',
-    'Investigate Newton’s 2nd law (specified practical)'
+    "(a) The concept of force and Newton’s 3rd law of motion",
+    "(b) Use free-body diagrams to represent forces on a particle or body",
+    "(c) Use F = ma where mass is constant",
+    "(d) Linear momentum is the product of mass and velocity",
+    "(e) Force is the rate of change of momentum (mass constant)",
+    "(f) Conservation of momentum in one dimension: elastic collisions (no loss of kinetic energy) and inelastic collisions (loss of kinetic energy)"
   ],
   learn: [
     { h: 'Newton’s laws', html: `
@@ -215,7 +224,6 @@ TOPICS.push({
 <p>$p = mv$ — a vector, unit kg m s<sup>−1</sup> or N s.</p>
 <div class="box def"><b class="lbl">Principle of conservation of momentum</b><p>The total momentum of a system of interacting bodies remains constant, provided no resultant external force acts on the system.</p></div>
 <p>In an <b>explosion</b> from rest, total momentum is zero before and after: the pieces move off in opposite directions with $m_1 v_1 = m_2 v_2$.</p>
-[[d:fx-impulse]]
 <p>Rearranging $F = Δp/Δt$: for the same change in momentum, a longer impact time means a smaller force. That is how crumple zones, airbags, crash mats and bending your knees on landing all reduce injury.</p>` },
     { h: 'Elastic and inelastic collisions', html: `
 <div class="tbl"><table><tr><th></th><th>Momentum</th><th>Kinetic energy</th></tr>
@@ -225,7 +233,7 @@ TOPICS.push({
     { h: 'Specified practical: Newton’s 2nd law', html: `
 <p>Use a trolley on a friction-compensated runway pulled by a hanging mass. Keep the <b>total</b> mass of the system constant by moving masses from the trolley to the hanger, so the accelerating force changes but the mass being accelerated does not. Measure acceleration with light gates or a motion sensor. A graph of a against F should be a straight line through the origin with gradient 1/(total mass).</p>` }
   ],
-  eqs: [['F = ma', 'constant mass'], ['F = @frac{Δp}{Δt}', 'Newton’s 2nd law'], ['p = mv', 'momentum'], ['"impulse" = FΔt = Δp', 'area under F–t graph']],
+  eqs: [['F = ma', 'constant mass'], ['F = @frac{Δp}{Δt}', 'Newton’s 2nd law'], ['p = mv', 'momentum']],
   worked: [
     { q: 'A 2.0 kg trolley moving at 3.0 m s<sup>−1</sup> collides with a stationary 1.0 kg trolley and they stick together. Find their common velocity and decide whether the collision is elastic.', s: ['Momentum before = 2.0 × 3.0 = 6.0 kg m s<sup>−1</sup>.', 'After: 3.0 v = 6.0, so v = 2.0 m s<sup>−1</sup>.', 'KE before = ½ × 2.0 × 3.0² = 9.0 J; KE after = ½ × 3.0 × 2.0² = 6.0 J.', 'KE is not conserved (3.0 J transferred), so it is inelastic.'], a: '2.0 m s<sup>−1</sup>; inelastic' },
     { q: 'A 58 g tennis ball arrives at a racket at 20 m s<sup>−1</sup> and leaves at 30 m s<sup>−1</sup> in the opposite direction. Contact lasts 5.0 ms. Find the mean force.', s: ['Take the leaving direction as positive: u = −20, v = +30 m s<sup>−1</sup>.', 'Δp = 0.058 × (30 − (−20)) = 2.9 kg m s<sup>−1</sup>.', 'F = Δp/Δt = 2.9 / 5.0 × 10<sup>−3</sup> = 580 N.'], a: '580 N' },
@@ -242,7 +250,6 @@ TOPICS.push({
     ['State the principle of conservation of momentum.', 'Total momentum of a system is constant if no resultant external force acts.'],
     ['What is conserved in an elastic collision?', 'Momentum and kinetic energy.'],
     ['What is conserved in an inelastic collision?', 'Momentum (and total energy) but not kinetic energy.'],
-    ['Area under a force–time graph?', 'Change in momentum (impulse).'],
     ['Why do crumple zones reduce injury?', 'Increase impact time so, for the same Δp, the force F = Δp/Δt is smaller.'],
     ['Total momentum after an explosion from rest?', 'Zero.']
   ],
@@ -256,9 +263,9 @@ TOPICS.push({
     { q: 'The total momentum of a system is conserved provided', o: ['no resultant external force acts', 'the collision is elastic', 'all bodies are at rest', 'no friction acts between the bodies'], x: 'Internal forces (including friction between the bodies) cancel in pairs.' },
     { q: 'In an inelastic collision', o: ['momentum is conserved but kinetic energy is not', 'kinetic energy is conserved but momentum is not', 'neither momentum nor total energy is conserved', 'the bodies must stick together'], x: 'Total energy is conserved, but some KE is transferred to other forms.' },
     { q: 'A skydiver falls at terminal velocity. Which is correct?', o: ['air resistance = weight', 'air resistance > weight', 'air resistance = 0', 'acceleration = g'], x: 'Resultant force zero → constant velocity.' },
-    { q: 'The area under a force–time graph for an impact is equal to', o: ['the change in momentum', 'the work done', 'the change in kinetic energy', 'the average force'], x: 'Impulse FΔt = Δp.' },
     { q: 'A stationary 3.0 kg object explodes into two pieces. A 1.0 kg piece moves off at 6.0 m s<sup>−1</sup>. The other piece moves at', o: ['3.0 m s<sup>−1</sup> in the opposite direction', '6.0 m s<sup>−1</sup> in the opposite direction', '2.0 m s<sup>−1</sup> in the same direction', '12 m s<sup>−1</sup> in the opposite direction'], x: '1.0 × 6.0 = 2.0 × v, so v = 3.0 m s<sup>−1</sup> opposite.' },
-    { q: 'An airbag reduces the force on a passenger in a crash mainly because it', o: ['increases the time over which the momentum changes', 'reduces the passenger’s change in momentum', 'increases the passenger’s change in momentum', 'absorbs all of the passenger’s momentum instantly'], x: 'Same Δp, longer Δt → smaller F.' }
+    { q: 'An airbag reduces the force on a passenger in a crash mainly because it', o: ['increases the time over which the momentum changes', 'reduces the passenger’s change in momentum', 'increases the passenger’s change in momentum', 'absorbs all of the passenger’s momentum instantly'], x: 'Same Δp, longer Δt → smaller F.' },
+    { q: 'A 60 kg skater pushes off from a 40 kg skater; both start at rest on smooth ice. The 60 kg skater moves off at 2.0 m s<sup>−1</sup>. The 40 kg skater moves at', o: ['3.0 m s<sup>−1</sup> in the opposite direction', '2.0 m s<sup>−1</sup> in the opposite direction', '1.3 m s<sup>−1</sup> in the opposite direction', '3.0 m s<sup>−1</sup> in the same direction'], x: 'Total momentum stays zero: 60 × 2.0 = 40 × v.' }
   ],
   exam: [
     { q: 'State the principle of conservation of momentum.', m: 2, ms: ['Total momentum of a system remains constant…', '…provided no (resultant) external force acts.'] },
@@ -273,13 +280,13 @@ TOPICS.push({
   id: '1.4', unit: '1', title: 'Energy Concepts', short: 'Work, energy, power, efficiency',
   summary: 'Energy is the currency of physics. Work transfers it, power is its rate, and it is always conserved.',
   spec: [
-    'Define work done W = Fx cos θ and understand the joule',
-    'Recognise that the area under a force–displacement graph is the work done',
-    'State and apply the principle of conservation of energy',
-    'Derive and use Ek = ½mv² and ΔEp = mgΔh',
-    'Apply the work–energy relationship Fx = ½mv² − ½mu²',
-    'Define power as the rate of energy transfer and use P = W/t and P = Fv',
-    'Calculate efficiency'
+    "(a) Work = force × distance moved in the direction of the force (constant force)",
+    "(b) Work done when the force is not along the line of motion: W = Fx cos θ",
+    "(c) Conservation of energy, including gravitational PE mgΔh, elastic PE ½kx² and kinetic energy ½mv²",
+    "(d) The work–energy relationship Fx = ½mv² − ½mu²",
+    "(e) Power is the rate of energy transfer",
+    "(f) Dissipative forces (e.g. friction, drag) transfer energy from a system and reduce its efficiency",
+    "(g) Efficiency = useful energy transfer ÷ total energy input × 100%"
   ],
   learn: [
     { h: 'Work', html: `
@@ -293,6 +300,7 @@ TOPICS.push({
 <div class="box def"><b class="lbl">Work–energy relationship</b><p>Work done by the resultant force = change in kinetic energy: $Fx = @frac{1}{2}mv^2 - @frac{1}{2}mu^2$.</p></div>` },
     { h: 'Conservation of energy', html: `
 <div class="box def"><b class="lbl">Principle of conservation of energy</b><p>Energy cannot be created or destroyed, only transferred from one form to another. The total energy of a closed system is constant.</p></div>
+<div class="box def"><b class="lbl">Dissipative forces</b><p>Friction and drag are <b>dissipative</b>: the work done against them transfers energy out of the useful stores into internal energy (heating) of the surroundings, so it is no longer available to do useful work. They therefore reduce the efficiency of a system.</p></div>
 <p>For a falling body with no air resistance, loss in E<sub>p</sub> = gain in E<sub>k</sub>: $mgh = @frac{1}{2}mv^2$ so $v = @sqrt{2gh}$, independent of mass. With friction, the missing energy equals the work done against friction: <i>loss of E<sub>p</sub> = gain in E<sub>k</sub> + work done against friction</i>.</p>` },
     { h: 'Power and efficiency', html: `
 <p>Power is the rate of doing work (rate of energy transfer): $P = @frac{W}{t}$, unit W = J s<sup>−1</sup>.</p>
@@ -315,6 +323,7 @@ TOPICS.push({
     ['Derive P = Fv.', 'P = W/t = Fx/t = Fv (constant force and velocity).'],
     ['State the principle of conservation of energy.', 'Energy cannot be created or destroyed; total energy of a closed system is constant.'],
     ['Speed after falling h from rest (no drag)?', '$v = @sqrt{2gh}$'],
+    ['What do dissipative forces do?', 'Friction and drag transfer energy out of the system (as heating), reducing efficiency.'],
     ['Work–energy relationship?', 'Work done by resultant force = change in kinetic energy.'],
     ['Base units of the watt?', 'kg m<sup>2</sup> s<sup>−3</sup>'],
     ['If speed doubles, KE…', 'quadruples.']
@@ -344,16 +353,13 @@ TOPICS.push({
   id: '1.5', unit: '1', title: 'Solids under Stress', short: 'Hooke’s law, Young modulus, materials',
   summary: 'How materials respond to forces: stiffness, strength, the Young modulus, and what dislocations, cracks and tangled polymer chains have to do with it.',
   spec: [
-    'Apply Hooke’s law F = kx and understand the spring constant',
-    'Show that the elastic potential energy stored is ½Fx = ½kx²',
-    'Define stress, strain and the Young modulus',
-    'Distinguish between elastic and plastic deformation; define the elastic limit',
-    'Describe stress–strain curves for ductile (e.g. copper), brittle (e.g. glass) and polymeric (e.g. rubber) materials',
-    'Classify solids as crystalline, amorphous or polymeric',
-    'Explain ductility and plastic deformation in metals in terms of dislocations; how grain boundaries and foreign atoms strengthen metals',
-    'Explain brittle fracture in terms of crack propagation, and how it is reduced (e.g. prestressed concrete, toughened glass)',
-    'Explain rubber’s behaviour, including hysteresis, in terms of its molecular structure',
-    'Determine the Young modulus of a metal wire (specified practical)'
+    "(a) Hooke’s law, F = kx, where the spring constant k is the force per unit extension",
+    "(b) Tensile stress σ = F/A, tensile strain ε = Δl/l and Young modulus E = σ/ε when Hooke’s law applies",
+    "(c) Work done deforming a solid = area under the force–extension graph = ½Fx if Hooke’s law is obeyed",
+    "(d) Classify solids as crystalline, amorphous (including glasses and ceramics) and polymeric",
+    "(e) Force–extension (stress–strain) graph for a metal such as copper: elastic and plastic strain; dislocations; strengthening by barriers to dislocation movement (foreign atoms, other dislocations, more grain boundaries); necking and ductile fracture",
+    "(f) Graph for a brittle material such as glass: Hooke’s law obeyed up to fracture; brittle fracture by crack propagation; effect of surface imperfections; increasing breaking stress by reducing imperfections (thin fibres) or putting the surface under compression (toughened glass, pre-stressed concrete)",
+    "(g) Graph for rubber: Hooke’s law only approximately obeyed, low Young modulus, extension due to straightening of chain molecules against thermal opposition; hysteresis"
   ],
   learn: [
     { h: 'Hooke’s law', html: `
@@ -370,24 +376,25 @@ TOPICS.push({
     { h: 'Types of solid and stress–strain curves', html: `
 <div class="tbl"><table><tr><th>Type</th><th>Structure</th><th>Examples</th></tr>
 <tr><td>Crystalline</td><td>atoms in a regular, repeating 3-D lattice (metals: many small crystals or grains)</td><td>metals, salt, diamond</td></tr>
-<tr><td>Amorphous</td><td>no long-range order</td><td>glass</td></tr>
+<tr><td>Amorphous</td><td>no long-range order</td><td>glasses and ceramics</td></tr>
 <tr><td>Polymeric</td><td>long chain molecules</td><td>rubber, polythene</td></tr></table></div>
 [[d:stress-strain]]
 <ul><li><b>Ductile</b> (copper): elastic region, then yields and undergoes large plastic deformation before necking and breaking. Can be drawn into wires.</li>
 <li><b>Brittle</b> (glass, cast iron): elastic almost to breaking; fractures suddenly with little or no plastic deformation.</li>
 <li><b>Polymeric</b> (rubber): very large elastic strains (several hundred per cent), non-linear curve, hysteresis.</li></ul>
-<p>The <b>ultimate tensile stress</b> (UTS) is the maximum stress the material can withstand.</p>` },
+<p>A ductile metal such as copper stretches plastically until one region thins rapidly — <b>necking</b> — and it then breaks by <b>ductile fracture</b>.</p>` },
     { h: 'Metals: dislocations and strength', html: `
 <p>Metal crystals contain <b>dislocations</b> — lines where an extra half-plane of atoms ends. Under stress, a dislocation moves through the lattice one row of bonds at a time, so planes of atoms slip past each other much more easily than if all the bonds broke at once. This slip is <b>plastic deformation</b> and is why metals are <b>ductile</b>.</p>
 <p>Anything that blocks dislocation movement makes a metal stronger and harder (but less ductile):</p>
 <ul><li><b>Grain boundaries</b> — dislocations cannot easily cross from one grain to the next, so smaller grains mean a stronger metal.</li>
 <li><b>Foreign atoms</b> (alloying, e.g. carbon in steel) — they distort the lattice and pin dislocations.</li>
-<li><b>Work hardening</b> — dislocations become tangled and jam each other.</li></ul>` },
+<li><b>Other dislocations</b> — when there are many, dislocations become tangled and jam each other (work hardening).</li></ul>` },
     { h: 'Brittle fracture', html: `
 <p>Brittle materials such as glass have no mechanism (no mobile dislocations) for plastic flow. Surface scratches and cracks act as <b>stress concentrators</b>: under <b>tension</b> the stress at the sharp tip of a crack is many times the average, so bonds there break, the crack lengthens, the tip stays sharp and the crack propagates rapidly across the material.</p>
+<p>The breaking stress can be increased by <b>reducing surface imperfections</b> — very <b>thin fibres</b> of glass have few surface cracks and are remarkably strong — or by putting the surface <b>under compression</b>.</p>
 <p>In <b>compression</b> cracks are pushed closed, so brittle materials are much stronger in compression than tension. <b>Prestressed concrete</b> is cast around steel rods held under tension; when released, the rods keep the concrete in compression so cracks cannot open. <b>Toughened glass</b> has surface layers in compression for the same reason.</p>` },
     { h: 'Rubber and hysteresis', html: `
-<p>Rubber consists of long, tangled, coiled polymer chains with a few cross-links. With a small stress the chains uncoil and straighten easily (low stiffness); once they are nearly straight, further strain requires stretching the bonds within the chains, so it becomes much stiffer. When released, the thermal motion of the chains makes them re-tangle, so rubber returns to its original length.</p>
+<p>Rubber has a <b>low Young modulus</b> and obeys Hooke’s law only <b>approximately</b>. It consists of long, tangled, coiled polymer chains with a few cross-links. With a small stress the chains uncoil and straighten easily (low stiffness); once they are nearly straight, further strain requires stretching the bonds within the chains, so it becomes much stiffer. The chains are straightened against <b>thermal opposition</b>: when released, the thermal motion of the chains makes them re-tangle, so rubber returns to its original length.</p>
 [[d:hysteresis]]
 <p>Rubber shows <b>elastic hysteresis</b>: the unloading curve lies below the loading curve. The area of the loop is the energy transferred to internal energy (heating) in one loading–unloading cycle. Rubber tyres get warm for this reason.</p>` },
     { h: 'Specified practical: Young modulus of a wire', html: `
@@ -399,7 +406,7 @@ TOPICS.push({
     { q: 'A steel wire 2.0 m long with diameter 0.50 mm supports a load of 50 N. E for steel = 2.0 × 10<sup>11</sup> Pa. Find the extension.', s: ['A = π(0.25 × 10<sup>−3</sup>)² = 1.96 × 10<sup>−7</sup> m².', 'σ = 50 / 1.96 × 10<sup>−7</sup> = 2.55 × 10<sup>8</sup> Pa.', 'ε = σ/E = 1.27 × 10<sup>−3</sup>.', 'Δl = εl = 1.27 × 10<sup>−3</sup> × 2.0 = 2.5 × 10<sup>−3</sup> m.'], a: '2.5 mm' },
     { q: 'A spring of spring constant 40 N m<sup>−1</sup> is stretched by 15 cm. Find the force and the energy stored.', s: ['F = kx = 40 × 0.15 = 6.0 N.', 'E = ½kx² = ½ × 40 × 0.15² = 0.45 J.'], a: '6.0 N; 0.45 J' }
   ],
-  pitfalls: ['Using diameter instead of radius in A = πr² (or forgetting to square).', 'Giving strain a unit; it is a ratio.', 'Saying brittle materials are “weak” — glass can have a high UTS in compression; brittleness is about the lack of plastic deformation.', 'Explaining metal ductility by “bonds breaking” rather than dislocation movement.', 'Confusing limit of proportionality with elastic limit.'],
+  pitfalls: ['Using diameter instead of radius in A = πr² (or forgetting to square).', 'Giving strain a unit; it is a ratio.', 'Saying brittle materials are “weak” — glass has a high breaking stress in compression; brittleness is about the lack of plastic deformation.', 'Explaining metal ductility by “bonds breaking” rather than dislocation movement.', 'Confusing limit of proportionality with elastic limit.'],
   cards: [
     ['State Hooke’s law.', 'Extension ∝ force applied, provided the limit of proportionality is not exceeded.'],
     ['Define stress.', 'Force per unit cross-sectional area, σ = F/A.'],
@@ -414,7 +421,9 @@ TOPICS.push({
     ['What does the hysteresis loop area represent?', 'Energy transferred to heat per loading–unloading cycle.'],
     ['Why is rubber easy to stretch at first?', 'Tangled chains uncoil/straighten; only later are bonds within chains stretched.'],
     ['Elastic PE stored in a spring?', '½Fx = ½kx²'],
-    ['Why use a long thin wire for Young modulus?', 'Gives a larger (measurable) extension, reducing percentage uncertainty.']
+    ['Why use a long thin wire for Young modulus?', 'Gives a larger (measurable) extension, reducing percentage uncertainty.'],
+    ['How can the breaking stress of glass be increased?', 'Reduce surface imperfections (e.g. thin fibres) or put the surface under compression (toughened glass, pre-stressed concrete).'],
+    ['What happens just before a copper wire breaks?', 'Necking — a region thins rapidly — then ductile fracture.']
   ],
   quiz: [
     { q: 'The unit of the Young modulus is', o: ['Pa', 'N m<sup>−1</sup>', 'N', 'no unit'], x: 'Stress (Pa) ÷ strain (no unit).' },
@@ -428,7 +437,8 @@ TOPICS.push({
     { q: 'When rubber is first stretched, its long molecules', o: ['uncoil and straighten', 'slip via dislocations', 'form a crystalline lattice immediately', 'break apart'], x: 'Tangled chains straightening needs little force.' },
     { q: 'A spring obeying Hooke’s law extends by x under force F. The energy stored is', o: ['½Fx', 'Fx', '2Fx', 'F/x'], x: 'Area of triangle under the F–x graph.' },
     { q: 'The elastic limit is', o: ['the point beyond which the material will not return to its original length', 'the point where the material breaks', 'the maximum stress the material can withstand', 'the point where extension stops being proportional to force'], x: 'That last one is the limit of proportionality.' },
-    { q: 'Glass is an example of', o: ['an amorphous solid', 'a crystalline solid', 'a polymeric solid', 'a ductile solid'], x: 'Glass has no long-range order.' }
+    { q: 'Glass is an example of', o: ['an amorphous solid', 'a crystalline solid', 'a polymeric solid', 'a ductile solid'], x: 'Glass has no long-range order.' },
+    { q: 'Thin glass fibres have a much higher breaking stress than a thick glass rod mainly because they', o: ['have fewer surface imperfections for cracks to start from', 'contain more dislocations', 'are amorphous while the rod is crystalline', 'are in compression'], x: 'Cracks propagate from surface imperfections; thin fibres have very few.' }
   ],
   exam: [
     { q: 'Describe how you would determine the Young modulus of copper in the form of a wire.', m: 6, ms: ['Long thin wire clamped at one end, passing over a pulley / Searle’s apparatus with reference wire.', 'Measure original length (metre rule) from clamp to marker.', 'Measure diameter with a micrometer at several points; average; A = πd²/4.', 'Add loads in steps, record extension each time (vernier/travelling microscope); check for return to zero on unloading.', 'Plot F against Δl; gradient in linear region.', 'E = gradient × l / A.'] },
@@ -442,14 +452,11 @@ TOPICS.push({
   id: '1.6', unit: '1', title: 'Using Radiation to Investigate Stars', short: 'Black bodies, Wien, Stefan, spectra',
   summary: 'Everything we know about stars comes from their light. Black-body radiation gives temperature and size; absorption lines give composition.',
   spec: [
-    'Describe the continuous spectrum of a black body and how it changes with temperature',
-    'Use Wien’s displacement law λmax = W/T',
-    'Use the Stefan–Boltzmann law P = AσT⁴',
-    'Use the inverse square law I = P/4πd² for the intensity of radiation from a star',
-    'Understand the kelvin temperature scale',
-    'Explain how stellar absorption (line) spectra reveal the composition of a star’s atmosphere',
-    'Recall the approximate wavelength ranges of the regions of the electromagnetic spectrum',
-    'Understand the value of multiwavelength astronomy'
+    "(a) A stellar spectrum is a continuous emission spectrum from the dense gas of the star’s surface plus a line absorption spectrum from radiation passing through the tenuous atmosphere of the star",
+    "(b) Bodies that absorb all incident radiation are black bodies; stars are very good approximations to black bodies",
+    "(c) The shape of the black-body spectrum; peak wavelength ∝ 1/absolute temperature, T (K) = θ (°C) + 273.15",
+    "(d) Use Wien’s law, Stefan’s law and the inverse square law to find stellar luminosity, size, temperature and distance (magnitudes not required)",
+    "(e) Multiwavelength astronomy: studying a region at different wavelengths (photon energies) reveals the different processes taking place there"
   ],
   learn: [
     { h: 'Black bodies', html: `
@@ -524,13 +531,15 @@ TOPICS.push({
   id: '1.7', unit: '1', title: 'Particles and Nuclear Structure', short: 'Quarks, leptons, forces, conservation',
   summary: 'The Standard Model at A level: first-generation quarks and leptons, how they build hadrons, the four forces and the conservation laws that decide which reactions happen.',
   spec: [
-    'Describe the structure of the nucleus in terms of protons and neutrons; use nuclide notation',
-    'Know the charges and lepton/baryon numbers of the up and down quarks, the electron and the electron neutrino, and their antiparticles',
-    'Describe hadrons as baryons (three quarks) or mesons (quark–antiquark), e.g. p, n, Δ, π',
-    'Know that every particle has a corresponding antiparticle',
-    'Know the four interactions (strong, weak, electromagnetic, gravitational), their relative strengths, ranges and which particles they act on',
-    'Apply conservation of charge, baryon number and lepton number to particle reactions',
-    'Know that the weak interaction can change quark flavour (e.g. in β decay) and that neutrinos take part only in weak interactions'
+    "(a) Matter is composed of quarks and leptons; there are three generations (only the first generation is examined: e⁻, νₑ, u, d and their charges)",
+    "(b) Antiparticles exist for these particles, with identical properties apart from opposite charge; particles and antiparticles annihilate",
+    "(c) Symbols for the positron and for antiparticles of quarks and hadrons",
+    "(d) Quarks are never observed in isolation but are bound into hadrons: baryons (3 quarks), antibaryons (3 antiquarks) and mesons (quark–antiquark)",
+    "(e) The quark compositions of the neutron and proton",
+    "(f) Suggest the quark make-up of less well known first-generation baryons and of charged pions",
+    "(g) The properties of the four interactions: gravitational, weak, electromagnetic and strong — what experiences them and their range",
+    "(h) Apply conservation of charge, lepton number and baryon (quark) number to simple reactions",
+    "(i) Neutrino involvement and quark flavour changes are exclusive to weak interactions"
   ],
   learn: [
     { h: 'Nuclear structure', html: `
@@ -546,7 +555,8 @@ TOPICS.push({
 <tr><td>anti-down</td><td>d̄</td><td>+⅓</td><td>−⅓</td><td>0</td></tr>
 <tr><td>positron</td><td>e<sup>+</sup></td><td>+1</td><td>0</td><td>−1</td></tr>
 <tr><td>electron antineutrino</td><td>ν̄<sub>e</sub></td><td>0</td><td>0</td><td>−1</td></tr></table></div>
-<p>Every particle has an <b>antiparticle</b> with the same mass but opposite charge, baryon number and lepton number.</p>` },
+<p>These are the <b>first generation</b>. There are three generations of quarks and leptons, but no questions are set on the second or third generations.</p>
+<p>Every particle has an <b>antiparticle</b> with identical properties apart from opposite charge (and opposite baryon and lepton numbers). A particle and its antiparticle can <b>annihilate</b>, their mass being converted into energy (e.g. two γ photons from e<sup>−</sup> + e<sup>+</sup>). Antiparticles are shown with a bar (ū, d̄, p̄, ν̄<sub>e</sub>); the positron is e<sup>+</sup>.</p>` },
     { h: 'Hadrons: baryons and mesons', html: `
 <p>Particles made of quarks are <b>hadrons</b>. Quarks are never found on their own.</p>
 <ul><li><b>Baryons</b> — three quarks, B = +1. Proton <b>uud</b> (charge +1), neutron <b>udd</b> (0), Δ<sup>++</sup> <b>uuu</b> (+2), Δ<sup>−</sup> <b>ddd</b> (−1). Antibaryons are three antiquarks, B = −1.</li>
@@ -554,15 +564,16 @@ TOPICS.push({
 <p><b>Leptons</b> (electron, neutrino) are fundamental — not made of quarks — and do not feel the strong force.</p>
 <div class="box tip"><b class="lbl">Try it</b><p>Open the <b>Explore</b> tab to build hadrons from quarks in the Particle Forge.</p></div>` },
     { h: 'The four interactions', html: `
-<div class="tbl"><table><tr><th>Interaction</th><th>Relative strength</th><th>Range</th><th>Acts on</th></tr>
-<tr><td>strong</td><td>1</td><td>~10<sup>−15</sup> m</td><td>quarks (hadrons) only</td></tr>
-<tr><td>electromagnetic</td><td>~10<sup>−2</sup></td><td>infinite</td><td>charged particles</td></tr>
-<tr><td>weak</td><td>~10<sup>−6</sup></td><td>~10<sup>−18</sup> m</td><td>all quarks and leptons</td></tr>
-<tr><td>gravitational</td><td>~10<sup>−38</sup></td><td>infinite</td><td>all particles with mass (negligible between individual particles)</td></tr></table></div>
+<div class="tbl"><table><tr><th>Interaction</th><th>Experienced by</th><th>Range</th><th>Comments</th></tr>
+<tr><td>gravitational</td><td>all matter</td><td>infinite</td><td>very weak — negligible except between large objects such as planets</td></tr>
+<tr><td>weak</td><td>all leptons and all quarks, so all hadrons</td><td>very short</td><td>only significant when the e-m and strong interactions do not operate</td></tr>
+<tr><td>electromagnetic (e-m)</td><td>all charged particles</td><td>infinite</td><td>also experienced by neutral hadrons, as these are made of (charged) quarks</td></tr>
+<tr><td>strong</td><td>all quarks, so all hadrons</td><td>short</td><td>holds quarks together in hadrons and nucleons together in nuclei</td></tr></table></div>
 <ul><li>The <b>strong</b> interaction holds quarks together in hadrons and nucleons together in the nucleus.</li>
 <li>The <b>weak</b> interaction is the only one that can change one quark flavour into another (d → u) and the only one that involves neutrinos.</li></ul>` },
     { h: 'Conservation laws and deciding which interaction', html: `
 <div class="box def"><b class="lbl">Always conserved</b><p>Charge Q, baryon number B and lepton number L are conserved in <b>every</b> interaction. If any one fails, the reaction cannot happen.</p></div>
+<p>Baryon number conservation is the same as <b>quark number</b> conservation (each quark counts +⅓, each antiquark −⅓).</p>
 <p>Also: in <b>strong</b> and <b>electromagnetic</b> interactions the number of up quarks and the number of down quarks (counting antiquarks as −1) are each conserved. Only the <b>weak</b> interaction changes quark flavour.</p>
 <div class="box def"><b class="lbl">β<sup>−</sup> decay</b><p>n → p + e<sup>−</sup> + ν̄<sub>e</sub>, which at quark level is d → u + e<sup>−</sup> + ν̄<sub>e</sub>.</p><p>Check: Q: 0 = 1 − 1 + 0 ✓ B: 1 = 1 ✓ L: 0 = +1 − 1 ✓. A neutrino is involved and the quark flavour changes, so it is weak.</p></div>
 <div class="box def"><b class="lbl">β<sup>+</sup> decay (inside a nucleus)</b><p>p → n + e<sup>+</sup> + ν<sub>e</sub>, i.e. u → d + e<sup>+</sup> + ν<sub>e</sub>.</p></div>
@@ -588,7 +599,9 @@ TOPICS.push({
     ['Three quantities always conserved in particle interactions?', 'Charge, baryon number, lepton number.'],
     ['Which interaction changes quark flavour?', 'The weak interaction.'],
     ['β<sup>−</sup> decay at quark level?', 'd → u + e<sup>−</sup> + ν̄<sub>e</sub>'],
-    ['Range of the strong interaction?', '~10<sup>−15</sup> m'],
+    ['Range of the strong interaction?', 'Short (about the size of a nucleus).'],
+    ['What happens when a particle meets its antiparticle?', 'They annihilate: their mass is converted into energy (e.g. photons).'],
+    ['Which interactions have infinite range?', 'Gravitational and electromagnetic.'],
     ['Lepton number of a positron?', '−1'],
     ['Quark composition of Δ<sup>++</sup>?', 'uuu']
   ],
@@ -603,15 +616,16 @@ TOPICS.push({
     { q: 'Which quantities are conserved in ALL particle interactions?', o: ['charge, baryon number and lepton number', 'charge only', 'charge and quark flavour', 'baryon number and quark flavour only'], x: 'Quark flavour can change in the weak interaction.' },
     { q: 'An interaction that involves a neutrino must be', o: ['weak', 'strong', 'electromagnetic', 'gravitational'], x: 'Neutrinos only feel the weak interaction (and gravity).' },
     { q: 'A particle with quark composition ddd has charge', o: ['−1 e', '0', '+1 e', '−3 e'], x: '3 × (−⅓) = −1 (the Δ<sup>−</sup>).' },
-    { q: 'The approximate range of the strong interaction is', o: ['10<sup>−15</sup> m', '10<sup>−10</sup> m', '10<sup>−18</sup> m', 'infinite'], x: 'About the size of a nucleus.' },
     { q: 'The number of neutrons in $^{235}_{92}"U"$ is', o: ['143', '235', '92', '327'], x: '235 − 92.' },
-    { q: 'The reaction p → n + e<sup>+</sup> + ν<sub>e</sub> conserves lepton number because', o: ['e<sup>+</sup> has L = −1 and ν<sub>e</sub> has L = +1', 'both e<sup>+</sup> and ν<sub>e</sub> have L = 0', 'both have L = +1', 'lepton number is not conserved in weak interactions'], x: '0 = −1 + 1.' }
+    { q: 'The reaction p → n + e<sup>+</sup> + ν<sub>e</sub> conserves lepton number because', o: ['e<sup>+</sup> has L = −1 and ν<sub>e</sub> has L = +1', 'both e<sup>+</sup> and ν<sub>e</sub> have L = 0', 'both have L = +1', 'lepton number is not conserved in weak interactions'], x: '0 = −1 + 1.' },
+    { q: 'Which interaction is experienced by a neutron but NOT by an electron neutrino?', o: ['strong', 'weak', 'gravitational', 'none of these'], x: 'Neutrons are hadrons (quarks) so feel the strong interaction; neutrinos are leptons.' },
+    { q: 'Which interaction is also experienced by neutral hadrons such as the neutron?', o: ['electromagnetic, because they contain charged quarks', 'none — neutral particles feel no electromagnetic force', 'only gravitational', 'only weak'], x: 'The spec table notes neutral hadrons feel the e-m interaction because they are made of quarks.' }
   ],
   exam: [
     { q: 'State the quark composition of the neutron and show that its charge and baryon number are consistent with this.', m: 3, ms: ['udd', 'Charge: +⅔ − ⅓ − ⅓ = 0', 'Baryon number: ⅓ + ⅓ + ⅓ = 1'] },
     { q: 'The following reaction is proposed: p + ν̄<sub>e</sub> → n + e<sup>+</sup>. Show that it obeys the conservation laws and state, with a reason, the interaction responsible.', m: 4, ms: ['Charge: +1 + 0 = 0 + 1 ✓', 'Baryon number: 1 + 0 = 1 + 0 ✓', 'Lepton number: 0 − 1 = 0 − 1 ✓', 'Weak — a neutrino is involved / quark flavour changes (u → d).'] },
     { q: 'Explain why the reaction p + p → p + π<sup>+</sup> cannot occur.', m: 2, ms: ['Baryon number before = 2, after = 1.', 'Baryon number is not conserved (charge is conserved, so it is B that fails).'] },
-    { q: 'Compare the strong and weak interactions in terms of relative strength, range and the particles on which they act.', m: 4, ms: ['Strong much stronger (≈10<sup>6</sup> times).', 'Strong range ~10<sup>−15</sup> m; weak range much shorter (~10<sup>−18</sup> m).', 'Strong acts on quarks/hadrons only.', 'Weak acts on both quarks and leptons (and changes quark flavour).'] }
+    { q: 'Compare the strong and weak interactions in terms of the particles that experience them, their range, and when each is significant.', m: 4, ms: ['Strong: experienced by quarks, so all hadrons only (not leptons).', 'Weak: experienced by all quarks and all leptons.', 'Strong has short range; weak has very short range.', 'Weak is only significant when the strong and e-m interactions do not operate (e.g. β decay, neutrino reactions).'] }
   ],
   sims: ['forge'], gens: ['nuclide1']
 });

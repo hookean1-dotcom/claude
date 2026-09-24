@@ -5,12 +5,13 @@ TOPICS.push({
   id: '3.1', unit: '3', title: 'Circular Motion', short: 'Angular velocity, centripetal force',
   summary: 'Moving in a circle at constant speed is still accelerating. Radians, angular velocity and the resultant force that points to the centre.',
   spec: [
-    'Express angular displacement in radians',
-    'Define period, frequency and angular velocity ω; use ω = 2π/T = 2πf',
-    'Use v = ωr',
-    'Understand that a body moving in a circle at constant speed is accelerating towards the centre',
-    'Use a = v²/r = ω²r',
-    'Use F = mv²/r = mω²r, identifying the physical force(s) providing the centripetal force'
+    "(a) Period of rotation and frequency",
+    "(b) The definition of the radian",
+    "(c) Use the radian as a measure of angle",
+    "(d) Angular velocity ω for circular motion (and SHM)",
+    "(e) Centripetal force is the resultant force on a body moving at constant speed in a circle",
+    "(f) Centripetal force and acceleration are directed towards the centre",
+    "(g) Use v = ωr, a = ω²r, a = v²/r, F = mv²/r, F = mω²r"
   ],
   learn: [
     { h: 'Radians and angular velocity', html: `
@@ -76,14 +77,23 @@ TOPICS.push({
   id: '3.2', unit: '3', title: 'Vibrations', short: 'SHM, damping, resonance',
   summary: 'Simple harmonic motion — the most important oscillation in physics — plus energy, damping, forced vibrations and resonance.',
   spec: [
-    'Define simple harmonic motion as a = −ω²x',
-    'Use x = A cos(ωt + ε) and the corresponding expressions for velocity and acceleration',
-    'Recall vmax = Aω and amax = Aω²; understand phase',
-    'Use T = 2π/ω, T = 2π√(m/k) and T = 2π√(l/g)',
-    'Describe the interchange of kinetic and potential energy during SHM',
-    'Describe free, damped (light, critical, heavy) and forced oscillations',
-    'Describe resonance and the effect of damping on the resonance curve; give useful and unwanted examples',
-    'Investigate SHM of a mass on a spring and damping (specified practicals)'
+    "(a) Define simple harmonic motion in words",
+    "(b) a = −ω²x as the defining equation of SHM",
+    "(c) Graph of acceleration against displacement in SHM",
+    "(d) x = A cos(ωt + ε) as a solution of a = −ω²x",
+    "(e) Frequency, period, amplitude and phase",
+    "(f) Period T = 1/f or 2π/ω",
+    "(g) v = −Aω sin(ωt + ε) for the velocity",
+    "(h) Graphs of displacement and velocity against time",
+    "(i) T = 2π√(m/k) for a system of stiffness k and mass m",
+    "(j) T = 2π√(l/g) for a simple pendulum",
+    "(k) Graphs of the interchange of kinetic and potential energy in undamped SHM; simple energy calculations",
+    "(l) Free oscillations and the effect of damping in real systems",
+    "(m) Practical examples of damped oscillations",
+    "(n) The importance of critical damping, e.g. vehicle suspensions",
+    "(o) Forced oscillations and resonance, with practical examples",
+    "(p) Amplitude of a forced oscillation against driving frequency; increased damping broadens the resonance curve",
+    "(q) When resonance is useful (circuit tuning, microwave cooking) and when it should be avoided (bridge design)"
   ],
   learn: [
     { h: 'Defining SHM', html: `
@@ -91,7 +101,8 @@ TOPICS.push({
 <p>The minus sign says the acceleration is opposite to the displacement. The solution is:</p>
 <div class="box eq">$x = A@,"cos"(ωt + ε)$</div>
 <p>A = amplitude, ω = angular frequency (rad s<sup>−1</sup>), ε = phase constant. The period does not depend on amplitude: $T = @frac{2π}{ω}$.</p>
-<p>Differentiating: $v = -Aω@,"sin"(ωt + ε)$ and $a = -Aω^2@,"cos"(ωt + ε) = -ω^2x$.</p>
+<p>The velocity is $v = -Aω@,"sin"(ωt + ε)$, and the acceleration is $a = -Aω^2@,"cos"(ωt + ε) = -ω^2x$.</p>
+<p>A graph of <b>acceleration against displacement</b> is a straight line through the origin with <b>negative gradient</b> −ω², running from x = −A to x = +A.</p>
 <ul><li>At the equilibrium position (x = 0): speed is maximum, $v_{max} = Aω$; acceleration is zero.</li>
 <li>At the extremes (x = ±A): speed is zero; acceleration is maximum, $a_{max} = Aω^2$.</li></ul>
 [[d:shm-graphs]]
@@ -102,7 +113,8 @@ TOPICS.push({
 <p><b>Simple pendulum</b> (small amplitude, less than about 10°):</p>
 <div class="box eq">$T = 2π@sqrt{@frac{l}{g}}$</div>
 <p>The pendulum’s period is independent of the mass of the bob and (for small swings) the amplitude.</p>
-<div class="box def"><b class="lbl">Specified practical</b><p>Measure the time for 10–20 oscillations for a range of masses on a spring (use a fiducial marker at the equilibrium position). Plot T² against m: a straight line of gradient 4π²/k. For damping, attach a card to the mass and record the amplitude over successive oscillations.</p></div>` },
+<div class="box def"><b class="lbl">Specified practical: g with a pendulum</b><p>Time 20 oscillations for a range of lengths l (measured to the centre of the bob), using a fiducial marker at the centre of the swing and small amplitudes. Plot T² against l: a straight line through the origin of gradient 4π²/g, so g = 4π²/gradient.</p></div>
+<div class="box def"><b class="lbl">Specified practical: damping of a spring</b><p>Attach a card to a mass on a spring; set it oscillating and record the amplitude against a vertical scale after successive oscillations (video helps). Repeat with different card areas and compare how quickly the amplitude decays.</p></div>` },
     { h: 'Energy in SHM', html: `
 <p>Energy transfers continuously between kinetic and potential. With no damping the total is constant. For a mass–spring system:</p>
 <div class="box eq">$E_{total} = @frac{1}{2}kA^2 = @frac{1}{2}mv_{max}^2$</div>
@@ -119,7 +131,7 @@ TOPICS.push({
 <div class="box def"><b class="lbl">Resonance</b><p>When the driving frequency equals the natural frequency of the system, the amplitude of the forced oscillation is a maximum, because energy is transferred most efficiently from the driver.</p></div>
 [[d:resonance]]
 <p>Increasing the damping lowers and broadens the peak, and moves it to slightly lower frequency.</p>
-<p><b>Useful</b>: tuning a radio circuit, musical instruments, MRI. <b>Problematic</b>: bridges (Tacoma Narrows; Millennium Bridge wobble caused by pedestrians), vibrating machinery, car panels at certain engine speeds — reduced by adding damping or changing the natural frequency.</p>` }
+<p><b>Useful</b>: tuning a radio circuit, <b>microwave cooking</b> (microwaves at a frequency that makes water molecules oscillate strongly), musical instruments. <b>Problematic</b>: bridges (Tacoma Narrows; Millennium Bridge wobble caused by pedestrians), vibrating machinery, car panels at certain engine speeds — reduced by adding damping or changing the natural frequency.</p>` }
   ],
   eqs: [['a = -ω^2x', 'definition of SHM'], ['x = A@,"cos"(ωt + ε)', 'displacement'], ['v = -Aω@,"sin"(ωt + ε)', 'velocity'], ['v_{max} = Aω,  a_{max} = Aω^2', 'maxima'], ['T = @frac{2π}{ω}', 'period'], ['T = 2π@sqrt{@frac{m}{k}}', 'mass–spring'], ['T = 2π@sqrt{@frac{l}{g}}', 'simple pendulum'], ['E = @frac{1}{2}kA^2', 'total energy (spring)']],
   worked: [
@@ -142,7 +154,9 @@ TOPICS.push({
     ['Define resonance.', 'Maximum amplitude when driving frequency = natural frequency.'],
     ['Effect of more damping on a resonance curve?', 'Lower, broader peak (at a slightly lower frequency).'],
     ['Total energy of SHM (spring)?', '½kA² — proportional to A².'],
-    ['Graph to find k from mass–spring timings?', 'T² against m: gradient 4π²/k.']
+    ['Graph to find k from mass–spring timings?', 'T² against m: gradient 4π²/k.'],
+    ['Shape of the a–x graph for SHM?', 'Straight line through the origin, gradient −ω².'],
+    ['Graph to find g from a pendulum?', 'T² against l: gradient 4π²/g.']
   ],
   quiz: [
     { q: 'The defining equation of simple harmonic motion is', o: ['a = −ω²x', 'a = ω²x', 'v = −ω²x', 'x = −ω²a'], x: '' },
@@ -156,11 +170,12 @@ TOPICS.push({
     { q: 'Increasing the damping of a driven oscillator', o: ['reduces and broadens the resonance peak', 'raises and sharpens the peak', 'moves the peak to much higher frequency', 'has no effect'], x: '' },
     { q: 'The amplitude of an SHM oscillator doubles. Its total energy', o: ['increases by a factor of 4', 'doubles', 'is unchanged', 'halves'], x: 'E ∝ A².' },
     { q: 'A pendulum is taken to the Moon, where g is one sixth of that on Earth. Its period', o: ['increases by a factor of √6', 'increases by a factor of 6', 'decreases by a factor of √6', 'is unchanged'], x: 'T ∝ 1/√g.' },
-    { q: 'A mass on a spring oscillates with ω = 4.0 rad s<sup>−1</sup>. When its displacement is +0.050 m its acceleration is', o: ['−0.80 m s<sup>−2</sup>', '+0.80 m s<sup>−2</sup>', '−0.20 m s<sup>−2</sup>', '0'], x: 'a = −16 × 0.050.' }
+    { q: 'A mass on a spring oscillates with ω = 4.0 rad s<sup>−1</sup>. When its displacement is +0.050 m its acceleration is', o: ['−0.80 m s<sup>−2</sup>', '+0.80 m s<sup>−2</sup>', '−0.20 m s<sup>−2</sup>', '0'], x: 'a = −16 × 0.050.' },
+    { q: 'For an object in SHM, a graph of acceleration (y-axis) against displacement (x-axis) is', o: ['a straight line through the origin with negative gradient', 'a straight line through the origin with positive gradient', 'a circle', 'a sine curve'], x: 'a = −ω²x.' }
   ],
   exam: [
     { q: 'Define simple harmonic motion.', m: 2, ms: ['Acceleration proportional to displacement from equilibrium (fixed point).', 'Always directed towards the equilibrium point (a = −ω²x).'] },
-    { q: 'Describe how you would use a mass–spring system to determine the spring constant k by a graphical method.', m: 6, ms: ['Hang known mass on spring; displace slightly and release (vertical oscillation).', 'Time 10–20 oscillations with stopwatch; divide for T; repeat and average.', 'Use a fiducial marker at equilibrium to start/stop timing.', 'Repeat for a range of masses.', 'Plot T² against m: straight line through origin (or intercept for spring mass).', 'k = 4π² / gradient.'] },
+    { q: 'Describe how you would determine g using a simple pendulum and a graphical method.', m: 6, ms: ['Measure length l from support to centre of bob (metre rule; set square).', 'Displace through a small angle (< 10°) and release.', 'Time 20 oscillations using a fiducial marker at the centre of the swing; repeat and average; T = time/20.', 'Repeat for a range of lengths.', 'Plot T² against l: straight line through origin.', 'g = 4π²/gradient.'] },
     { q: 'Explain, using an example, why resonance can be a problem in engineering and describe one way to reduce it.', m: 3, ms: ['Structure has a natural frequency; a periodic force (wind, footsteps, engine) at that frequency causes large amplitude.', 'e.g. Millennium Bridge / Tacoma Narrows / machinery → damage.', 'Add damping (dampers) or change natural frequency (stiffen / change mass).'] }
   ],
   sims: ['shm', 'resonance'], gens: ['shm1', 'shm2', 'pend1']
@@ -170,17 +185,17 @@ TOPICS.push({
   id: '3.3', unit: '3', title: 'Kinetic Theory', short: 'Ideal gases, pV = nRT, molecular speeds',
   summary: 'Linking the behaviour of gases to billions of molecules in random motion: the gas laws, the mole, and why temperature measures mean molecular kinetic energy.',
   spec: [
-    'Understand the mole, the Avogadro constant and molar mass',
-    'Recall the experimental gas laws (Boyle, Charles, pressure law) and the ideal gas equation pV = nRT = NkT',
-    'State the assumptions of the kinetic theory of an ideal gas',
-    'Derive p = ⅓ρc̄² (c̄² = mean square speed)',
-    'Show that the mean kinetic energy of a molecule is ½mc̄² = (3/2)kT, and calculate rms speeds',
-    'Understand absolute zero and the kelvin scale; estimate absolute zero (specified practical)'
+    "(a) The equation of state pV = nRT and pV = NkT",
+    "(b) The assumptions of kinetic theory, including the random distribution of energy among the molecules",
+    "(c) Molecular movement causes gas pressure; use p = ⅓ρc̄² = ⅓(N/V)mc̄²",
+    "(d) The definition of the Avogadro constant and hence the mole",
+    "(e) Molar mass M = Mr/1000 kg; n = total mass ÷ molar mass",
+    "(f) Combine pV = ⅓Nmc̄² with pV = nRT: total translational KE of a mole of monatomic gas = (3/2)RT; mean KE of a molecule = (3/2)kT, k = R/N_A; T ∝ mean KE"
   ],
   learn: [
     { h: 'The mole', html: `
 <p>The <b>mole</b> is the SI unit of amount of substance. One mole contains N<sub>A</sub> = 6.02 × 10<sup>23</sup> particles (the <b>Avogadro constant</b>). Molar mass M is the mass of one mole (e.g. 0.028 kg mol<sup>−1</sup> for N<sub>2</sub>).</p>
-<p>Number of moles $n = @frac{"mass"}{M}$; number of molecules $N = nN_A$.</p>` },
+<p>The molar mass in kg is the relative molecular mass divided by 1000: $M = @frac{M_r}{1000} "kg"$ (e.g. N<sub>2</sub>, M<sub>r</sub> = 28 → M = 0.028 kg). Number of moles $n = @frac{"total mass"}{"molar mass"}$; number of molecules $N = nN_A$.</p>` },
     { h: 'The gas laws and the ideal gas equation', html: `
 <ul><li><b>Boyle’s law</b>: pV = constant at constant temperature.</li>
 <li><b>Charles’s law</b>: V ∝ T at constant pressure.</li>
@@ -191,13 +206,16 @@ TOPICS.push({
 [[d:isotherms]]
 <p>Extrapolating p against θ (°C) at constant volume to p = 0 gives <b>absolute zero</b>, about −273 °C (0 K) — the temperature at which the molecules would have minimum kinetic energy.</p>` },
     { h: 'Assumptions of kinetic theory', html: `
-<ol><li>A gas consists of a very large number of molecules in continuous, random motion.</li>
+<ol><li>A gas consists of a very large number of molecules in continuous, random motion, with the energy <b>randomly distributed</b> among the molecules (they have a range of speeds).</li>
 <li>The volume of the molecules themselves is negligible compared with the volume of the container.</li>
 <li>There are no intermolecular forces except during collisions.</li>
 <li>Collisions (with each other and the walls) are perfectly elastic.</li>
 <li>The duration of a collision is negligible compared with the time between collisions.</li>
 <li>Newton’s laws apply to the molecules.</li></ol>` },
-    { h: 'Deriving p = ⅓ρc̄²', html: `
+    { h: 'How molecules cause pressure', html: `
+<p>Molecules continually collide with the walls. Each collision reverses the component of a molecule’s momentum perpendicular to the wall, so the wall exerts a force on the molecule and (Newton’s 3rd law) the molecule exerts a force on the wall. Averaged over enormous numbers of collisions, this gives a steady force per unit area — the <b>pressure</b>:</p>
+<div class="box eq">$p = @frac{1}{3}ρ@bar{c^2} = @frac{1}{3}@frac{N}{V}m@bar{c^2}$</div>
+<p>c̄² is the <b>mean square speed</b>. The outline below shows where the equation comes from (you need to be able to use it).</p>
 <p>Consider N molecules each of mass m in a cube of side l.</p>
 <ol><li>A molecule with velocity component u along x hits a wall and rebounds: change of momentum = 2mu.</li>
 <li>Time between hits on the same wall = 2l/u, so rate of change of momentum (force) = 2mu ÷ 2l/u = mu²/l.</li>
@@ -207,6 +225,7 @@ TOPICS.push({
     { h: 'Temperature and molecular kinetic energy', html: `
 <p>From $pV = @frac{1}{3}Nm@bar{c^2}$ and $pV = NkT$:</p>
 <div class="box eq">$@frac{1}{2}m@bar{c^2} = @frac{3}{2}kT$</div>
+<p>For one mole (N = N<sub>A</sub>): pV = RT = ⅓N<sub>A</sub>mc̄², so the <b>total translational kinetic energy of a mole</b> of a monatomic gas is $@frac{1}{2}N_Am@bar{c^2} = @frac{3}{2}RT$. Dividing by N<sub>A</sub> gives the mean KE of one molecule, (3/2)kT, with $k = R/N_A$.</p>
 <p>The mean translational kinetic energy of a molecule is proportional to the absolute temperature, and is the same for all ideal gases at the same temperature. Lighter molecules therefore move faster: the <b>rms speed</b> is $c_{rms} = @sqrt{@bar{c^2}} = @sqrt{@frac{3kT}{m}}$.</p>
 <p>At 300 K, nitrogen molecules have c<sub>rms</sub> ≈ 520 m s<sup>−1</sup>; hydrogen molecules about 1900 m s<sup>−1</sup>.</p>` }
   ],
@@ -229,7 +248,9 @@ TOPICS.push({
     ['Give four kinetic theory assumptions.', 'Random motion; negligible molecular volume; no forces except in collisions; elastic collisions; negligible collision time.'],
     ['What causes gas pressure?', 'Molecules’ change of momentum on collision with walls → force on walls.'],
     ['Same T, different gases: what is equal?', 'Mean kinetic energy per molecule.'],
-    ['Absolute zero in °C?', '−273.15 °C']
+    ['Absolute zero in °C?', '−273.15 °C'],
+    ['Molar mass from relative molecular mass?', 'M = Mr/1000 kg (e.g. O₂: 0.032 kg mol⁻¹).'],
+    ['Total translational KE of one mole of monatomic gas?', '(3/2)RT']
   ],
   quiz: [
     { q: 'Which is NOT an assumption of the kinetic theory of an ideal gas?', o: ['Molecules attract each other strongly at all times', 'Collisions are elastic', 'The volume of the molecules is negligible', 'Molecules move randomly'], x: 'No intermolecular forces except during collisions.' },
@@ -242,11 +263,12 @@ TOPICS.push({
     { q: 'A gas has density 1.2 kg m<sup>−3</sup> and mean square speed 2.5 × 10<sup>5</sup> m² s<sup>−2</sup>. Its pressure is', o: ['1.0 × 10<sup>5</sup> Pa', '3.0 × 10<sup>5</sup> Pa', '3.3 × 10<sup>4</sup> Pa', '1.0 × 10<sup>4</sup> Pa'], x: '⅓ × 1.2 × 2.5 × 10<sup>5</sup>.' },
     { q: 'In the equation pV = nRT, T must be measured in', o: ['kelvin', 'degrees Celsius', 'joules', 'either K or °C'], x: '' },
     { q: 'The mean kinetic energy of a gas molecule at 27 °C is about', o: ['6.2 × 10<sup>−21</sup> J', '5.6 × 10<sup>−22</sup> J', '3.7 × 10<sup>3</sup> J', '4.1 × 10<sup>−21</sup> J'], x: '1.5 × 1.38 × 10<sup>−23</sup> × 300.' },
-    { q: 'For a fixed mass of gas at constant volume, the pressure is directly proportional to', o: ['absolute temperature', 'Celsius temperature', 'volume', '1/temperature'], x: 'Pressure law.' }
+    { q: 'For a fixed mass of gas at constant volume, the pressure is directly proportional to', o: ['absolute temperature', 'Celsius temperature', 'volume', '1/temperature'], x: 'Pressure law.' },
+    { q: 'The relative molecular mass of carbon dioxide is 44. The mass of 3.0 mol of CO<sub>2</sub> is', o: ['0.132 kg', '132 kg', '0.044 kg', '14.7 kg'], x: 'M = 44/1000 = 0.044 kg mol⁻¹; × 3.0.' }
   ],
   exam: [
     { q: 'State four assumptions of the kinetic theory of gases.', m: 4, ms: ['Large number of molecules in random motion.', 'Volume of molecules negligible compared to container.', 'No intermolecular forces except during collisions.', 'Collisions elastic / duration negligible compared to time between collisions.'] },
-    { q: 'Starting from the motion of a single molecule in a cubic box, derive p = ⅓ρc̄².', m: 6, ms: ['Momentum change at wall = 2mu.', 'Time between collisions with same wall = 2l/u.', 'Force = rate of change of momentum = mu²/l.', 'Sum over N molecules; pressure = F/l² = Nm⟨u²⟩/V.', '⟨u²⟩ = c̄²/3 by randomness/symmetry.', 'ρ = Nm/V so p = ⅓ρc̄².'] },
+    { q: 'Explain, in terms of the motion of molecules, how a gas exerts a pressure on the walls of its container, and why the pressure rises when the gas is heated at constant volume.', m: 5, ms: ['Molecules collide with the walls and rebound: their momentum changes.', 'Rate of change of momentum = force (Newton’s 2nd law); force on wall by Newton’s 3rd law.', 'Many collisions → steady force per unit area = pressure.', 'Heating raises mean KE (mean square speed) of molecules.', 'Molecules hit the walls harder and more often → greater rate of change of momentum → higher pressure.'] },
     { q: 'A cylinder contains 0.50 kg of helium (M = 0.004 kg mol<sup>−1</sup>) at 290 K. Calculate the number of moles and the total kinetic energy of the molecules.', m: 4, ms: ['n = 0.50/0.004 = 125 mol', 'N = 125 × 6.02 × 10<sup>23</sup> = 7.5 × 10<sup>25</sup>', 'Mean KE = 1.5kT = 6.0 × 10<sup>−21</sup> J', 'Total = 4.5 × 10<sup>5</sup> J (or 1.5nRT)'] }
   ],
   sims: ['gas'], gens: ['gas1', 'gas2', 'rms1']
@@ -256,26 +278,33 @@ TOPICS.push({
   id: '3.4', unit: '3', title: 'Thermal Physics', short: 'Internal energy, first law, heat capacity',
   summary: 'Internal energy, heat and work, and the first law of thermodynamics — plus specific heat capacity and reading p–V diagrams.',
   spec: [
-    'Define internal energy as the sum of the random kinetic and potential energies of the molecules',
-    'Use U = (3/2)nRT for an ideal monatomic gas',
-    'Understand heat as energy transferred due to a temperature difference, and thermal equilibrium',
-    'Use W = pΔV and understand that work is the area under a p–V graph',
-    'Apply the first law of thermodynamics ΔU = Q − W',
-    'Define and use specific heat capacity, Q = mcΔθ',
-    'Determine the specific heat capacity of a solid (specified practical)'
+    "(a) Internal energy is the sum of the potential and kinetic energies of the molecules",
+    "(b) Absolute zero is the temperature at which a system has minimum internal energy",
+    "(c) The internal energy of an ideal monatomic gas is wholly kinetic: U = (3/2)nRT",
+    "(d) Heat enters or leaves through the boundary according to temperature difference; heat is energy in transit, not contained in the system",
+    "(e) No heat flow between systems in contact means thermal equilibrium, at the same temperature",
+    "(f) Energy can also enter or leave by work — also energy in transit",
+    "(g) W = pΔV for the work done by a gas at constant pressure",
+    "(h) Even if p changes, W is the area under the p–V graph",
+    "(i) Use ΔU = Q − W and interpret negative values of ΔU, Q and W",
+    "(j) For a solid or liquid W is usually negligible, so Q = ΔU",
+    "(k) Q = mcΔθ is the defining equation for specific heat capacity"
   ],
   learn: [
     { h: 'Internal energy', html: `
 <div class="box def"><b class="lbl">Definition</b><p>The <b>internal energy</b> U of a system is the sum of the random kinetic energies and potential energies of all its molecules.</p></div>
 <p>In an ideal gas there are no intermolecular forces, so the potential energy is zero and U is all kinetic. For a <b>monatomic</b> ideal gas (e.g. He, Ne, Ar):</p>
 <div class="box eq">$U = N × @frac{3}{2}kT = @frac{3}{2}nRT$</div>
-<p>U depends only on T: heat an ideal gas and its internal energy rises in proportion to its kelvin temperature.</p>` },
+<p>U depends only on T: heat an ideal gas and its internal energy rises in proportion to its kelvin temperature.</p>
+<p><b>Absolute zero</b> (0 K, −273.15 °C) is the temperature at which a system has its <b>minimum internal energy</b>.</p>` },
     { h: 'Heat, work and the first law', html: `
-<ul><li><b>Heat</b> Q: energy transferred from a hotter to a colder region because of a temperature difference.</li>
-<li><b>Work</b> W: energy transferred by a force moving — for a gas, expanding against an external pressure.</li>
+<ul><li><b>Heat</b> Q: energy that enters or leaves a system through its boundary (container wall) because its temperature is lower or higher than its surroundings. Heat is <b>energy in transit</b> — a system does not “contain heat”.</li>
+<li><b>Work</b> W: energy can also enter or leave by work being done — for a gas, expanding against (or being compressed by) an external pressure. Work is also energy in transit.</li>
 <li><b>Thermal equilibrium</b>: no net flow of heat between bodies; they are at the same temperature.</li></ul>
 <div class="box def"><b class="lbl">First law of thermodynamics</b><p>$ΔU = Q - W$</p><p>ΔU = increase in internal energy, Q = heat supplied <b>to</b> the system, W = work done <b>by</b> the system.</p></div>
-<p>At constant pressure, $W = pΔV$. More generally, W = area under the p–V graph. Expansion: W positive. Compression: W negative (work done on the gas).</p>
+<p>At constant pressure, $W = pΔV$. Even if p changes, W = area under the p–V graph.</p>
+<div class="box tip"><b class="lbl">Interpreting signs</b><ul><li>Q negative: heat flows <b>out</b> of the system.</li><li>W negative: work is done <b>on</b> the gas (it is compressed).</li><li>ΔU negative: the internal energy (and, for an ideal gas, the temperature) falls.</li></ul></div>
+<p>For a <b>solid or liquid</b> the volume change is tiny, so W is usually negligible and <b>Q = ΔU</b>.</p>
 <div class="tbl"><table><tr><th>Process</th><th>What’s zero</th><th>First law becomes</th></tr>
 <tr><td>constant volume</td><td>W = 0</td><td>ΔU = Q</td></tr>
 <tr><td>constant temperature (ideal gas)</td><td>ΔU = 0</td><td>Q = W</td></tr>
@@ -304,7 +333,9 @@ TOPICS.push({
     ['Define specific heat capacity.', 'Energy to raise the temperature of 1 kg by 1 K.'],
     ['c of water?', '4200 J kg<sup>−1</sup> K<sup>−1</sup>'],
     ['Define thermal equilibrium.', 'No net heat flow between bodies — same temperature.'],
-    ['Why is PE zero in an ideal gas?', 'No intermolecular forces.']
+    ['Why is PE zero in an ideal gas?', 'No intermolecular forces.'],
+    ['Why is heat described as “energy in transit”?', 'It is energy crossing the system boundary because of a temperature difference — not something a system contains.'],
+    ['First law for a solid being heated?', 'W ≈ 0 so Q = ΔU.']
   ],
   quiz: [
     { q: 'The internal energy of a system is', o: ['the sum of the random kinetic and potential energies of its molecules', 'the heat it contains', 'its temperature in kelvin', 'the kinetic energy of the system as a whole'], x: '' },
@@ -317,7 +348,8 @@ TOPICS.push({
     { q: 'The unit of specific heat capacity is', o: ['J kg<sup>−1</sup> K<sup>−1</sup>', 'J K<sup>−1</sup>', 'J kg<sup>−1</sup>', 'W kg<sup>−1</sup> K<sup>−1</sup>'], x: '' },
     { q: 'Over one complete cycle of a heat engine, the change in internal energy of the gas is', o: ['zero', 'equal to the work done', 'equal to the heat supplied', 'always negative'], x: 'Back to the same state.' },
     { q: 'The internal energy of a fixed mass of ideal monatomic gas doubles when', o: ['its kelvin temperature doubles', 'its Celsius temperature doubles', 'its volume doubles at constant pressure only', 'its pressure halves'], x: 'U ∝ T.' },
-    { q: 'A gas is compressed quickly so no heat is exchanged. 300 J of work is done on it. The gas', o: ['gains 300 J of internal energy and warms up', 'loses 300 J of internal energy', 'has no change in internal energy', 'loses 300 J of heat'], x: 'Q = 0, W = −300 J, ΔU = +300 J.' }
+    { q: 'A gas is compressed quickly so no heat is exchanged. 300 J of work is done on it. The gas', o: ['gains 300 J of internal energy and warms up', 'loses 300 J of internal energy', 'has no change in internal energy', 'loses 300 J of heat'], x: 'Q = 0, W = −300 J, ΔU = +300 J.' },
+    { q: 'A gas is compressed and 200 J of heat flows out of it. 350 J of work is done on it. ΔU is', o: ['+150 J', '−550 J', '+550 J', '−150 J'], x: 'Q = −200 J, W = −350 J (work done by gas is negative): ΔU = −200 − (−350).' }
   ],
   exam: [
     { q: 'State the first law of thermodynamics, defining each term.', m: 3, ms: ['ΔU = Q − W', 'ΔU = increase in internal energy; Q = heat supplied to system', 'W = work done by system'] },
@@ -331,14 +363,14 @@ TOPICS.push({
   id: '3.5', unit: '3', title: 'Nuclear Decay', short: 'α, β, γ, half-life, exponential decay',
   summary: 'Unstable nuclei decay randomly. The properties of the radiations, background radiation, and the exponential mathematics of half-life.',
   spec: [
-    'Describe the nature and properties (ionising, penetrating, range) of α, β⁻, β⁺ and γ radiation',
-    'Write balanced nuclear equations for α and β decay',
-    'Account for background radiation and correct for it',
-    'Understand the spontaneous and random nature of decay',
-    'Define activity and the becquerel; decay constant λ; half-life',
-    'Use A = λN, N = N₀e^(−λt), A = A₀e^(−λt) and λ = ln 2 / T½',
-    'Use the inverse square law for γ radiation',
-    'Investigate decay using a dice analogy and γ absorption/inverse square law (specified practicals)'
+    "(a) The spontaneous nature of nuclear decay; the nature of α, β and γ radiation; nuclear equations using ᴬ_Z X notation",
+    "(b) Methods of distinguishing α, β and γ; connections between nature, penetration and range",
+    "(c) Allowing for background radiation in measurements",
+    "(d) The concept of half-life, T½",
+    "(e) The definition of activity A and the becquerel",
+    "(f) The decay constant λ and A = λN",
+    "(g) The exponential law N = N₀e^(−λt), A = A₀e^(−λt), or N = N₀/2ˣ, A = A₀/2ˣ (x = number of half-lives, not necessarily an integer)",
+    "(h) Derive and use λ = ln 2 / T½"
   ],
   learn: [
     { h: 'The three radiations', html: `
@@ -364,8 +396,9 @@ TOPICS.push({
 <li><b>Decay constant</b> λ: the probability per unit time that a nucleus will decay (s<sup>−1</sup>). $A = λN$.</li>
 <li><b>Half-life</b> T<sub>½</sub>: the time taken for the number of undecayed nuclei (or the activity) to halve.</li></ul></div>
 <div class="box eq">$N = N_0e^{-λt}$ &nbsp;&nbsp; $A = A_0e^{-λt}$ &nbsp;&nbsp; $λ = @frac{"ln"@,2}{T_{½}}$</div>
+<p><b>Deriving λ = ln 2 / T½:</b> after one half-life N = N₀/2, so ½ = e<sup>−λT½</sup>. Taking natural logs: ln 2 = λT½.</p>
 [[d:decay]]
-<p>After x half-lives, $N = N_0/2^x$. Taking logs: $"ln"@,A = "ln"@,A_0 - λt$, so a graph of ln A against t is a straight line of gradient −λ.</p>
+<p>After x half-lives, $N = N_0/2^x$ and $A = A_0/2^x$, where x need not be a whole number (x = t/T<sub>½</sub>). Taking logs: $"ln"@,A = "ln"@,A_0 - λt$, so a graph of ln A against t is a straight line of gradient −λ.</p>
 [[d:ln-decay]]
 <p>Example: carbon-14 (T<sub>½</sub> = 5730 years) dating. If a sample’s activity per gram is 25% of that of living material, two half-lives have passed: about 11 500 years.</p>` },
     { h: 'Practical work', html: `
@@ -407,7 +440,8 @@ TOPICS.push({
     { q: 'A sample has 1.0 × 10<sup>20</sup> nuclei and λ = 1.0 × 10<sup>−10</sup> s<sup>−1</sup>. Its activity is', o: ['1.0 × 10<sup>10</sup> Bq', '1.0 × 10<sup>30</sup> Bq', '1.0 × 10<sup>−10</sup> Bq', '6.9 × 10<sup>9</sup> Bq'], x: 'A = λN.' },
     { q: 'The largest contribution to background radiation in most of the UK is from', o: ['radon gas', 'nuclear power stations', 'cosmic rays', 'medical X-rays'], x: '' },
     { q: 'The distance between a γ source and a detector is doubled. The corrected count rate', o: ['falls to one quarter', 'halves', 'is unchanged', 'falls to one eighth'], x: 'Inverse square law.' },
-    { q: 'Heating a radioactive sample strongly would', o: ['not change its half-life', 'decrease its half-life', 'increase its half-life', 'stop it decaying'], x: 'Decay is spontaneous.' }
+    { q: 'Heating a radioactive sample strongly would', o: ['not change its half-life', 'decrease its half-life', 'increase its half-life', 'stop it decaying'], x: 'Decay is spontaneous.' },
+    { q: 'A sample’s activity falls from 800 Bq to 200 Bq in 12 hours. After a further 3 hours the activity is about', o: ['140 Bq', '100 Bq', '50 Bq', '170 Bq'], x: 'Two half-lives in 12 h → T½ = 6 h; 3 h = 0.5 half-lives: 200/2^0.5 = 141 Bq.' }
   ],
   exam: [
     { q: 'Describe an experiment to determine whether a source emits α, β or γ radiation.', m: 5, ms: ['Measure background count rate with GM tube (no source) and subtract.', 'Measure count rate with source close to GM tube.', 'Insert paper: large drop → α present.', 'Insert few mm aluminium: large drop → β present.', 'Count still above background with several cm lead reducing it → γ. Safety: tongs, distance, limit time.'] },
@@ -421,13 +455,11 @@ TOPICS.push({
   id: '3.6', unit: '3', title: 'Nuclear Energy', short: 'E = mc², binding energy, fission, fusion',
   summary: 'Mass and energy are equivalent. Binding energy per nucleon explains why both fission of heavy nuclei and fusion of light nuclei release energy.',
   spec: [
-    'Use E = mc² and understand mass–energy equivalence',
-    'Use the unified atomic mass unit, u, and 1 u ≡ 931 MeV',
-    'Define mass defect and binding energy; calculate binding energy per nucleon',
-    'Sketch and interpret the graph of binding energy per nucleon against nucleon number',
-    'Explain why fission of heavy nuclei and fusion of light nuclei release energy',
-    'Calculate the energy released in nuclear reactions from masses',
-    'Describe the conditions needed for fusion and the principle of a fission chain reaction'
+    "(a) Mass and energy are associated: E = mc²",
+    "(b) Binding energy of a nucleus and binding energy per nucleon, using the unified atomic mass unit u where necessary",
+    "(c) Calculate binding energy and binding energy per nucleon from given masses of nuclei",
+    "(d) Apply conservation of mass/energy to particle interactions, e.g. fission and fusion",
+    "(e) The relevance of binding energy per nucleon to fission and fusion, using the BE per nucleon against nucleon number curve"
   ],
   learn: [
     { h: 'Mass–energy equivalence', html: `
@@ -450,11 +482,11 @@ TOPICS.push({
     { h: 'Fission', html: `
 <p>A uranium-235 nucleus absorbs a slow (thermal) neutron, becomes unstable U-236 and splits into two smaller nuclei plus 2 or 3 fast neutrons, releasing about 200 MeV, mostly as kinetic energy of the fragments:</p>
 <div class="box eq">$^{235}_{92}"U" + ^1_0"n" → ^{141}_{56}"Ba" + ^{92}_{36}"Kr" + 3^1_0"n"$</div>
-<p>The released neutrons can cause further fissions — a <b>chain reaction</b>. In a reactor it is controlled so that on average exactly one neutron per fission causes another fission.</p>` },
+<p>Total mass after is less than total mass before; the mass difference × c² is the energy released (mass/energy is conserved).</p>` },
     { h: 'Fusion', html: `
 <div class="box eq">$^2_1"H" + ^3_1"H" → ^4_2"He" + ^1_0"n" + 17.6 "MeV"$</div>
-<p>Nuclei are positively charged and repel. To get close enough (~10<sup>−15</sup> m) for the strong interaction to act, they need very high kinetic energies: temperatures of order 10<sup>7</sup>–10<sup>8</sup> K, and a high density so collisions are frequent. This happens in stars; on Earth, magnetic confinement (tokamaks) is being developed.</p>
-<p>Per kilogram of fuel, fusion releases more energy than fission.</p>` }
+<p>Light nuclei join to form a heavier nucleus further up the binding energy curve. The products have less total mass than the reactants; the mass difference appears as kinetic energy of the products.</p>
+<h4>Mass/energy in other particle interactions</h4><p>The same bookkeeping applies to any interaction. When an electron and a positron annihilate at rest, their total rest mass (2 × 0.000549 u) becomes the energy of two γ photons: 2 × 0.511 MeV = 1.02 MeV.</p>` }
   ],
   eqs: [['E = mc^2', 'mass–energy'], ['1 "u" = 1.66 × 10^{-27} "kg" ≡ 931 "MeV"', ''], ['Δm = Zm_p + (A - Z)m_n - m_{nucleus}', 'mass defect'], ['"BE" = Δmc^2', 'binding energy']],
   worked: [
@@ -470,27 +502,26 @@ TOPICS.push({
     ['Most stable nucleus (peak BE/nucleon)?', 'Iron-56 (≈ 8.8 MeV per nucleon).'],
     ['Why does fission release energy?', 'Products have higher BE per nucleon than the heavy nucleus.'],
     ['Why does fusion release energy?', 'Product has higher BE per nucleon than the light nuclei.'],
-    ['Why does fusion need very high temperatures?', 'Nuclei need high KE to overcome electrostatic repulsion.'],
-    ['What is a chain reaction?', 'Neutrons released by fission cause further fissions.'],
     ['Energy per U-235 fission?', 'About 200 MeV.'],
-    ['D–T fusion energy?', '17.6 MeV']
+    ['D–T fusion energy?', '17.6 MeV'],
+    ['Energy released when an electron and positron annihilate at rest?', '1.02 MeV (two 0.511 MeV photons).']
   ],
   quiz: [
     { q: 'The binding energy of a nucleus is', o: ['the energy needed to separate it into its individual nucleons', 'the energy released when it decays', 'the kinetic energy of its nucleons', 'the energy of the strong force per nucleon'], x: '' },
     { q: 'The nucleus with the greatest binding energy per nucleon is approximately', o: ['⁵⁶Fe', '²³⁵U', '⁴He', '²H'], x: '' },
     { q: 'The energy equivalent of 1 u is about', o: ['931 MeV', '1 MeV', '0.511 MeV', '9.31 MeV'], x: '' },
-    { q: 'Fusion requires very high temperatures because', o: ['the nuclei must overcome electrostatic repulsion', 'neutrons must be slowed down', 'the nuclei must be ionised', 'the strong force is repulsive at short range'], x: '' },
     { q: 'Fission of a heavy nucleus releases energy because', o: ['the products have greater binding energy per nucleon', 'the products have less binding energy per nucleon', 'mass is created', 'neutrons are absorbed'], x: '' },
     { q: 'A nucleus has a mass defect of 0.0304 u. Its binding energy is about', o: ['28.3 MeV', '0.0304 MeV', '931 MeV', '2.83 MeV'], x: '0.0304 × 931.' },
     { q: 'The energy equivalent of 1.0 g of matter is', o: ['9.0 × 10<sup>13</sup> J', '9.0 × 10<sup>16</sup> J', '3.0 × 10<sup>5</sup> J', '3.0 × 10<sup>8</sup> J'], x: '' },
-    { q: 'In a fission chain reaction', o: ['neutrons released by one fission cause further fissions', 'protons released cause further fissions', 'the products fuse together', 'γ rays split more nuclei'], x: '' },
     { q: 'In any nuclear reaction, which are conserved?', o: ['nucleon number and charge', 'nucleon number only', 'rest mass only', 'number of neutrons'], x: 'Rest mass is not conserved; mass-energy is.' },
-    { q: 'The mass of a nucleus compared with the total mass of its separate nucleons is', o: ['smaller', 'larger', 'equal', 'sometimes larger, sometimes smaller'], x: '' }
+    { q: 'The mass of a nucleus compared with the total mass of its separate nucleons is', o: ['smaller', 'larger', 'equal', 'sometimes larger, sometimes smaller'], x: '' },
+    { q: 'In a nuclear reaction the total mass of the products is 0.0200 u less than the reactants. The energy released is about', o: ['18.6 MeV', '0.0200 MeV', '931 MeV', '1.86 MeV'], x: '0.0200 × 931 MeV.' },
+    { q: 'An electron and a positron annihilate at rest. The total energy of the photons produced is about', o: ['1.02 MeV', '0.511 MeV', '931 MeV', '0'], x: '2 × 0.511 MeV (rest energy of each particle).' }
   ],
   exam: [
     { q: 'Define binding energy and explain, with reference to the graph of binding energy per nucleon against nucleon number, why both fission and fusion release energy.', m: 5, ms: ['Energy needed to separate nucleus into its constituent nucleons.', 'Graph rises steeply to a peak near Fe-56 then falls gradually.', 'Fusion of light nuclei → products further up the curve (higher BE/nucleon).', 'Fission of heavy nuclei → products nearer the peak.', 'Increase in total binding energy = energy released (mass decreases).'] },
     { q: 'Calculate the binding energy per nucleon of ⁵⁶Fe. Mass of ⁵⁶Fe nucleus = 55.920664 u; m<sub>p</sub> = 1.007276 u; m<sub>n</sub> = 1.008665 u.', m: 4, ms: ['26 protons, 30 neutrons: 26(1.007276) + 30(1.008665) = 56.449126 u', 'Δm = 0.528462 u', 'BE = 0.528462 × 931 = 492 MeV', 'Per nucleon = 8.79 MeV'] },
-    { q: 'Explain why fusion reactions in stars require very high temperatures and high densities.', m: 3, ms: ['Nuclei are positive and repel electrostatically.', 'High temperature → high KE to get close enough (~fm) for strong force.', 'High density → high collision rate.'] }
+    { q: 'Deuterium (2.013553 u) and tritium (3.015501 u) fuse to form helium-4 (4.001506 u) and a neutron (1.008665 u). Calculate the energy released in MeV and explain, using the binding energy per nucleon curve, why energy is released.', m: 4, ms: ['Δm = 5.029054 − 5.010171 = 0.018883 u', 'E = 0.018883 × 931 = 17.6 MeV', 'He-4 has much higher binding energy per nucleon than ²H and ³H', 'Total binding energy increases, so mass decreases and energy is released.'] }
   ],
   sims: ['binding'], gens: ['mass1', 'be1']
 });

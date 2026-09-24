@@ -88,8 +88,6 @@ GEN.div1 = () => { const Vin = rnd(5, 15, 1), R1 = rnd(1, 10, 1), R2 = rnd(1, 10
 /* ---------- 2.4 ---------- */
 GEN.wave1 = () => { const f = rnd(80, 110, 0.1), l = 3e8 / (f * 1e6);
   return { q: `An FM radio station broadcasts at ${f.toFixed(1)} MHz. Calculate the wavelength.`, ans: l, unit: 'm', steps: [`$λ = c/f = 3.00 × 10^8 / ${f.toFixed(1)} × 10^6$`, `$λ = ${s3(l)} "m"$`] }; };
-GEN.phase1 = () => { const l = rnd(0.4, 2, 0.2), frac = pick([0.25, 0.5, 0.75, 1 / 3, 1 / 6, 1 / 8]), x = l * frac, p = 2 * Math.PI * frac;
-  return { q: `Two points on a progressive wave of wavelength ${l.toFixed(1)} m are ${s3(x)} m apart. Calculate their phase difference in radians.`, ans: p, unit: 'rad', steps: [`$"phase difference" = 2πx/λ = 2π × ${s3(x)}/${l.toFixed(1)}$`, `$= ${s3(p)} "rad"$ (${s3(p / deg)}°)`] }; };
 
 /* ---------- 2.5 ---------- */
 GEN.yds1 = () => { const a = rnd(0.2, 0.8, 0.05), D = rnd(1, 3, 0.1), lam = rnd(450, 680, 5), y = lam * 1e-9 * D / (a * 1e-3);
@@ -98,8 +96,6 @@ GEN.grat1 = () => { const N = pick([100, 300, 500, 600, 80, 250]), lam = rnd(400
   if (s >= 1) return GEN.grat1();
   const th = Math.asin(s) / deg;
   return { q: `Light of wavelength ${lam} nm is incident normally on a grating with ${N} lines per mm. Find the angle of the order n = ${n} maximum.`, ans: th, unit: '°', steps: [`$d = 1/${N * 1000} = ${s3(d)} "m"$`, `$"sin"@,θ = nλ/d = ${n} × ${lam} × 10^{-9} / ${s3(d)} = ${s3(s)}$`, `$θ = ${s3(th)}°$`] }; };
-GEN.string1 = () => { const L = rnd(0.3, 1.2, 0.05), f = rnd(80, 440, 2), v = 2 * L * f;
-  return { q: `A string of length ${L.toFixed(2)} m fixed at both ends vibrates at its fundamental frequency of ${f} Hz. Calculate the speed of waves on the string.`, ans: v, unit: 'm s<sup>−1</sup>', steps: [`Fundamental: $λ = 2L = ${s3(2 * L)} "m"$`, `$v = fλ = ${f} × ${s3(2 * L)}$`, `$v = ${s3(v)} "m s"^{-1}$`] }; };
 
 /* ---------- 2.6 ---------- */
 GEN.snell1 = () => { const n = rnd(1.31, 1.65, 0.01), th = rnd(15, 75, 5), t2 = Math.asin(Math.sin(th * deg) / n) / deg;
@@ -184,8 +180,6 @@ GEN.gfield1 = () => { const h = rnd(200, 36000, 100), r = 6.37e6 + h * 1e3, gg =
   return { q: `Calculate the gravitational field strength ${h} km above the Earth’s surface. (M = 5.97 × 10<sup>24</sup> kg, R = 6.37 × 10<sup>6</sup> m)`, ans: gg, unit: 'N kg<sup>−1</sup>', steps: [`$r = R + h = ${s3(r)} "m"$`, `$g = GM/r^2 = 6.67 × 10^{-11} × 5.97 × 10^{24} / (${s3(r)})^2$`, `$g = ${s3(gg)} "N kg"^{-1}$`] }; };
 GEN.epot1 = () => { const Q = rnd(1, 20, 1), r = rnd(5, 50, 5), V = 8.99e9 * Q * 1e-9 / (r / 100);
   return { q: `Calculate the electric potential ${r} cm from a point charge of +${Q} nC.`, ans: V, unit: 'V', steps: [`$V = @frac{Q}{4πε_0r} = 8.99 × 10^9 × ${Q} × 10^{-9} / ${r / 100}$`, `$V = ${s3(V)} "V"$`] }; };
-GEN.esc1 = () => { const p = pick([['the Moon', 7.35e22, 1.74e6], ['Mars', 6.42e23, 3.39e6], ['the Earth', 5.97e24, 6.37e6], ['Mercury', 3.30e23, 2.44e6], ['Jupiter', 1.90e27, 6.99e7]]), v = Math.sqrt(2 * 6.67e-11 * p[1] / p[2]);
-  return { q: `Calculate the escape velocity from ${p[0]} (mass ${sf(p[1], 3)} kg, radius ${sf(p[2], 3)} m).`, ans: v, unit: 'm s<sup>−1</sup>', steps: [`$v = @sqrt{2GM/R}$`, `$v = @sqrt{2 × 6.67 × 10^{-11} × ${sf(p[1], 3)} / ${sf(p[2], 3)}}$`, `$v = ${s3(v)} "m s"^{-1}$`] }; };
 
 /* ---------- 4.3 ---------- */
 GEN.orbit1 = () => { const h = rnd(300, 2000, 50), r = 6.37e6 + h * 1e3, T = 2 * Math.PI * Math.sqrt(r ** 3 / 3.98e14);
@@ -208,8 +202,6 @@ GEN.mag3 = () => { const t = pick(['wire', 'sol']); if (t === 'wire') { const I 
   return { q: `Calculate the magnetic flux density ${a} cm from a long straight wire carrying ${I} A.`, ans: B, unit: 'T', steps: [`$B = μ_0I/2πa = 4π × 10^{-7} × ${I}/(2π × ${a / 100})$`, `$B = ${s3(B)} "T"$`] }; }
   const n = rnd(200, 5000, 100), I = rnd(0.5, 5, 0.5), B = 4 * Math.PI * 1e-7 * n * I;
   return { q: `A long solenoid has ${n} turns per metre and carries ${I.toFixed(1)} A. Calculate the flux density inside it.`, ans: B, unit: 'T', steps: [`$B = μ_0nI = 4π × 10^{-7} × ${n} × ${I.toFixed(1)}$`, `$B = ${s3(B)} "T"$`] }; };
-GEN.hall1 = () => { const B = rnd(0.1, 1, 0.1), I = rnd(10, 100, 10) * 1e-3, n = pick([1e22, 5e22, 1e23, 2e21]), t = rnd(0.1, 1, 0.1) * 1e-3, V = B * I / (n * 1.6e-19 * t);
-  return { q: `A semiconductor Hall probe of thickness ${sf(t, 2)} m (n = ${sf(n, 1)} m<sup>−3</sup>) carries ${I * 1000} mA in a ${B.toFixed(1)} T field. Calculate the Hall voltage in mV.`, ans: V * 1000, unit: 'mV', steps: [`$V_H = BI/nqt = ${B.toFixed(1)} × ${sf(I, 2)} / (${sf(n, 1)} × 1.60 × 10^{-19} × ${sf(t, 2)})$`, `$V_H = ${s3(V)} "V" = ${s3(V * 1000)} "mV"$`] }; };
 
 /* ---------- 4.5 ---------- */
 GEN.emi1 = () => { const N = rnd(50, 500, 50), A = rnd(1, 20, 1), B = rnd(0.05, 0.8, 0.05), t = rnd(0.02, 0.5, 0.01), E = N * B * A * 1e-4 / t;
@@ -230,9 +222,6 @@ GEN.ac3 = () => { const R = rnd(20, 200, 10), C = pick([1, 2.2, 4.7, 10, 22]), f
 /* ---------- Option B ---------- */
 GEN.med1 = () => { const V = rnd(30, 150, 5), l = 6.63e-34 * 3e8 / (1.6e-19 * V * 1e3);
   return { q: `Calculate the minimum wavelength of X-rays from a tube operating at ${V} kV.`, ans: l, unit: 'm', steps: [`$E_{max} = eV = 1.60 × 10^{-19} × ${V * 1000} = ${s3(1.6e-19 * V * 1e3)} "J"$`, `$λ_{min} = hc/E_{max} = ${s3(l)} "m"$`] }; };
-GEN.med2 = () => { const Z1 = rnd(1.3, 1.8, 0.01), Z2 = pick([rnd(1.3, 1.8, 0.01), 7.8]), R = ((Z2 - Z1) / (Z2 + Z1)) ** 2 * 100;
-  if (Math.abs(Z2 - Z1) < 0.02) return GEN.med2();
-  return { q: `Ultrasound meets a boundary between tissues of acoustic impedance ${Z1.toFixed(2)} × 10<sup>6</sup> and ${Z2.toFixed(2)} × 10<sup>6</sup> kg m<sup>−2</sup> s<sup>−1</sup>. What percentage of the intensity is reflected?`, ans: R, unit: '%', steps: [`$@frac{I_r}{I_0} = (@frac{Z_2 - Z_1}{Z_2 + Z_1})^2 = (@frac{${(Z2 - Z1).toFixed(2)}}{${(Z2 + Z1).toFixed(2)}})^2$`, `$= ${s3(R / 100)} = ${s3(R)}%$`] }; };
 GEN.med3 = () => { const mu = rnd(0.1, 2, 0.05), x = rnd(0.5, 6, 0.5), f = Math.exp(-mu * x) * 100;
   return { q: `X-rays pass through ${x.toFixed(1)} cm of material with attenuation coefficient ${mu.toFixed(2)} cm<sup>−1</sup>. What percentage of the intensity is transmitted?`, ans: f, unit: '%', steps: [`$I/I_0 = e^{-μx} = e^{-${mu.toFixed(2)} × ${x.toFixed(1)}}$`, `$= ${s3(f / 100)} = ${s3(f)}%$`] }; };
 
@@ -261,3 +250,29 @@ GEN.unc2 = () => { const base = rnd(1.5, 3, 0.01), r = [base, base + rnd(0.01, 0
   return { q: `Three timings are ${rs.join(' s, ')} s. Calculate the percentage uncertainty in the mean (using half the range).`, ans: p, unit: '%', steps: [`Mean = ${mean.toFixed(3)} s`, `Uncertainty = (max − min)/2 = ${u.toFixed(3)} s`, `% = ${u.toFixed(3)}/${mean.toFixed(3)} × 100 = ${s3(p)}%`] }; };
 GEN.graph1 = () => { const gr = rnd(0.02, 0.2, 0.005), T = Math.LN2 / gr;
   return { q: `A graph of ln(activity) against time in minutes is a straight line with gradient −${gr.toFixed(3)} min<sup>−1</sup>. Find the half-life in minutes.`, ans: T, unit: 'min', steps: [`λ = −gradient = ${gr.toFixed(3)} min<sup>−1</sup>`, `$T_{½} = "ln"@,2/λ = 0.693/${gr.toFixed(3)}$`, `$T_{½} = ${s3(T)} "min"$`] }; };
+
+/* ---------- added to match specification points ---------- */
+GEN.wave2 = () => { const T = rnd(0.5, 20, 0.5), c = rnd(0.5, 4, 0.1), l = c * T / 1000 * 1000, f = 1000 / T;
+  return { q: `A point on a wave completes one oscillation in ${T} ms. The wave travels at ${c.toFixed(1)} m s<sup>−1</sup>. Find the wavelength in cm.`, ans: c / f * 100, unit: 'cm', steps: [`$f = 1/T = 1/${T} × 10^{-3} = ${s3(f)} "Hz"$`, `$λ = c/f = ${c.toFixed(1)}/${s3(f)} = ${s3(c / f)} "m"$`, `$λ = ${s3(c / f * 100)} "cm"$`] }; };
+GEN.sound1 = () => { const f = rnd(1000, 4000, 100), c = rnd(330, 350, 1), n = rnd(3, 8, 1), L = n * c / f / 2;
+  return { q: `In a speed-of-sound experiment at ${f} Hz, a microphone finds that ${n} node-to-node spacings measure ${(L * 100).toFixed(1)} cm. Calculate the speed of sound.`, ans: 2 * (+(L * 100).toFixed(1) / 100 / n) * f, unit: 'm s<sup>−1</sup>', steps: [`One node–node spacing $= λ/2 = ${(L * 100).toFixed(1)}/${n} "cm"$`, `$λ = 2 × ${s3(+(L * 100).toFixed(1) / n)} "cm" = ${s3(2 * +(L * 100).toFixed(1) / n / 100)} "m"$`, `$c = fλ = ${s3(2 * (+(L * 100).toFixed(1) / 100 / n) * f)} "m s"^{-1}$`] }; };
+GEN.radp1 = () => { const P = rnd(1, 50, 1), refl = Math.random() < .5, F = (refl ? 2 : 1) * P * 1e-3 / 3e8;
+  return { q: `A ${P} mW laser beam falls normally on a surface that ${refl ? 'reflects' : 'absorbs'} all of it. Calculate the force on the surface.`, ans: F, unit: 'N', steps: [`Momentum carried per second by the beam = P/c`, refl ? 'Reflection reverses the momentum, so F = 2P/c' : 'Absorbed, so F = P/c', `$F = ${refl ? 2 : 1} × ${P} × 10^{-3} / 3.00 × 10^8 = ${s3(F)} "N"$`] }; };
+GEN.gpot1 = () => { const h = rnd(200, 2000, 100), m = rnd(100, 2000, 100), r1 = 6.37e6, r2 = r1 + h * 1e3, dU = 6.67e-11 * 5.97e24 * m * (1 / r1 - 1 / r2);
+  return { q: `Calculate the gain in gravitational potential energy when a ${m} kg satellite is raised from the Earth’s surface to a height of ${h} km. (M = 5.97 × 10<sup>24</sup> kg, R = 6.37 × 10<sup>6</sup> m)`, ans: dU, unit: 'J', steps: ['g varies over this height, so use $ΔE_p = mΔV_g$ with $V_g = -GM/r$', `$ΔV_g = GM(1/R - 1/r) = ${s3(dU / m)} "J kg"^{-1}$`, `$ΔE_p = ${m} × ${s3(dU / m)} = ${s3(dU)} "J"$`] }; };
+GEN.sel1 = () => { const V = rnd(100, 2000, 50), d = rnd(1, 5, 0.5), B = rnd(5, 100, 5) * 1e-3, E = V / (d / 100), v = E / B;
+  return { q: `Parallel plates ${d.toFixed(1)} cm apart have a pd of ${V} V across them, and a ${B * 1000} mT magnetic field is applied at right angles to the electric field. At what speed do charged particles pass straight through?`, ans: v, unit: 'm s<sup>−1</sup>', steps: [`$E = V/d = ${V}/${d / 100} = ${s3(E)} "V m"^{-1}$`, 'Undeflected when $qE = Bqv$', `$v = E/B = ${s3(v)} "m s"^{-1}$`] }; };
+GEN.ac4 = () => { const N = rnd(50, 500, 50), A = rnd(1, 10, 1) * 1e-3, B = rnd(0.05, 0.5, 0.05), f = pick([25, 50, 60, 100]), w = 2 * Math.PI * f, V0 = w * B * A * N;
+  return { q: `A coil of ${N} turns and area ${sf(A, 2)} m² rotates at ${f} revolutions per second in a uniform field of ${B.toFixed(2)} T. Calculate the rms emf.`, ans: V0 / Math.SQRT2, unit: 'V', steps: [`$ω = 2πf = ${s3(w)} "rad s"^{-1}$`, `$V_0 = ωBAN = ${s3(V0)} "V"$`, `$V_{rms} = V_0/@sqrt{2} = ${s3(V0 / Math.SQRT2)} "V"$`] }; };
+GEN.med4 = () => { const D = rnd(0.5, 20, 0.5) * 1e-3, wr = pick([[1, 'γ-rays'], [1, 'X-rays'], [20, 'α particles']]), wt = pick([0.12, 0.08, 0.04, 0.01]), H = D * wr[0], E = H * wt;
+  return { q: `A tissue receives an absorbed dose of ${(D * 1000).toFixed(1)} mGy of ${wr[1]} (W<sub>R</sub> = ${wr[0]}). The tissue weighting factor is ${wt}. Calculate the effective dose in mSv.`, ans: E * 1000, unit: 'mSv', steps: [`$H = DW_R = ${(D * 1000).toFixed(1)} × ${wr[0]} = ${s3(H * 1000)} "mSv"$`, `$E = HW_T = ${s3(H * 1000)} × ${wt} = ${s3(E * 1000)} "mSv"$`] }; };
+GEN.med5 = () => { const B = pick([0.5, 1.0, 1.5, 3.0, 7.0]), f = 42.6e6 * B;
+  return { q: `Calculate the Larmor frequency of protons in an MRI scanner with a ${B.toFixed(1)} T magnetic field.`, ans: f / 1e6, unit: 'MHz', steps: [`$f = 42.6 × 10^6 × ${B.toFixed(1)}$`, `$f = ${s3(f)} "Hz" = ${s3(f / 1e6)} "MHz"$`] }; };
+GEN.sport4 = () => { const W = rnd(20, 80, 5), dW = rnd(0.28, 0.38, 0.01), fw = rnd(12, 20, 1), df = rnd(0.12, 0.17, 0.01), db = rnd(0.03, 0.05, 0.005), F = (W * dW + fw * df) / db;
+  return { q: `A ${W} N weight is held in the hand ${dW.toFixed(2)} m from the elbow, with the forearm horizontal. The forearm weighs ${fw} N acting ${df.toFixed(2)} m from the elbow. The biceps pulls vertically ${(db * 100).toFixed(1)} cm from the elbow. Find the biceps force.`, ans: F, unit: 'N', steps: ['Take moments about the elbow', `$F × ${db} = ${W} × ${dW.toFixed(2)} + ${fw} × ${df.toFixed(2)}$`, `$F = ${s3(F)} "N"$`] }; };
+GEN.sport5 = () => { const typ = pick(['solid sphere', 'thin spherical shell']), m = rnd(0.05, 7, 0.05), r = rnd(0.02, 0.15, 0.005), I = (typ === 'solid sphere' ? 0.4 : 2 / 3) * m * r * r;
+  return { q: `Calculate the moment of inertia of a ${typ} of mass ${m.toFixed(2)} kg and radius ${r.toFixed(3)} m about an axis through its centre.`, ans: I, unit: 'kg m²', steps: [typ === 'solid sphere' ? '$I = @frac{2}{5}mr^2$' : '$I = @frac{2}{3}mr^2$', `$I = ${typ === 'solid sphere' ? '0.4' : '0.667'} × ${m.toFixed(2)} × ${r.toFixed(3)}^2 = ${s3(I)} "kg m"^2$`] }; };
+GEN.env5 = () => { const A = rnd(1, 20, 0.5), I = rnd(300, 1000, 50), P = Math.round(A * I * rnd(0.12, 0.24, 0.01)), e = P / (A * I) * 100;
+  return { q: `Solar panels of total area ${A} m² receive sunlight of intensity ${I} W m<sup>−2</sup> and produce ${P} W of electrical power. Calculate their efficiency.`, ans: e, unit: '%', steps: [`Power in $= IA = ${I} × ${A} = ${s3(I * A)} "W"$`, `Efficiency $= ${P}/${s3(I * A)} × 100 = ${s3(e)}%$`] }; };
+GEN.env6 = () => { const A = rnd(5, 20, 1), x1 = rnd(0.1, 0.25, 0.05), k1 = 0.6, x2 = rnd(0.02, 0.1, 0.01), k2 = pick([0.02, 0.03, 0.04]), dT = rnd(8, 25, 1), P = dT / (x1 / (k1 * A) + x2 / (k2 * A));
+  return { q: `A wall of area ${A} m² is ${x1.toFixed(2)} m of brick (K = ${k1} W m<sup>−1</sup> K<sup>−1</sup>) in contact with ${x2.toFixed(2)} m of insulation (K = ${k2} W m<sup>−1</sup> K<sup>−1</sup>). The temperature difference across the whole wall is ${dT} K. Find the rate of heat flow.`, ans: P, unit: 'W', steps: ['Same rate P through each layer; temperature drops add', `$Δθ_{brick} + Δθ_{ins} = P(@frac{${x1.toFixed(2)}}{${k1} × ${A}} + @frac{${x2.toFixed(2)}}{${k2} × ${A}}) = ${dT}$`, `$P = ${s3(P)} "W"$`] }; };

@@ -3,18 +3,19 @@
    ========================================================== */
 TOPICS.push({
   id: '2.1', unit: '2', title: 'Conduction of Electricity', short: 'Charge, current, drift velocity',
-  summary: 'What a current actually is: charge carriers drifting slowly through a conductor, and how I = nAve links the microscopic and macroscopic pictures.',
+  summary: 'What a current actually is: free electrons drifting slowly through a metal, and how I = nAve links the microscopic and macroscopic pictures.',
   spec: [
-    'Understand that electric charge is carried by charge carriers and is quantised in units of e',
-    'Define electric current as the rate of flow of charge, I = ΔQ/Δt, and the coulomb',
-    'Know the direction of conventional current compared with electron flow',
-    'Derive and use I = nAve for the current in a conductor',
-    'Understand that the mean drift velocity of electrons is small, and explain why a lamp lights almost instantly',
-    'Compare charge-carrier densities in metals, semiconductors and insulators'
+    "(a) The unit of charge is the coulomb; an electron’s charge e is a very small fraction of a coulomb",
+    "(b) Charge can flow through materials called conductors",
+    "(c) Electric current is the rate of flow of charge",
+    "(d) Use I = ΔQ/Δt",
+    "(e) Current is measured in amperes, A = C s⁻¹",
+    "(f) Conduction in metals is by the drift of free electrons",
+    "(g) Derive and use I = nAve for free electrons"
   ],
   learn: [
     { h: 'Charge and current', html: `
-<p>Electric charge is carried by <b>charge carriers</b>: free electrons in metals, ions in electrolytes and gases, electrons and holes in semiconductors. Charge comes in whole-number multiples of $e = 1.60 × 10^{-19} "C"$.</p>
+<p>Charge can flow through materials called <b>conductors</b>. In metals the charge carriers are <b>free electrons</b>, which drift through the lattice of positive ions when a pd is applied. Charge comes in whole-number multiples of $e = 1.60 × 10^{-19} "C"$.</p>
 <div class="box def"><b class="lbl">Definitions</b><p><b>Current</b> is the rate of flow of charge: $I = @frac{ΔQ}{Δt}$.</p><p>The <b>coulomb</b> is the charge that passes a point when a current of 1 A flows for 1 s (1 C = 1 A s).</p></div>
 <p>Conventional current flows from + to − around a circuit. In a metal the electrons actually move the other way, from − to +.</p>` },
     { h: 'The equation I = nAve', html: `
@@ -24,12 +25,7 @@ TOPICS.push({
 <li>$I = ΔQ/Δt$, so $I = nAve$.</li></ul>
 <p>For copper n ≈ 8.5 × 10<sup>28</sup> m<sup>−3</sup>. A current of a few amps in a 1 mm<sup>2</sup> wire gives a drift velocity of only about 0.1–0.3 mm s<sup>−1</sup>.</p>
 <div class="box why"><b class="lbl">Why does a lamp light instantly?</b><p>When the switch closes, an electric field is set up throughout the circuit almost at the speed of light. Free electrons everywhere in the circuit, including those already in the filament, start drifting at almost the same moment.</p></div>
-<p>In a series circuit the current is the same everywhere, so in a thinner section (smaller A) the electrons must drift faster.</p>` },
-    { h: 'Metals, semiconductors and insulators', html: `
-<div class="tbl"><table><tr><th>Material</th><th>Free carrier density n</th><th>Consequence</th></tr>
-<tr><td>metal</td><td>very high, ~10<sup>28</sup>–10<sup>29</sup> m<sup>−3</sup></td><td>good conductor; low drift velocity</td></tr>
-<tr><td>semiconductor</td><td>much lower, rises steeply with temperature</td><td>for the same I and A, much higher drift velocity</td></tr>
-<tr><td>insulator</td><td>almost zero</td><td>negligible current</td></tr></table></div>` }
+<p>In a series circuit the current is the same everywhere, so in a thinner section (smaller A) the electrons must drift faster.</p>` }
   ],
   eqs: [['I = @frac{ΔQ}{Δt}', 'current'], ['I = nAve', 'n = carriers per m³, v = drift velocity']],
   worked: [
@@ -46,7 +42,6 @@ TOPICS.push({
     ['Typical drift velocity in a copper wire?', '~10<sup>−4</sup> m s<sup>−1</sup> (a fraction of a mm per second).'],
     ['Why does a lamp light instantly despite slow drift?', 'The electric field is established throughout the circuit almost instantly, so all free electrons start moving at once.'],
     ['Direction of conventional current?', 'From + to − (opposite to electron flow).'],
-    ['Why is drift velocity larger in a semiconductor for the same I and A?', 'n is much smaller, so v = I/nAe is larger.'],
     ['Electrons per second in 1.0 A?', '6.25 × 10<sup>18</sup>']
   ],
   quiz: [
@@ -56,10 +51,10 @@ TOPICS.push({
     { q: 'A wire’s diameter is halved but it carries the same current. The drift velocity', o: ['increases by a factor of 4', 'doubles', 'halves', 'is unchanged'], x: 'A ∝ d², v ∝ 1/A.' },
     { q: 'A current of 0.25 A flows for 1 minute. The charge that passes is', o: ['15 C', '0.25 C', '4.2 × 10<sup>−3</sup> C', '240 C'], x: '0.25 × 60.' },
     { q: 'The number of electrons passing a point each second when the current is 1.0 A is', o: ['6.25 × 10<sup>18</sup>', '1.60 × 10<sup>−19</sup>', '1.0', '6.02 × 10<sup>23</sup>'], x: '1 / 1.60 × 10<sup>−19</sup>.' },
-    { q: 'For the same current and dimensions, the drift velocity in a semiconductor is much larger than in a metal because', o: ['the density of free charge carriers is much smaller', 'the charge on each carrier is greater', 'the resistance is lower', 'the carriers are heavier'], x: 'v = I/nAe.' },
     { q: 'Conventional current in a metal wire flows', o: ['in the opposite direction to the electron flow', 'in the same direction as the electron flow', 'in both directions equally', 'only in the direction of the positive ions'], x: 'Historical convention: + to −.' },
     { q: 'A lamp lights almost immediately when switched on because', o: ['free electrons throughout the circuit start drifting almost simultaneously', 'electrons travel from the cell at nearly the speed of light', 'the drift velocity is very large', 'charge is stored in the filament'], x: 'The field is set up at close to c.' },
-    { q: 'Which is the smallest possible magnitude of charge on a free particle observed in circuits?', o: ['1.60 × 10<sup>−19</sup> C', '1 C', '9.11 × 10<sup>−31</sup> C', '6.25 × 10<sup>18</sup> C'], x: 'Charge is quantised in units of e.' }
+    { q: 'Which is the smallest possible magnitude of charge on a free particle observed in circuits?', o: ['1.60 × 10<sup>−19</sup> C', '1 C', '9.11 × 10<sup>−31</sup> C', '6.25 × 10<sup>18</sup> C'], x: 'Charge is quantised in units of e.' },
+    { q: 'The mechanism of conduction in a metal is', o: ['the drift of free electrons', 'the movement of positive ions', 'the flow of protons', 'the vibration of the lattice'], x: 'Free electrons drift; the positive ions stay in the lattice.' }
   ],
   exam: [
     { q: 'Derive the equation I = nAve, defining each symbol.', m: 4, ms: ['n = number of free electrons per unit volume, A = cross-sectional area, v = mean drift velocity, e = electron charge.', 'In time Δt electrons move vΔt, so volume AvΔt passes a point.', 'Charge passing ΔQ = nAvΔt e.', 'I = ΔQ/Δt = nAve.'] },
@@ -73,14 +68,20 @@ TOPICS.push({
   id: '2.2', unit: '2', title: 'Resistance', short: 'Ohm’s law, resistivity, superconductors',
   summary: 'Potential difference, resistance and resistivity; why a filament lamp is non-ohmic; how temperature affects resistance; and the strange world of superconductors.',
   spec: [
-    'Define potential difference and the volt (V = W/q)',
-    'Define resistance, R = V/I, and the ohm; state Ohm’s law',
-    'Sketch and explain I–V characteristics for a metal wire at constant temperature and a filament lamp',
-    'Use P = IV = I²R = V²/R',
-    'Use R = ρl/A and define resistivity',
-    'Explain how the resistance of a metal varies with temperature in terms of lattice vibrations',
-    'Describe superconductivity, the critical temperature and applications of superconductors',
-    'Determine resistivity; investigate R–T for a metal and I–V characteristics (specified practicals)'
+    "(a) The definition of potential difference",
+    "(b) Pd is measured in volts, V = J C⁻¹",
+    "(c) I–V graphs for the filament of a lamp and a metal wire at constant temperature",
+    "(d) Ohm’s law, V = IR and the definition of resistance",
+    "(e) Resistance is measured in ohms, Ω = V A⁻¹",
+    "(f) Apply P = IV = I²R = V²/R",
+    "(g) Collisions between free electrons and ions cause resistance, which increases with temperature",
+    "(h) Apply R = ρl/A (resistivity)",
+    "(i) The resistance of metals varies almost linearly with temperature over a wide range",
+    "(j) Collisions between free electrons and ions increase the random vibration energy of the ions, so the metal’s temperature rises",
+    "(k) Superconductivity and the superconducting transition temperature",
+    "(l) Most metals superconduct only a few degrees above absolute zero (−273 °C)",
+    "(m) High-temperature superconductors have transition temperatures above the boiling point of nitrogen (−196 °C)",
+    "(n) Uses of superconductors, e.g. MRI scanners and particle accelerators"
   ],
   learn: [
     { h: 'Potential difference and resistance', html: `
@@ -99,10 +100,11 @@ TOPICS.push({
 <div class="tbl"><table><tr><th>Material</th><th>ρ at 20 °C / Ω m</th></tr><tr><td>copper</td><td>1.7 × 10<sup>−8</sup></td></tr><tr><td>nichrome</td><td>1.1 × 10<sup>−6</sup></td></tr><tr><td>silicon (pure)</td><td>~10<sup>3</sup></td></tr><tr><td>glass</td><td>~10<sup>10</sup>–10<sup>14</sup></td></tr></table></div>
 <div class="box def"><b class="lbl">Specified practical: resistivity</b><p>Measure the wire’s diameter at several places with a micrometer; A = πd²/4. Measure R for several lengths l using an ammeter and voltmeter (or ohmmeter), keeping the current small so the wire doesn’t heat up. Plot R against l: gradient = ρ/A, so ρ = gradient × A.</p></div>` },
     { h: 'Temperature and superconductivity', html: `
-<p>For a metal, resistance increases roughly linearly with temperature: hotter lattice ions vibrate more, increasing the collision rate of free electrons. (Specified practical: heat a coil of wire in a water bath, measure R at a range of temperatures.)</p>
+<p>Collisions between free electrons and the ions transfer energy to the ions, increasing their <b>random vibration energy</b> — so the temperature of the metal rises. This is the heating effect of a current.</p>
+<p>For a metal, resistance varies <b>almost linearly</b> with temperature over a wide range: hotter lattice ions vibrate more, increasing the collision rate of free electrons. (Specified practical: heat a coil of wire in a water bath, measure R at a range of temperatures.)</p>
 <p>A <b>superconductor</b> is a material whose resistance becomes exactly zero below a <b>critical temperature</b> T<sub>c</sub>.</p>
 [[d:rt-sc]]
-<p>Applications: very strong electromagnets with no heating loss, e.g. MRI scanners and particle accelerators (such as the LHC); lossless power transmission; maglev trains. Their main drawback is the need to cool them — liquid helium for many metals; “high-temperature” ceramic superconductors can use cheaper liquid nitrogen (77 K).</p>` }
+<p>Applications: very strong electromagnets with no heating loss, e.g. <b>MRI scanners</b> and <b>particle accelerators</b> (such as the LHC). Most metals only become superconducting a few degrees above absolute zero (−273 °C), so need liquid helium cooling. Certain <b>high-temperature superconductors</b> have transition temperatures above the boiling point of nitrogen (−196 °C), so cheaper liquid nitrogen can be used.</p>` }
   ],
   eqs: [['V = @frac{W}{q}', 'pd'], ['R = @frac{V}{I}', 'resistance'], ['P = IV = I^2R = @frac{V^2}{R}', 'power'], ['R = @frac{ρl}{A}', 'resistivity']],
   worked: [
@@ -122,7 +124,10 @@ TOPICS.push({
     ['Two uses of superconductors?', 'MRI magnets, particle accelerator magnets (also power cables, maglev).'],
     ['Three power equations?', 'P = IV = I²R = V²/R'],
     ['Graph for resistivity practical?', 'R against l: gradient = ρ/A.'],
-    ['Resistance at a point on an I–V graph?', 'V ÷ I at that point (not the gradient).']
+    ['Resistance at a point on an I–V graph?', 'V ÷ I at that point (not the gradient).'],
+    ['At about what temperatures do most metals superconduct?', 'A few degrees above absolute zero (−273 °C).'],
+    ['What is special about high-temperature superconductors?', 'Transition temperatures above the boiling point of nitrogen (−196 °C).'],
+    ['Why does a current heat a metal?', 'Collisions of free electrons with ions increase the random vibration energy of the ions.']
   ],
   quiz: [
     { q: 'The volt is equivalent to', o: ['J C<sup>−1</sup>', 'C J<sup>−1</sup>', 'J s<sup>−1</sup>', 'A Ω<sup>−1</sup>'], x: 'V = W/q.' },
@@ -149,11 +154,15 @@ TOPICS.push({
   id: '2.3', unit: '2', title: 'D.C. Circuits', short: 'Kirchhoff, dividers, internal resistance',
   summary: 'Solving circuits: the two conservation laws, combining resistors, potential dividers, and why a battery’s terminal pd falls when it delivers current.',
   spec: [
-    'Apply conservation of charge (Kirchhoff’s first law) and energy (second law) to circuits',
-    'Derive and use the formulae for resistors in series and in parallel',
-    'Use the potential divider equation, including with LDRs and thermistors',
-    'Define emf, and understand internal resistance: V = E − Ir',
-    'Determine the internal resistance of a cell (specified practical)'
+    "(a) The current from a source equals the sum of the branch currents in a parallel circuit — conservation of charge",
+    "(b) The pds across components in series add up to the supply pd — conservation of energy",
+    "(c) Pds across components in parallel are equal",
+    "(d) Apply the equations for resistors in series and parallel",
+    "(e) Use potential dividers, including circuits with LDRs and thermistors",
+    "(f) What is meant by the emf of a source",
+    "(g) The unit of emf is the volt",
+    "(h) Sources have internal resistance; use V = E − Ir",
+    "(i) Calculate current and pd in a circuit containing one cell or cells in series"
   ],
   learn: [
     { h: 'Kirchhoff’s laws', html: `
@@ -173,6 +182,7 @@ TOPICS.push({
 <p>Real sources have <b>internal resistance</b> r. When current I flows, some energy per coulomb (Ir, the “lost volts”) is dissipated inside the source, so the terminal pd is:</p>
 <div class="box eq">$V = E - Ir$ &nbsp;&nbsp; and &nbsp;&nbsp; $E = I(R + r)$</div>
 [[d:vi-internal]]
+<p><b>Cells in series</b>: their emfs add (taking account of direction) and so do their internal resistances. Two 1.5 V cells each of r = 0.5 Ω in series act as one source of E = 3.0 V, r = 1.0 Ω.</p>
 <div class="box def"><b class="lbl">Specified practical</b><p>Connect the cell to a variable resistor with an ammeter in series and a voltmeter across the cell terminals. Record V and I for a range of settings; plot V against I. The y-intercept is E and the gradient is −r. Keep currents modest and open the switch between readings so r does not change as the cell warms.</p></div>` }
   ],
   eqs: [['R = R_1 + R_2 + …', 'series'], ['@frac{1}{R} = @frac{1}{R_1} + @frac{1}{R_2} + …', 'parallel'], ['V_{out} = V_{in}@frac{R_2}{R_1 + R_2}', 'potential divider'], ['V = E - Ir', 'terminal pd'], ['E = I(R + r)', 'whole circuit']],
@@ -205,7 +215,8 @@ TOPICS.push({
     { q: 'A 10 V supply is across 2.0 kΩ and 3.0 kΩ in series. The pd across the 3.0 kΩ is', o: ['6.0 V', '4.0 V', '3.0 V', '10 V'], x: '10 × 3/5.' },
     { q: 'A current of 3.0 A enters a junction. 1.0 A leaves by one wire. The current in the only other wire is', o: ['2.0 A out', '4.0 A out', '2.0 A in', '1.0 A out'], x: 'Kirchhoff 1.' },
     { q: 'The terminal pd of a cell is less than its emf when current flows because', o: ['work is done against the internal resistance', 'charge is lost inside the cell', 'the emf falls whenever current flows', 'the external resistance is too high'], x: 'Lost volts = Ir.' },
-    { q: 'Adding another resistor in parallel with an existing network', o: ['decreases the total resistance', 'increases the total resistance', 'does not change it', 'doubles it'], x: 'Extra path for current.' }
+    { q: 'Adding another resistor in parallel with an existing network', o: ['decreases the total resistance', 'increases the total resistance', 'does not change it', 'doubles it'], x: 'Extra path for current.' },
+    { q: 'Three identical cells, each of emf 1.5 V and internal resistance 0.40 Ω, are connected in series with a 4.8 Ω resistor. The current is', o: ['0.75 A', '0.28 A', '0.94 A', '0.31 A'], x: 'E = 4.5 V, total r = 1.2 Ω: I = 4.5/(4.8 + 1.2).' }
   ],
   exam: [
     { q: 'Describe how to determine the emf and internal resistance of a cell by a graphical method.', m: 6, ms: ['Cell in series with ammeter and variable resistor; voltmeter across cell terminals.', 'Vary resistance to obtain a range of currents; record V and I.', 'Switch off between readings to prevent heating / change of r.', 'Plot V against I; straight line.', 'Intercept on V axis = E.', 'Gradient = −r.'] },
@@ -219,12 +230,14 @@ TOPICS.push({
   id: '2.4', unit: '2', title: 'The Nature of Waves', short: 'Progressive waves, polarisation, phase',
   summary: 'What a wave is, how to describe it with amplitude, wavelength, frequency and phase, and why polarisation proves light is transverse.',
   spec: [
-    'Understand that a progressive wave transfers energy without transferring matter',
-    'Distinguish between transverse and longitudinal waves, with examples',
-    'Understand polarisation and that only transverse waves can be polarised',
-    'Define displacement, amplitude, wavelength, period, frequency, wave speed; use c = fλ',
-    'Understand phase and phase difference (in radians or degrees)',
-    'Interpret graphs of displacement against distance and against time'
+    "(a) A progressive wave transfers energy without any transfer of matter",
+    "(b) The difference between transverse and longitudinal waves",
+    "(c) The term polarisation",
+    "(d) The terms in phase and in antiphase",
+    "(e) Displacement, amplitude, wavelength, frequency, period and velocity of a wave",
+    "(f) Graphs of displacement against time and against position (transverse waves only)",
+    "(g) Use c = fλ",
+    "(h) All points on a wavefront oscillate in phase; rays (propagation directions) are at right angles to wavefronts"
   ],
   learn: [
     { h: 'Progressive waves', html: `
@@ -240,10 +253,12 @@ TOPICS.push({
 <p>In one period the wave moves forward one wavelength, so c = λ/T = fλ.</p>
 [[d:wave-xd]]
 <p>A displacement–<b>distance</b> graph is a snapshot of the whole wave at one instant. A displacement–<b>time</b> graph shows how one particle moves; the horizontal spacing of peaks gives T.</p>` },
-    { h: 'Phase difference', html: `
-<p>Phase difference tells us how far one oscillation is ahead of another, as a fraction of a cycle. One whole cycle = 2π rad = 360°.</p>
-<div class="box eq">$"phase difference" = @frac{2πx}{λ}$ for two points a distance x apart</div>
-<p>Points one wavelength apart are <b>in phase</b> (difference 2π, equivalent to 0). Points half a wavelength apart are in <b>antiphase</b> (π rad, 180°).</p>` },
+    { h: 'In phase and antiphase', html: `
+<p>Two points on a wave are <b>in phase</b> if they are always at the same stage of their oscillation — same displacement, moving the same way. Points one whole wavelength apart are in phase.</p>
+<p>Two points are in <b>antiphase</b> if one is at a crest when the other is at a trough — always opposite displacements. Points half a wavelength apart are in antiphase.</p>` },
+    { h: 'Wavefronts and rays', html: `
+<p>A <b>wavefront</b> is a line (or surface) joining points on a wave that are in phase — for example, a crest. All points on a wavefront oscillate in phase.</p>
+<p>A <b>ray</b> shows the direction in which the wave travels. Rays are always at <b>right angles</b> to wavefronts: parallel straight wavefronts ↔ parallel rays; circular wavefronts from a point source ↔ rays radiating outwards.</p>` },
     { h: 'Polarisation', html: `
 <div class="box def"><b class="lbl">Definition</b><p>A wave is <b>plane polarised</b> if its oscillations take place in one plane only (a plane containing the direction of propagation).</p></div>
 <p>Only transverse waves can be polarised; longitudinal oscillations are already along the direction of travel. So polarisation of light shows that light is transverse.</p>
@@ -252,10 +267,10 @@ TOPICS.push({
 <li>Microwaves from a transmitter are already polarised: a metal grille rotated between transmitter and receiver shows the same effect.</li></ul>
 <p>Applications: Polaroid sunglasses (reducing glare from reflected light, which is partially polarised), LCD screens, photographic filters, stress analysis in plastics.</p>` }
   ],
-  eqs: [['c = fλ', 'wave equation'], ['f = @frac{1}{T}', 'frequency and period'], ['"phase difference" = @frac{2πx}{λ}', 'in radians']],
+  eqs: [['c = fλ', 'wave equation'], ['f = @frac{1}{T}', 'frequency and period']],
   worked: [
     { q: 'A radio station broadcasts at 97.4 MHz. Find the wavelength.', s: ['λ = c/f = 3.00 × 10<sup>8</sup> / 97.4 × 10<sup>6</sup>.'], a: '3.08 m' },
-    { q: 'Two points on a progressive wave of wavelength 0.60 m are 0.15 m apart. What is their phase difference?', s: ['Fraction of a wavelength: 0.15/0.60 = ¼.', 'Phase difference = ¼ × 2π.'], a: 'π/2 rad (90°)' },
+    { q: 'A wave on a rope has wavelength 0.60 m. Point P is 1.20 m from point Q and point R is 0.90 m from Q. Which points oscillate in phase with Q, and which in antiphase?', s: ['PQ = 1.20/0.60 = 2 whole wavelengths → P is in phase with Q.', 'RQ = 0.90/0.60 = 1½ wavelengths → R is in antiphase with Q.'], a: 'P in phase; R in antiphase' },
     { q: 'A particle on a sound wave takes 2.5 ms to complete one oscillation. The wave speed is 340 m s<sup>−1</sup>. Find the frequency and wavelength.', s: ['f = 1/T = 1/2.5 × 10<sup>−3</sup> = 400 Hz.', 'λ = c/f = 340/400 = 0.85 m.'], a: '400 Hz; 0.85 m' }
   ],
   pitfalls: ['Saying waves transfer matter.', 'Calling sound transverse or claiming it can be polarised.', 'Reading the period from a displacement–distance graph (that axis gives λ).', 'Confusing amplitude with peak-to-trough height (that is 2A).'],
@@ -266,7 +281,9 @@ TOPICS.push({
     ['Define wavelength.', 'Distance between adjacent points oscillating in phase.'],
     ['Define amplitude.', 'Maximum displacement from equilibrium.'],
     ['Wave equation?', 'c = fλ'],
-    ['Phase difference between points λ/2 apart?', 'π rad (antiphase).'],
+    ['Points λ/2 apart on a progressive wave oscillate…', 'in antiphase.'],
+    ['Define a wavefront.', 'A line joining points on a wave that are in phase.'],
+    ['Angle between rays and wavefronts?', '90°'],
     ['Define plane polarised.', 'Oscillations in one plane only.'],
     ['Which waves can be polarised?', 'Only transverse waves.'],
     ['What does polarisation show about light?', 'Light is a transverse wave.'],
@@ -282,51 +299,64 @@ TOPICS.push({
     { q: 'The amplitude of a wave is', o: ['the maximum displacement from equilibrium', 'the distance from crest to trough', 'the distance between two crests', 'the speed of the particles'], x: 'Crest to trough is 2A.' },
     { q: 'Plane polarised light has oscillations', o: ['in one plane only', 'in all planes perpendicular to its motion', 'parallel to its direction of travel', 'of one frequency only'], x: 'One plane containing the direction of propagation.' },
     { q: 'Unpolarised light passes through two Polaroids whose transmission axes are at 90°. The transmitted intensity is', o: ['zero', 'half the original', 'a quarter of the original', 'the original'], x: 'The first polarises, the second blocks.' },
-    { q: 'Two points one wavelength apart have a phase difference of', o: ['2π rad (in phase)', 'π rad', 'π/2 rad', '4π rad'], x: 'A whole cycle.' },
+    { q: 'Two points on a progressive wave one wavelength apart oscillate', o: ['in phase', 'in antiphase', 'a quarter of a cycle apart', 'with different amplitudes'], x: 'A whole wavelength = a whole cycle.' },
+    { q: 'Rays showing the direction of travel of a wave are', o: ['at right angles to the wavefronts', 'parallel to the wavefronts', 'at 45° to the wavefronts', 'only drawn for light'], x: '' },
     { q: 'The horizontal axis of a graph used to read off the wavelength directly is', o: ['distance', 'time', 'frequency', 'amplitude'], x: 'Displacement–distance snapshot.' }
   ],
   exam: [
     { q: 'Distinguish between transverse and longitudinal waves, giving an example of each.', m: 3, ms: ['Transverse: oscillations perpendicular to direction of energy transfer/propagation.', 'Longitudinal: oscillations parallel to direction of energy transfer.', 'Examples, e.g. light (transverse), sound (longitudinal).'] },
     { q: 'Describe how you would show that microwaves are transverse, using a microwave transmitter and receiver.', m: 4, ms: ['Place receiver facing transmitter; note signal.', 'Rotate receiver (or insert metal grille and rotate it) about the line joining them.', 'Signal falls to (near) zero at 90° and rises to maximum at 0°/180°.', 'Waves are polarised; only transverse waves can be polarised.'] },
-    { q: 'A wave on a rope has frequency 4.0 Hz and wavelength 0.75 m. Calculate the wave speed and the phase difference between two points 0.25 m apart.', m: 3, ms: ['c = fλ = 3.0 m s<sup>−1</sup>', 'x/λ = 0.25/0.75 = ⅓', 'Phase difference = 2π/3 rad (120°)'] }
+    { q: 'A wave on a rope has frequency 4.0 Hz and wavelength 0.75 m. Calculate the wave speed, and state whether two points 1.125 m apart oscillate in phase or in antiphase.', m: 3, ms: ['c = fλ = 3.0 m s<sup>−1</sup>', '1.125/0.75 = 1.5 wavelengths', 'so in antiphase'] }
   ],
-  sims: ['wave'], gens: ['wave1', 'phase1']
+  sims: ['wave'], gens: ['wave1', 'wave2']
 });
 
 TOPICS.push({
   id: '2.5', unit: '2', title: 'Wave Properties', short: 'Diffraction, interference, stationary waves',
   summary: 'What waves do when they meet gaps and each other: diffraction, two-source interference, the diffraction grating and stationary waves.',
   spec: [
-    'Describe diffraction at a slit or obstacle and how it depends on the gap relative to the wavelength',
-    'State the principle of superposition; understand coherence and path difference',
-    'State the conditions for constructive and destructive interference',
-    'Use λ = ay/D for Young’s double-slit experiment',
-    'Use d sin θ = nλ for a diffraction grating',
-    'Explain the formation of stationary waves; identify nodes and antinodes',
-    'Compare stationary and progressive waves',
-    'Determine wavelength using double slits and a grating; determine the speed of sound using stationary waves (specified practicals)'
+    "(a) Diffraction occurs when waves encounter slits or obstacles",
+    "(b) Little diffraction when λ is much smaller than the obstacle or slit",
+    "(c) If λ ≥ slit width, waves spread as roughly semicircular wavefronts; if λ < slit width the main beam spreads through less than 180°",
+    "(d) How two-source interference occurs",
+    "(e) The historical importance of Young’s experiment",
+    "(f) The principle of superposition, with sketch graphs",
+    "(g) Path difference rules for constructive and destructive interference from in-phase sources",
+    "(h) Use λ = ay/D",
+    "(i) Derive and use d sin θ = nλ for a diffraction grating",
+    "(j) A grating’s very small d spreads orders much further apart than in Young’s experiment; the large number of slits makes the beams much sharper",
+    "(k) Coherent sources are monochromatic, with wavefronts continuous across the beam and (for two or more sources) a constant phase relationship",
+    "(l) Examples of coherent and incoherent sources",
+    "(m) For two-source interference the sources need zero or constant phase difference and oscillations in the same direction",
+    "(n) The differences between stationary and progressive waves",
+    "(o) A stationary wave is the superposition of two progressive waves of equal amplitude and frequency travelling in opposite directions; internodal distance = λ/2"
   ],
   learn: [
     { h: 'Diffraction', html: `
 <p><b>Diffraction</b> is the spreading out of waves as they pass through a gap or around an obstacle. It is most noticeable when the gap is similar in size to the wavelength. A gap much wider than λ gives little spreading.</p>
-<p>This is why you can hear round corners (sound λ ~ 1 m) but not see round them (light λ ~ 500 nm), and why long-wave radio reaches places behind hills.</p>` },
+<ul><li>If λ is <b>much smaller</b> than the slit or obstacle, there is little diffraction.</li><li>If λ is <b>equal to or greater than</b> the slit width, waves spread out as roughly <b>semicircular</b> wavefronts.</li><li>If λ is <b>less than</b> the slit width, the main beam spreads through <b>less than 180°</b>.</li></ul>
+<p>This is why you can hear round corners (sound λ ~ 1 m) but not see round them (light λ ~ 500 nm).</p>` },
     { h: 'Superposition and interference', html: `
 <div class="box def"><b class="lbl">Principle of superposition</b><p>When two or more waves meet at a point, the resultant displacement is the (vector) sum of the individual displacements.</p></div>
-<div class="box def"><b class="lbl">Coherence</b><p>Two sources are <b>coherent</b> if they have a constant phase difference (which requires the same frequency).</p></div>
+<div class="box def"><b class="lbl">Coherence</b><p>A <b>coherent</b> source is monochromatic, with wavefronts continuous across the width of the beam; two or more coherent sources have a <b>constant phase relationship</b>.</p></div>
+<p><b>Examples.</b> Coherent: a laser; two slits illuminated by the same laser; two loudspeakers driven by one signal generator; two dippers on one bar in a ripple tank. Incoherent: two separate lamps or two separate lasers, a filament lamp, a candle — their light is emitted in random, unrelated bursts.</p>
+<div class="box def"><b class="lbl">Conditions for observable two-source interference</b><ol><li>The sources have a zero or constant phase difference (coherent).</li><li>The oscillations are in the same direction (e.g. same plane of polarisation).</li></ol></div>
 <p><b>Path difference</b> is the difference in distance travelled from the two sources to a point. For coherent sources oscillating <b>in phase</b>:</p>
 <ul><li>Constructive interference (maximum) when path difference = nλ.</li><li>Destructive interference (minimum) when path difference = (n + ½)λ.</li></ul>
-<p>For a clear pattern, the waves should also have similar amplitudes (so minima are nearly zero).</p>` },
+<p>For a clear pattern the waves should also have similar amplitudes, so the minima are nearly zero. When sketching superposition, add the displacements of the two waves point by point.</p>` },
     { h: 'Young’s double slits', html: `
 [[d:double-slit]]
 <div class="box eq">$λ = @frac{ay}{D}$</div>
 <p>a = slit separation, y = fringe separation (centre-to-centre spacing of adjacent bright fringes), D = slit-to-screen distance. Valid when D ≫ a and y.</p>
 <p>Increase the fringe spacing by increasing D or λ, or by decreasing a. Measure across several fringes (e.g. 10y) with a ruler to reduce percentage uncertainty.</p>
+<div class="box why"><b class="lbl">Historical importance</b><p>Young’s experiment (1801) produced interference fringes with light — something only waves can do. It was key evidence for the <b>wave nature of light</b>, against Newton’s particle (corpuscular) theory, and gave the first measurement of the wavelength of light.</p></div>
 <div class="box warn"><b class="lbl">Safety</b><p>Never look directly into a laser beam or its reflection.</p></div>` },
     { h: 'The diffraction grating', html: `
 [[d:grating]]
 <div class="box eq">$d@,"sin"@,θ = nλ$</div>
 <p>d = spacing between adjacent lines (d = 1/N where N is lines per metre), θ = angle of the n<sup>th</sup> order maximum from the straight-through direction. Since sin θ ≤ 1, the highest order visible is the largest whole number ≤ d/λ.</p>
-<p>A grating gives sharper, brighter and more widely spaced maxima than double slits, so λ can be measured more precisely. With white light, the central maximum is white and each order is a spectrum with violet (shortest λ) nearest the centre.</p>` },
+<p><b>Deriving the equation.</b> Light from adjacent slits reaching a distant point at angle θ has path difference d sin θ. All the slits reinforce when this equals a whole number of wavelengths: d sin θ = nλ.</p>
+<p>Compared with Young’s slits: the <b>very small d</b> spreads the orders much further apart, and the <b>large number of slits</b> makes the bright beams much sharper (and brighter), so λ can be measured more precisely. With white light, the central maximum is white and each order is a spectrum with violet (shortest λ) nearest the centre.</p>` },
     { h: 'Stationary waves', html: `
 <p>A <b>stationary (standing) wave</b> forms when two progressive waves of the same frequency (and similar amplitude) travelling in opposite directions superpose — typically a wave and its reflection.</p>
 <ul><li><b>Nodes</b>: points of zero amplitude. <b>Antinodes</b>: points of maximum amplitude.</li><li>Adjacent nodes (or antinodes) are λ/2 apart.</li></ul>
@@ -336,14 +366,14 @@ TOPICS.push({
 <tr><td>Amplitude</td><td>same for all points (no losses)</td><td>varies from zero (node) to maximum (antinode)</td></tr>
 <tr><td>Phase</td><td>varies continuously along one λ</td><td>all points between adjacent nodes in phase; antiphase with the next segment</td></tr>
 <tr><td>Wavelength</td><td>distance between adjacent points in phase</td><td>twice the node–node distance</td></tr></table></div>
-<p>A string fixed at both ends has nodes at the ends. The fundamental (first harmonic) has λ = 2L, so $f_1 = @frac{c}{2L}$; the higher harmonics are 2f<sub>1</sub>, 3f<sub>1</sub>, …</p>
+<p>On a string fixed at both ends, the ends must be nodes, so the stationary waves that can form have a whole number of λ/2 loops along the string (see diagram).</p>
 <div class="box def"><b class="lbl">Specified practical: speed of sound</b><p>A loudspeaker faces a flat reflector; a small microphone connected to an oscilloscope is moved along the line between them to locate successive nodes (minimum signal). Node–node spacing = λ/2. Measure the distance across several nodes, find λ, then c = fλ using the signal generator frequency.</p></div>` }
   ],
-  eqs: [['λ = @frac{ay}{D}', 'Young’s double slits'], ['d@,"sin"@,θ = nλ', 'diffraction grating'], ['"node–node" = @frac{λ}{2}', 'stationary wave'], ['f_1 = @frac{c}{2L}', 'string fixed at both ends']],
+  eqs: [['λ = @frac{ay}{D}', 'Young’s double slits'], ['d@,"sin"@,θ = nλ', 'diffraction grating'], ['"node–node" = @frac{λ}{2}', 'stationary wave']],
   worked: [
     { q: 'In a double-slit experiment, a = 0.50 mm, D = 2.0 m and ten fringe spacings measure 26 mm. Find λ.', s: ['y = 26/10 = 2.6 mm.', 'λ = ay/D = 0.50 × 10<sup>−3</sup> × 2.6 × 10<sup>−3</sup> / 2.0.'], a: '6.5 × 10<sup>−7</sup> m (650 nm)' },
     { q: 'Light of wavelength 590 nm falls normally on a grating with 300 lines per mm. Find the angle of the first order and the highest order visible.', s: ['d = 1/300 000 = 3.33 × 10<sup>−6</sup> m.', 'sin θ<sub>1</sub> = λ/d = 0.177, so θ<sub>1</sub> = 10.2°.', 'n<sub>max</sub> ≤ d/λ = 5.65, so the highest order is 5.'], a: '10.2°; 5th order' },
-    { q: 'A guitar string 0.65 m long vibrates at its fundamental frequency of 196 Hz. Find the speed of waves on the string.', s: ['Fundamental: λ = 2L = 1.30 m.', 'c = fλ = 196 × 1.30.'], a: '255 m s<sup>−1</sup>' }
+    { q: 'In the speed-of-sound practical at 1.50 kHz, the distance across 5 node-to-node spacings is 0.57 m. Find the speed of sound.', s: ['One node–node spacing = 0.57/5 = 0.114 m = λ/2.', 'λ = 0.228 m.', 'c = fλ = 1500 × 0.228.'], a: '342 m s<sup>−1</sup>' }
   ],
   pitfalls: ['Calling sources coherent just because they have the same frequency — the phase difference must be constant.', 'Using lines per mm directly as d; d = 1/N in metres.', 'Rounding n<sub>max</sub> up instead of down.', 'Saying stationary-wave nodes are λ apart (they are λ/2 apart).', 'Measuring a single fringe spacing instead of across many.'],
   cards: [
@@ -358,8 +388,9 @@ TOPICS.push({
     ['Node to adjacent node distance?', 'λ/2'],
     ['Phase of points between adjacent nodes?', 'All in phase.'],
     ['Does a stationary wave transfer energy?', 'No net energy transfer.'],
-    ['Fundamental wavelength of a string of length L?', '2L'],
-    ['Advantage of a grating over double slits?', 'Sharper, brighter, more widely spaced maxima → more precise λ.']
+    ['Advantage of a grating over double slits?', 'Sharper, brighter, more widely spaced maxima → more precise λ.'],
+    ['Give two examples of coherent sources.', 'A laser; two slits lit by one laser; two loudspeakers driven by the same signal generator.'],
+    ['Why was Young’s experiment historically important?', 'Interference of light showed light behaves as a wave (and allowed λ to be measured).']
   ],
   quiz: [
     { q: 'Two sources are coherent if they have', o: ['a constant phase difference', 'the same amplitude', 'the same intensity', 'zero phase difference only'], x: 'Constant phase difference (hence the same frequency).' },
@@ -371,36 +402,40 @@ TOPICS.push({
     { q: 'With d = 2.0 μm and λ = 600 nm, the highest order maximum visible is', o: ['3', '4', '2', '6'], x: 'd/λ = 3.33 → n = 3.' },
     { q: 'Diffraction is most noticeable when the gap width is', o: ['about equal to the wavelength', 'much larger than the wavelength', 'much smaller than the amplitude', 'zero'], x: '' },
     { q: 'Which statement about a stationary wave is correct?', o: ['There is no net transfer of energy', 'All points have the same amplitude', 'It is formed by two waves travelling in the same direction', 'Adjacent antinodes are λ apart'], x: 'Energy is stored, not transferred.' },
-    { q: 'For a string fixed at both ends vibrating at its fundamental frequency, the string length is', o: ['λ/2', 'λ', 'λ/4', '2λ'], x: 'One loop: node–antinode–node.' },
+    { q: 'Which pair of sources would NOT produce an observable interference pattern?', o: ['two separate filament lamps', 'two slits illuminated by one laser', 'two loudspeakers connected to one signal generator', 'two dippers on the same bar in a ripple tank'], x: 'Separate lamps are incoherent: no constant phase relationship.' },
+    { q: 'Light passes through a slit narrower than its wavelength. The diffracted waves', o: ['spread out as roughly semicircular wavefronts', 'spread through much less than 180°', 'are not diffracted', 'form a stationary wave'], x: 'λ ≥ slit width → semicircular spreading.' },
     { q: 'White light is shone on a diffraction grating. In each first-order spectrum, the colour closest to the central maximum is', o: ['violet', 'red', 'green', 'white'], x: 'Smaller λ → smaller θ.' },
     { q: 'Monochromatic light of wavelength 500 nm passes through a grating and the first order is at 30°. The grating spacing is', o: ['1.0 × 10<sup>−6</sup> m', '2.5 × 10<sup>−7</sup> m', '5.0 × 10<sup>−7</sup> m', '1.0 × 10<sup>−3</sup> m'], x: 'd = λ/sin 30°.' }
   ],
   exam: [
     { q: 'Describe how you would determine the wavelength of laser light using a diffraction grating.', m: 6, ms: ['Laser shone normally onto grating; pattern on screen/wall ~1–2 m away.', 'd calculated from lines per mm (d = 1/N).', 'Measure distance D grating–screen and distance between symmetrical orders (2x) with metre rule.', 'θ from tan θ = x/D (using half the separation of ± orders).', 'λ = d sin θ / n; repeat for several orders and average.', 'Safety: do not look into beam; avoid reflections.'] },
     { q: 'State three differences between a progressive wave and a stationary wave.', m: 3, ms: ['Energy: transferred vs no net transfer.', 'Amplitude: same everywhere vs varies (zero at nodes).', 'Phase: varies along wave vs in phase between adjacent nodes.'] },
-    { q: 'Explain how a stationary wave is formed on a string fixed at both ends and why only certain frequencies are possible.', m: 4, ms: ['Wave travels along string and is reflected at the fixed end.', 'Incident and reflected waves (same f, speed, similar A) superpose.', 'Fixed ends must be nodes.', 'Only wavelengths where L = nλ/2 fit, so f = nc/2L.'] }
+    { q: 'Explain how a stationary wave is formed on a string fixed at both ends, and state the distance between adjacent nodes.', m: 4, ms: ['Wave travels along string and is reflected at the fixed end.', 'Incident and reflected waves have equal amplitude and frequency and travel in opposite directions.', 'They superpose to form nodes (always zero displacement) and antinodes.', 'Adjacent nodes are λ/2 apart.'] }
   ],
-  sims: ['slits', 'standing', 'grating'], gens: ['yds1', 'grat1', 'string1']
+  sims: ['slits', 'standing', 'grating'], gens: ['yds1', 'grat1', 'sound1']
 });
 
 TOPICS.push({
   id: '2.6', unit: '2', title: 'Refraction of Light', short: 'Snell’s law, TIR, optical fibres',
   summary: 'Light changes speed between media. Snell’s law, total internal reflection and why multimode fibres limit how fast data can travel.',
   spec: [
-    'Define refractive index n = c/v',
-    'Use Snell’s law n₁ sin θ₁ = n₂ sin θ₂',
-    'Understand that frequency is unchanged on refraction while speed and wavelength change',
-    'State the conditions for total internal reflection and use sin θc = n₂/n₁',
-    'Describe the structure of a multimode optical fibre and the role of the cladding',
-    'Explain multimode dispersion and how it limits data rate; calculate time differences',
-    'Measure refractive index (specified practical)'
+    "(a) Refractive index n = c/v",
+    "(b) Use n₁v₁ = n₂v₂ and n₁ sin θ₁ = n₂ sin θ₂ (Snell’s law)",
+    "(c) How Snell’s law relates to the wave model: plane waves refracted at a plane boundary",
+    "(d) The conditions for total internal reflection",
+    "(e) Derive and use sin θc = n₂/n₁ for the critical angle",
+    "(f) Apply total internal reflection to multimode optical fibres",
+    "(g) Multimode dispersion limits the rate of data transfer and transmission distance",
+    "(h) Monomode fibres have allowed much greater transmission rates and distances"
   ],
   learn: [
     { h: 'Refractive index and Snell’s law', html: `
 <div class="box def"><b class="lbl">Definition</b><p>The <b>refractive index</b> of a medium is $n = @frac{c}{v}$, the speed of light in a vacuum divided by the speed of light in the medium. n ≥ 1; for air n ≈ 1.00.</p></div>
 [[d:snell]]
 <div class="box eq">$n_1@,"sin"@,θ_1 = n_2@,"sin"@,θ_2$</div>
-<p>Angles are measured from the normal. Going into a medium of higher n, light slows down and bends <b>towards</b> the normal. The <b>frequency stays the same</b>, so the wavelength decreases in proportion to the speed.</p>` },
+<p>Angles are measured from the normal. Going into a medium of higher n, light slows down and bends <b>towards</b> the normal. The <b>frequency stays the same</b>, so the wavelength decreases in proportion to the speed.</p>
+<p>Since n = c/v, the product nv is the same in every medium: $n_1v_1 = n_2v_2$.</p>
+<div class="box why"><b class="lbl">Snell’s law and the wave model</b><p>Draw plane wavefronts approaching the boundary obliquely. The part of each wavefront that enters the slower medium first travels a shorter distance in the same time, so the wavefront swings round and the ray (perpendicular to the wavefronts) bends towards the normal. In one period the wavefront moves λ₁ = v₁T in medium 1 and λ₂ = v₂T in medium 2; the geometry of the wavefronts across the boundary gives sin θ₁/sin θ₂ = v₁/v₂ = n₂/n₁ — Snell’s law.</p></div>` },
     { h: 'Total internal reflection', html: `
 <p>When light travels from a higher to a lower refractive index, the refracted ray bends away from the normal. At the <b>critical angle</b> θ<sub>c</sub> the refracted ray travels along the boundary (θ<sub>2</sub> = 90°):</p>
 <div class="box eq">$"sin"@,θ_c = @frac{n_2}{n_1}$</div>
@@ -411,10 +446,10 @@ TOPICS.push({
 [[d:fibre]]
 <p>In a <b>multimode</b> fibre (wide core), rays can take many paths. A ray reflecting at close to the critical angle travels further than a ray along the axis, so it arrives later. A short pulse of light therefore spreads out in time — <b>multimode dispersion</b>. Adjacent pulses can overlap, so this limits the rate at which data can be sent and the distance between repeaters.</p>
 <div class="box def"><b class="lbl">Time difference</b><p>Axial ray: $t_1 = @frac{L}{v} = @frac{Ln_1}{c}$. Ray at the critical angle travels $L/"sin"@,θ_c$, so $t_2 = @frac{t_1}{"sin"@,θ_c} = t_1 @frac{n_1}{n_2}$.</p></div>
-<p>Multimode dispersion is reduced by using a very narrow core (a <b>monomode</b> fibre) so there is essentially one path, or by making the core and cladding indices very close.</p>
+<p>The introduction of <b>monomode</b> fibres — with a very narrow core (a few μm) so there is essentially only one path — removed multimode dispersion and has allowed much greater transmission rates and distances. They are used for long-distance telecommunications and internet backbones.</p>
 <div class="box def"><b class="lbl">Specified practical: refractive index</b><p>Trace rays through a rectangular glass block with ray box (or pins) for a range of incidence angles. Measure θ<sub>1</sub> and θ<sub>2</sub> with a protractor; plot sin θ<sub>1</sub> against sin θ<sub>2</sub>: gradient = n of the glass.</p></div>` }
   ],
-  eqs: [['n = @frac{c}{v}', 'refractive index'], ['n_1@,"sin"@,θ_1 = n_2@,"sin"@,θ_2', 'Snell’s law'], ['"sin"@,θ_c = @frac{n_2}{n_1}', 'critical angle']],
+  eqs: [['n = @frac{c}{v}', 'refractive index'], ['n_1v_1 = n_2v_2', ''], ['n_1@,"sin"@,θ_1 = n_2@,"sin"@,θ_2', 'Snell’s law'], ['"sin"@,θ_c = @frac{n_2}{n_1}', 'critical angle']],
   worked: [
     { q: 'Light in air hits glass (n = 1.52) at 40° to the normal. Find the angle of refraction and the speed of light in the glass.', s: ['sin θ<sub>2</sub> = sin 40° / 1.52 = 0.423, so θ<sub>2</sub> = 25.0°.', 'v = c/n = 3.00 × 10<sup>8</sup> / 1.52 = 1.97 × 10<sup>8</sup> m s<sup>−1</sup>.'], a: '25°; 1.97 × 10<sup>8</sup> m s<sup>−1</sup>' },
     { q: 'An optical fibre has core index 1.50 and cladding index 1.45. Find the critical angle.', s: ['sin θ<sub>c</sub> = 1.45/1.50 = 0.967.'], a: '75.2°' },
@@ -431,7 +466,8 @@ TOPICS.push({
     ['Purpose of cladding?', 'Lower n for TIR at the core boundary; protects core; prevents crosstalk.'],
     ['What is multimode dispersion?', 'Different ray paths take different times → pulses spread out.'],
     ['How to reduce multimode dispersion?', 'Use a very narrow core (monomode fibre).'],
-    ['Graph for n of a glass block?', 'sin θ<sub>1</sub> (air) against sin θ<sub>2</sub> (glass): gradient = n.']
+    ['Graph for n of a glass block?', 'sin θ<sub>1</sub> (air) against sin θ<sub>2</sub> (glass): gradient = n.'],
+    ['Why have monomode fibres allowed greater data rates?', 'Very narrow core → only one path → no multimode dispersion, so pulses don’t spread.']
   ],
   quiz: [
     { q: 'Light travels at 2.26 × 10<sup>8</sup> m s<sup>−1</sup> in water. The refractive index of water is', o: ['1.33', '0.75', '2.26', '1.50'], x: 'n = 3.00/2.26.' },
@@ -443,7 +479,8 @@ TOPICS.push({
     { q: 'Multimode dispersion can be reduced by', o: ['making the core narrower', 'making the core wider', 'increasing the difference between core and cladding indices', 'using a brighter source'], x: 'A monomode fibre has a very narrow core.' },
     { q: 'A ray enters glass from air at an angle to the normal. It', o: ['bends towards the normal', 'bends away from the normal', 'does not change direction', 'is totally internally reflected'], x: 'Speed decreases.' },
     { q: 'When the angle of incidence equals the critical angle, the angle of refraction is', o: ['90°', '0°', '45°', 'equal to the critical angle'], x: 'Refracted ray along the boundary.' },
-    { q: 'Light travels from glass (n = 1.50) into water (n = 1.33). The critical angle is about', o: ['62°', '42°', '49°', '28°'], x: 'sin θ<sub>c</sub> = 1.33/1.50 = 0.887.' }
+    { q: 'Light travels from glass (n = 1.50) into water (n = 1.33). The critical angle is about', o: ['62°', '42°', '49°', '28°'], x: 'sin θ<sub>c</sub> = 1.33/1.50 = 0.887.' },
+    { q: 'Light travels at 2.00 × 10<sup>8</sup> m s<sup>−1</sup> in glass of refractive index 1.50. In water (n = 1.33) its speed is', o: ['2.26 × 10<sup>8</sup> m s<sup>−1</sup>', '1.77 × 10<sup>8</sup> m s<sup>−1</sup>', '3.00 × 10<sup>8</sup> m s<sup>−1</sup>', '2.66 × 10<sup>8</sup> m s<sup>−1</sup>'], x: 'n₁v₁ = n₂v₂: 1.50 × 2.00 × 10⁸ / 1.33.' }
   ],
   exam: [
     { q: 'Explain what is meant by multimode dispersion in an optical fibre and why it is a problem for data transmission.', m: 4, ms: ['Rays travel along different paths (axial vs repeated TIR at large angles).', 'Longer paths take longer time.', 'A pulse spreads out (broadens) in time.', 'Pulses may overlap, limiting data rate / distance before regeneration.'] },
@@ -457,19 +494,26 @@ TOPICS.push({
   id: '2.7', unit: '2', title: 'Photons', short: 'Photoelectric effect, energy levels, de Broglie',
   summary: 'Light comes in packets. The photoelectric effect, energy levels and line spectra, and the discovery that particles behave as waves.',
   spec: [
-    'Describe the photoelectric effect and the observations that wave theory cannot explain',
-    'Use E = hf and Einstein’s equation Ek max = hf − φ; define work function and threshold frequency',
-    'Describe how Ek max can be measured using a stopping potential',
-    'Use the electron volt as a unit of energy',
-    'Explain line emission and absorption spectra in terms of discrete energy levels; hf = E₁ − E₂',
-    'Understand ionisation and excitation',
-    'Use photon momentum p = h/λ and the de Broglie equation λ = h/p; electron diffraction as evidence',
-    'Determine the Planck constant using LEDs (specified practical)'
+    "(a) Light consists of discrete packets (photons) of energy",
+    "(b) How the photoelectric effect can be demonstrated",
+    "(c) Use a vacuum photocell to measure Ek max of emitted electrons in eV and hence in J",
+    "(d) The graph of Ek max against frequency",
+    "(e) The photon picture leads to Einstein’s equation Ek max = hf − φ, and how it correlates with the graph",
+    "(f) The visible spectrum runs from about 700 nm (red) to 400 nm (violet); orders of magnitude of wavelengths of the other EM regions",
+    "(g) Typical photon energies for these radiations",
+    "(h) How to produce line emission and line absorption spectra from atoms",
+    "(i) The appearance of such spectra seen through a diffraction grating",
+    "(j) Simple atomic energy-level diagrams with the photon hypothesis, line emission and absorption spectra",
+    "(k) Determine ionisation energies from an energy-level diagram",
+    "(l) Electron diffraction shows particles have a wave-like aspect",
+    "(m) Use p = h/λ for both particles of matter and photons",
+    "(n) Calculate the radiation pressure on a surface absorbing or reflecting photons"
   ],
   learn: [
     { h: 'Photons', html: `
 <p>EM radiation is emitted and absorbed in discrete packets called <b>photons</b>. Each photon carries energy:</p>
 <div class="box eq">$E = hf = @frac{hc}{λ}$ &nbsp;&nbsp; h = 6.63 × 10<sup>−34</sup> J s</div>
+<h4>The electromagnetic spectrum</h4><div class="tbl"><table><tr><th>Region</th><th>Wavelength (order of magnitude)</th><th>Typical photon energy</th></tr><tr><td>γ rays</td><td>10<sup>−12</sup> m and below</td><td>~1 MeV</td></tr><tr><td>X-rays</td><td>10<sup>−10</sup> m</td><td>~10 keV</td></tr><tr><td>ultraviolet</td><td>10<sup>−8</sup> m</td><td>~10–100 eV</td></tr><tr><td>visible</td><td>700 nm (red) to 400 nm (violet)</td><td>~2–3 eV</td></tr><tr><td>infrared</td><td>10<sup>−5</sup> m</td><td>~0.1 eV</td></tr><tr><td>microwaves</td><td>10<sup>−2</sup> m</td><td>~10<sup>−4</sup> eV</td></tr><tr><td>radio</td><td>1 m and above</td><td>~10<sup>−6</sup> eV or less</td></tr></table></div>
 <p>The <b>electron volt</b> is the energy gained by an electron accelerated through a pd of 1 V: 1 eV = 1.60 × 10<sup>−19</sup> J. A 500 nm photon has E = 3.98 × 10<sup>−19</sup> J = 2.49 eV.</p>` },
     { h: 'The photoelectric effect', html: `
 <p>When EM radiation of high enough frequency shines on a clean metal surface, electrons are emitted. Observations:</p>
@@ -482,7 +526,8 @@ TOPICS.push({
 <p>More intense light means more photons per second, so more electrons per second — but each photon still has the same energy.</p>
 [[d:ek-f]]` },
     { h: 'Measuring E<sub>k max</sub>: stopping potential', html: `
-<p>In a vacuum photocell, make the collecting electrode negative relative to the emitting surface. Increase this reverse pd until the photocurrent just falls to zero. This <b>stopping potential</b> V<sub>s</sub> stops even the fastest electrons:</p>
+<p>A simple demonstration: a clean zinc plate on a negatively charged gold-leaf electroscope loses its charge (the leaf falls) when UV light shines on it, but not with visible light, however bright.</p>
+<p>In a <b>vacuum photocell</b>, make the collecting electrode negative relative to the emitting surface. Increase this reverse pd until the photocurrent just falls to zero. This <b>stopping potential</b> V<sub>s</sub> stops even the fastest electrons:</p>
 <div class="box eq">$eV_s = E_{k max} = hf - φ$</div>
 <p>A graph of V<sub>s</sub> against f is a straight line with gradient h/e and x-intercept f<sub>0</sub>.</p>` },
     { h: 'Energy levels and line spectra', html: `
@@ -491,19 +536,23 @@ TOPICS.push({
 <ul><li><b>Excitation</b>: an electron moves to a higher level by absorbing a photon of exactly the right energy or by collision with another particle.</li>
 <li><b>De-excitation</b>: the electron drops to a lower level, emitting a photon with $hf = E_{upper} - E_{lower}$.</li>
 <li><b>Ionisation</b>: an electron gains enough energy to escape the atom completely.</li></ul>
-<p>Only certain energy differences are possible, so a hot gas gives a <b>line emission spectrum</b>. Cool gas in front of a continuous source absorbs the same wavelengths, giving a <b>line absorption spectrum</b> (see 1.6).</p>` },
+<p>The <b>ionisation energy</b> is the energy needed to remove an electron from the ground state completely: on the diagram, the gap from the ground level to 0 eV (13.6 eV for hydrogen).</p>
+<p>Only certain energy differences are possible, so a hot gas gives a <b>line emission spectrum</b>. Cool gas in front of a continuous source absorbs the same wavelengths, giving a <b>line absorption spectrum</b> (see 1.6).</p>
+<p><b>Producing them:</b> for emission, pass a current through a low-pressure gas discharge tube (e.g. hydrogen, sodium, neon); for absorption, shine white light through a cool gas or vapour (e.g. sodium vapour). <b>Seen through a diffraction grating</b>, an emission spectrum appears as a set of sharp coloured lines on a dark background, repeated in each order either side of the central (undeviated) image; an absorption spectrum appears as dark lines crossing a continuous rainbow spectrum.</p>` },
     { h: 'Wave–particle duality', html: `
 <p>Photons carry momentum: $p = @frac{h}{λ}$. Conversely, de Broglie proposed that any particle of momentum p has a wavelength:</p>
 <div class="box eq">$λ = @frac{h}{p} = @frac{h}{mv}$</div>
 <p>Evidence: <b>electron diffraction</b>. A beam of electrons through a thin film of graphite produces diffraction rings on a fluorescent screen, just as waves would. Their de Broglie wavelength (~10<sup>−10</sup> m) is similar to the spacing between atoms. Faster electrons have shorter wavelength, so the rings get smaller.</p>
+<h4>Radiation pressure</h4><p>Each photon carries momentum p = h/λ. When a beam of photons hits a surface, the rate of change of momentum is a force, and the force per unit area is the <b>radiation pressure</b>.</p><ul><li>Absorbing surface: each photon gives up momentum h/λ. Force = (photons per second) × h/λ = P/c for a beam of power P (since E = pc for a photon).</li><li>Reflecting surface (normal incidence): momentum changes from +h/λ to −h/λ, so 2h/λ per photon — <b>twice</b> the force: F = 2P/c.</li></ul><p>Radiation pressure = F/A. Example: sunlight of intensity 1.4 kW m<sup>−2</sup> absorbed by a surface gives pressure I/c = 1400/3.00 × 10<sup>8</sup> ≈ 4.7 μPa. This is what drives a solar sail.</p>
 <div class="box def"><b class="lbl">Specified practical: h using LEDs</b><p>Each LED only starts to conduct and emit light when the pd reaches a threshold V, where eV ≈ hc/λ. Measure V for LEDs of known λ (several colours). Plot V against 1/λ: gradient = hc/e, so h = gradient × e/c.</p></div>` }
   ],
-  eqs: [['E = hf = @frac{hc}{λ}', 'photon energy'], ['E_{k max} = hf - φ', 'Einstein photoelectric'], ['eV_s = E_{k max}', 'stopping potential'], ['hf = E_1 - E_2', 'transition between levels'], ['p = @frac{h}{λ}', 'photon momentum'], ['λ = @frac{h}{p}', 'de Broglie'], ['1 "eV" = 1.60 × 10^{-19} "J"', '']],
+  eqs: [['E = hf = @frac{hc}{λ}', 'photon energy'], ['E_{k max} = hf - φ', 'Einstein photoelectric'], ['eV_s = E_{k max}', 'stopping potential'], ['hf = E_1 - E_2', 'transition between levels'], ['p = @frac{h}{λ}', 'photons and particles'], ['F = @frac{P}{c}" (absorbed), "F = @frac{2P}{c}" (reflected)"', 'radiation force from beam power P'], ['1 "eV" = 1.60 × 10^{-19} "J"', '']],
   worked: [
     { q: 'Find the energy of a 450 nm photon in J and eV.', s: ['E = hc/λ = 6.63 × 10<sup>−34</sup> × 3.00 × 10<sup>8</sup> / 450 × 10<sup>−9</sup> = 4.42 × 10<sup>−19</sup> J.', '÷ 1.60 × 10<sup>−19</sup> = 2.76 eV.'], a: '4.4 × 10<sup>−19</sup> J = 2.8 eV' },
     { q: 'Light of wavelength 400 nm falls on potassium (φ = 2.30 eV). Find the maximum kinetic energy and maximum speed of the photoelectrons.', s: ['Photon energy = hc/λ = 4.97 × 10<sup>−19</sup> J.', 'φ = 2.30 × 1.60 × 10<sup>−19</sup> = 3.68 × 10<sup>−19</sup> J.', 'E<sub>k max</sub> = 4.97 − 3.68 = 1.29 × 10<sup>−19</sup> J (0.81 eV).', 'v = √(2E<sub>k</sub>/m) = √(2 × 1.29 × 10<sup>−19</sup> / 9.11 × 10<sup>−31</sup>) = 5.3 × 10<sup>5</sup> m s<sup>−1</sup>.'], a: '1.3 × 10<sup>−19</sup> J; 5.3 × 10<sup>5</sup> m s<sup>−1</sup>' },
     { q: 'An electron in hydrogen drops from −1.51 eV to −3.40 eV. Find the wavelength of the photon emitted.', s: ['ΔE = 1.89 eV = 3.02 × 10<sup>−19</sup> J.', 'λ = hc/ΔE = 1.99 × 10<sup>−25</sup> / 3.02 × 10<sup>−19</sup>.'], a: '6.6 × 10<sup>−7</sup> m (red, H-α)' },
-    { q: 'Find the de Broglie wavelength of an electron travelling at 3.0 × 10<sup>6</sup> m s<sup>−1</sup>.', s: ['p = mv = 9.11 × 10<sup>−31</sup> × 3.0 × 10<sup>6</sup> = 2.73 × 10<sup>−24</sup> kg m s<sup>−1</sup>.', 'λ = h/p = 6.63 × 10<sup>−34</sup> / 2.73 × 10<sup>−24</sup>.'], a: '2.4 × 10<sup>−10</sup> m' }
+    { q: 'Find the de Broglie wavelength of an electron travelling at 3.0 × 10<sup>6</sup> m s<sup>−1</sup>.', s: ['p = mv = 9.11 × 10<sup>−31</sup> × 3.0 × 10<sup>6</sup> = 2.73 × 10<sup>−24</sup> kg m s<sup>−1</sup>.', 'λ = h/p = 6.63 × 10<sup>−34</sup> / 2.73 × 10<sup>−24</sup>.'], a: '2.4 × 10<sup>−10</sup> m' },
+    { q: 'A 5.0 mW laser beam falls normally on a mirror, which reflects it all. Find the force on the mirror.', s: ['Photon momentum flux: P/c per second for absorption.', 'Reflection doubles the momentum change: F = 2P/c.', 'F = 2 × 5.0 × 10<sup>−3</sup> / 3.00 × 10<sup>8</sup>.'], a: '3.3 × 10<sup>−11</sup> N' }
   ],
   pitfalls: ['Saying brighter light gives faster electrons.', 'Mixing eV and J in the same equation.', 'Forgetting that it is the <b>maximum</b> kinetic energy (many electrons lose energy before escaping).', 'Describing emission by an electron “jumping up”: emission is when it drops down.', 'Using E = hf with λ in nm without converting.'],
   cards: [
@@ -520,7 +569,10 @@ TOPICS.push({
     ['de Broglie equation?', 'λ = h/p = h/mv'],
     ['Evidence that electrons behave as waves?', 'Electron diffraction (e.g. through graphite).'],
     ['Gradient of E<sub>k max</sub> against f?', 'h'],
-    ['LED method for h: graph?', 'V against 1/λ; gradient = hc/e.']
+    ['LED method for h: graph?', 'V against 1/λ; gradient = hc/e.'],
+    ['Radiation force from a beam of power P on an absorbing surface?', 'F = P/c (2P/c if perfectly reflected).'],
+    ['How is ionisation energy found from an energy-level diagram?', 'Energy gap from the ground state up to 0 eV.'],
+    ['Typical photon energy of visible light?', 'About 2–3 eV.']
   ],
   quiz: [
     { q: 'Light above the threshold frequency is made more intense. The effect on photoemission is', o: ['more electrons per second, same maximum kinetic energy', 'same number per second, greater maximum kinetic energy', 'more electrons, greater maximum kinetic energy', 'no change'], x: 'More photons, each with the same energy.' },
@@ -534,26 +586,31 @@ TOPICS.push({
     { q: 'On a graph of E<sub>k max</sub> against frequency, the gradient is', o: ['the Planck constant', 'the work function', 'the threshold frequency', 'the electron charge'], x: 'E<sub>k max</sub> = hf − φ.' },
     { q: 'The stopping potential for some photoelectrons is 1.2 V. The maximum kinetic energy is', o: ['1.2 eV', '1.2 J', '0.83 eV', '1.9 × 10<sup>−18</sup> J'], x: 'eV<sub>s</sub> = E<sub>k max</sub>; 1.2 eV = 1.9 × 10<sup>−19</sup> J.' },
     { q: 'An electron drops from −1.51 eV to −3.40 eV. The emitted photon has energy', o: ['1.89 eV', '4.91 eV', '3.40 eV', '1.51 eV'], x: 'Difference of the levels.' },
-    { q: 'The momentum of a photon of wavelength 663 nm is', o: ['1.0 × 10<sup>−27</sup> kg m s<sup>−1</sup>', '3.0 × 10<sup>−19</sup> kg m s<sup>−1</sup>', '1.0 × 10<sup>27</sup> kg m s<sup>−1</sup>', '4.4 × 10<sup>−40</sup> kg m s<sup>−1</sup>'], x: 'p = h/λ = 6.63 × 10<sup>−34</sup>/6.63 × 10<sup>−7</sup>.' }
+    { q: 'The momentum of a photon of wavelength 663 nm is', o: ['1.0 × 10<sup>−27</sup> kg m s<sup>−1</sup>', '3.0 × 10<sup>−19</sup> kg m s<sup>−1</sup>', '1.0 × 10<sup>27</sup> kg m s<sup>−1</sup>', '4.4 × 10<sup>−40</sup> kg m s<sup>−1</sup>'], x: 'p = h/λ = 6.63 × 10<sup>−34</sup>/6.63 × 10<sup>−7</sup>.' },
+    { q: 'A beam of light is reflected straight back from a mirror instead of being absorbed. The force it exerts is', o: ['doubled', 'halved', 'unchanged', 'zero'], x: 'Momentum change per photon is 2h/λ instead of h/λ.' },
+    { q: 'The ionisation energy of hydrogen, whose ground state is −13.6 eV, is', o: ['13.6 eV', '3.4 eV', '−13.6 eV', '10.2 eV'], x: 'From −13.6 eV up to 0 eV.' },
+    { q: 'Typical X-ray photons have energies of about', o: ['10 keV', '2 eV', '1 meV', '1 GeV'], x: 'λ ~ 10⁻¹⁰ m → E = hc/λ ≈ 12 keV.' }
   ],
   exam: [
     { q: 'Describe the photoelectric effect and explain how the photon model accounts for the existence of a threshold frequency.', m: 5, ms: ['Electrons emitted from metal surface when EM radiation shone on it.', 'Photon energy E = hf.', 'One photon interacts with one electron, giving all its energy.', 'Electron needs at least φ to escape.', 'If hf < φ no emission regardless of intensity; threshold f<sub>0</sub> = φ/h.'] },
     { q: 'Ultraviolet light of wavelength 250 nm falls on a zinc plate (φ = 4.3 eV). Calculate the maximum kinetic energy of the emitted electrons in eV and the stopping potential.', m: 4, ms: ['E = hc/λ = 7.96 × 10<sup>−19</sup> J', '= 4.97 eV', 'E<sub>k max</sub> = 4.97 − 4.3 = 0.67 eV', 'Stopping potential = 0.67 V'] },
-    { q: 'Explain how the dark lines in the spectrum of light that has passed through a cool gas are formed.', m: 3, ms: ['Photons with energy equal to a difference between energy levels are absorbed.', 'Electrons are excited to higher levels.', 'Re-emitted photons go in all directions, so those wavelengths are reduced in the original direction → dark lines.'] }
+    { q: 'Explain how the dark lines in the spectrum of light that has passed through a cool gas are formed.', m: 3, ms: ['Photons with energy equal to a difference between energy levels are absorbed.', 'Electrons are excited to higher levels.', 'Re-emitted photons go in all directions, so those wavelengths are reduced in the original direction → dark lines.'] },
+    { q: 'A solar sail of area 1.0 × 10<sup>4</sup> m<sup>2</sup> perfectly reflects sunlight of intensity 1.4 kW m<sup>−2</sup> at normal incidence. Calculate the force on the sail.', m: 3, ms: ['Power incident P = IA = 1.4 × 10<sup>7</sup> W', 'Reflection: F = 2P/c', '= 0.093 N'] }
   ],
-  sims: ['photo', 'levels'], gens: ['photon1', 'pe1', 'dbl1', 'level1']
+  sims: ['photo', 'levels'], gens: ['photon1', 'pe1', 'dbl1', 'level1', 'radp1']
 });
 
 TOPICS.push({
   id: '2.8', unit: '2', title: 'Lasers', short: 'Stimulated emission, population inversion',
   summary: 'How a laser works: stimulated emission, population inversion, pumping, three- and four-level systems, the optical cavity and semiconductor lasers.',
   spec: [
-    'Distinguish between spontaneous and stimulated emission',
-    'Understand population inversion and why it is needed for light amplification',
-    'Understand pumping as the process that produces a population inversion',
-    'Explain why population inversion is easier in a four-level system than a three-level system',
-    'Describe the role of the optical cavity and mirrors',
-    'Recall the advantages and uses of semiconductor lasers'
+    "(a) Stimulated emission and how it leads to coherent light",
+    "(b) A population inversion (N₂ > N₁) is necessary for a laser to operate",
+    "(c) A population inversion is not (usually) possible with a 2-level system",
+    "(d) How a population inversion is attained in 3- and 4-level systems",
+    "(e) The process of pumping and its purpose",
+    "(f) Structure of a typical laser: an amplifying medium between two mirrors, one partially transmitting",
+    "(g) Advantages and uses of a semiconductor laser: small, cheap, far more efficient; CDs, DVDs, telecommunication"
   ],
   learn: [
     { h: 'Emission processes', html: `
@@ -564,6 +621,7 @@ TOPICS.push({
     { h: 'Population inversion and pumping', html: `
 <p>Normally most atoms are in the lower level. A photon passing through is then far more likely to be absorbed than to cause stimulated emission, so light is attenuated, not amplified.</p>
 <div class="box def"><b class="lbl">Population inversion</b><p>More atoms in the upper level of the laser transition than in the lower level. Only then does stimulated emission outweigh absorption, giving amplification.</p></div>
+<p>With only <b>two energy levels</b>, a population inversion is not (usually) possible: pumping excites atoms at the same rate as the pump radiation stimulates them back down, so at best the populations become equal.</p>
 <p><b>Pumping</b> is supplying energy (by light, an electric current or discharge) to excite atoms and create the population inversion. The upper laser level must be <b>metastable</b> (a relatively long lifetime) so atoms accumulate there.</p>` },
     { h: 'Three-level and four-level systems', html: `
 <p><b>Three-level</b>: atoms are pumped from the ground state to a pump level, fall quickly to the metastable upper laser level, and the laser transition goes down to the <b>ground state</b>. Because the lower level is the ground state, which starts full, more than half of all the atoms must be pumped out of it to get an inversion — hard, needs intense pumping.</p>
@@ -592,7 +650,8 @@ TOPICS.push({
     ['Why is a four-level laser more efficient?', 'Lower laser level empties quickly, so inversion needs few excited atoms.'],
     ['Why is a three-level inversion difficult?', 'Lower level is the ground state; over half the atoms must be pumped.'],
     ['Why is one mirror partially transmitting?', 'To let part of the light out as the beam.'],
-    ['Advantages of semiconductor lasers?', 'Small, cheap, efficient, low voltage.']
+    ['Advantages of semiconductor lasers?', 'Small, cheap, efficient, low voltage.'],
+    ['Why can’t a 2-level system give a population inversion?', 'Pumping photons cause stimulated emission as readily as absorption, so at best N₂ = N₁.']
   ],
   quiz: [
     { q: 'In stimulated emission, the emitted photon has the same', o: ['frequency, phase and direction as the stimulating photon', 'frequency but random phase', 'direction but lower energy', 'phase but a random direction'], x: 'The photons are identical.' },
@@ -604,7 +663,8 @@ TOPICS.push({
     { q: 'An advantage of semiconductor lasers is that they are', o: ['small, cheap and efficient', 'always very high power', 'able to emit all wavelengths', 'not dependent on stimulated emission'], x: '' },
     { q: 'A metastable state is an excited state that', o: ['has a relatively long lifetime', 'decays immediately', 'is below the ground state', 'cannot be reached by pumping'], x: '' },
     { q: 'Without a population inversion, photons passing through the medium are more likely to', o: ['be absorbed', 'stimulate emission', 'be reflected', 'be polarised'], x: 'Most atoms are in the lower level.' },
-    { q: 'Spontaneous emission produces photons that are', o: ['random in direction and phase', 'coherent with each other', 'all travelling along the laser axis', 'of higher energy than stimulated photons'], x: '' }
+    { q: 'Spontaneous emission produces photons that are', o: ['random in direction and phase', 'coherent with each other', 'all travelling along the laser axis', 'of higher energy than stimulated photons'], x: '' },
+    { q: 'A population inversion is not usually possible in a two-level system because', o: ['the pump radiation causes as much stimulated emission as absorption, so at best N₂ = N₁', 'the upper level is metastable', 'there is no ground state', 'spontaneous emission is too slow'], x: '' }
   ],
   exam: [
     { q: 'Explain why a population inversion is necessary for a laser to operate, and why this is easier to achieve in a four-level system.', m: 5, ms: ['Photons can cause absorption (lower→upper) or stimulated emission (upper→lower).', 'Amplification requires stimulated emission to exceed absorption.', 'Needs more atoms in the upper level than lower: population inversion.', 'Four-level: lower laser level is above ground and empties quickly.', 'So only a small number of atoms need to be pumped to achieve inversion.'] },

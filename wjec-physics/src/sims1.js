@@ -405,18 +405,17 @@ SIMS.drift = {
   title: 'Electron drift', h: 400,
   controls: [
     { id: 'I', label: 'Current', min: 0, max: 5, step: 0.1, value: 2, fmt: v => v.toFixed(1) + ' A' },
-    { id: 'A1', label: 'Area of thick section', min: 1, max: 4, step: 0.5, value: 2, fmt: v => v.toFixed(1) + ' mm²' },
-    { id: 'mat', type: 'seg', label: 'Material', value: 'cu', options: [['cu', 'Copper'], ['semi', 'Semiconductor']] }
+    { id: 'A1', label: 'Area of thick section', min: 1, max: 4, step: 0.5, value: 2, fmt: v => v.toFixed(1) + ' mm²' }
   ],
   readouts: ['n (carriers m⁻³)', 'Drift v (thick)', 'Drift v (thin, ½ area)', 'Thermal speed (random)'],
   note: 'The thin section has half the area, so electrons drift twice as fast there (I = nAve is the same everywhere in series). Random thermal motion is far faster than the drift!',
   init(st) { st.e = Array.from({ length: 170 }, () => ({ x: Math.random(), y: Math.random(), vx: 0, vy: 0 })); },
-  n(st) { return st.p.mat === 'cu' ? 8.5e28 : 1e24; },
+  n(st) { return 8.5e28; },
   vd(st, A) { return st.p.I / (this.n(st) * A * 1e-6 * 1.6e-19); },
   step(st, dt) {
     const W = st.W, H = st.H; st.e.forEach(e => {
       const inThin = e.x > 0.5; const h = inThin ? 0.5 : 1;
-      const vis = st.p.I * (st.p.mat === 'cu' ? 0.03 : 0.09) * (inThin ? 2 : 1);
+      const vis = st.p.I * 0.03 * (inThin ? 2 : 1);
       e.vx += (Math.random() - .5) * 6 * dt; e.vy += (Math.random() - .5) * 6 * dt; e.vx *= .9; e.vy *= .9;
       e.x -= (vis) * dt * 1.0 - e.vx * dt * .3; e.y += e.vy * dt * .3;
       if (e.x < 0) { e.x += 1; } if (e.x > 1) e.x -= 1;
@@ -426,15 +425,14 @@ SIMS.drift = {
   draw(c, W, H, st, C) {
     CV.grid(c, W, H, C); const cy = H * 0.45, hh = 130, m = 30;
     const X = x => m + x * (W - 2 * m), Y = (y, thin) => cy - hh / 2 + y * hh;
-    c.fillStyle = st.p.mat === 'cu' ? 'rgba(184,115,51,.18)' : hexA(C.u5, .15);
+    c.fillStyle = 'rgba(184,115,51,.18)';
     c.beginPath(); c.moveTo(X(0), cy - hh / 2); c.lineTo(X(.5), cy - hh / 2); c.lineTo(X(.5), cy - hh / 4); c.lineTo(X(1), cy - hh / 4); c.lineTo(X(1), cy + hh / 4); c.lineTo(X(.5), cy + hh / 4); c.lineTo(X(.5), cy + hh / 2); c.lineTo(X(0), cy + hh / 2); c.closePath(); c.fill();
     c.strokeStyle = C.ink; c.lineWidth = 1.5; c.stroke();
-    const show = st.p.mat === 'cu' ? st.e : st.e.slice(0, 30);
+    const show = st.e;
     show.forEach(e => CV.circle(c, X(e.x), Y(e.y), 3.2, C.u4));
     CV.arrow(c, X(.2), cy + hh / 2 + 30, X(.4), cy + hh / 2 + 30, C.u1, 2.4); CV.text(c, 'conventional current I', X(.3), cy + hh / 2 + 48, C.u1, 12, 'center', 600);
     CV.arrow(c, X(.8), cy + hh / 2 + 30, X(.6), cy + hh / 2 + 30, C.u4, 2.4); CV.text(c, 'electron drift', X(.7), cy + hh / 2 + 48, C.u4, 12, 'center', 600);
     CV.mono(c, 'A', X(.25), cy - hh / 2 - 14, C.ink, 12, 'center'); CV.mono(c, 'A/2', X(.75), cy - hh / 4 - 14, C.ink, 12, 'center');
-    if (st.p.mat === 'semi') CV.text(c, 'far fewer charge carriers → much faster drift for the same current', W / 2, 24, C.muted, 12, 'center');
   },
   read(st) { const A = st.p.A1, v1 = this.vd(st, A), v2 = this.vd(st, A / 2); return [sf(this.n(st), 2), sf(v1, 2) + ' m s⁻¹', sf(v2, 2) + ' m s⁻¹', '~10⁵ m s⁻¹']; }
 };
@@ -550,7 +548,7 @@ SIMS.wave = {
 SIMS.standing = {
   title: 'Stationary waves on a string', h: 420,
   controls: [
-    { id: 'n', label: 'Harmonic n', min: 1, max: 6, step: 1, value: 2, fmt: v => v + (v === 1 ? ' (fundamental)' : '') },
+    { id: 'n', label: 'Number of loops', min: 1, max: 6, step: 1, value: 2, fmt: v => v },
     { id: 'L', label: 'String length', min: 0.3, max: 1.5, step: 0.05, value: 0.65, fmt: v => v.toFixed(2) + ' m' },
     { id: 'v', label: 'Wave speed on string', min: 50, max: 400, step: 5, value: 255, fmt: v => v + ' m s⁻¹' },
     { id: 'show', type: 'seg', label: 'Show', value: 1, options: [[1, 'Resultant'], [2, '+ components']] }
