@@ -1,6 +1,6 @@
 /* ==========================================================
-   Spectra · WJEC A-Level Physics
-   Tokens: light = graph paper, dark = observatory night
+   Live Wire · AQA GCSE Physics
+   Tokens: light = graph paper, dark = lab bench at night
    ========================================================== */
 :root{
   --paper:#EDF1F3;
@@ -27,7 +27,7 @@
   --canvas-bg:#FBFCFD;
   --canvas-grid:#E4EAEE;
   --canvas-ink:#13202B;
-  --u1:#E5484D; --u2:#F2A516; --u3:#3DAE5B; --u4:#16A3C6; --u5:#7B5BD6; --u6:#5B6C79;
+  --u1:#E5484D; --u2:#E39B12; --u3:#3DAE5B; --u4:#0F9D8A; --u5:#2F7FE0; --u6:#16A3C6; --u7:#7B5BD6; --u8:#C0469A; --u9:#5B6C79;
   --uc:var(--accent);
   --r:10px; --r-lg:16px;
   --f-display:"Big Shoulders Display","Oswald","Arial Narrow",Impact,sans-serif;
@@ -484,3 +484,42 @@ canvas.fx{position:fixed;inset:0;pointer-events:none;z-index:150;width:100%;heig
 .tab{text-decoration:none}
 .lc{text-transform:none;letter-spacing:.02em}
 @media (max-width:640px){.spec-axis span:nth-child(2){display:none}}
+
+/* ================= Live Wire additions ================= */
+.brand-mark.lw{display:grid;place-items:center;background:linear-gradient(135deg,#1A1204,#0A1017)}
+.brand-mark.lw svg{width:22px;height:22px;fill:#FFC24B;stroke:#FFE08A;stroke-width:1;filter:drop-shadow(0 0 5px rgba(255,190,70,.8))}
+.hero canvas.circuit{height:clamp(230px,34vw,300px);background:#05080B;border:1px solid #16212C}
+.tag{display:inline-flex;align-items:center;gap:4px;font:600 11px/1 var(--f-body);letter-spacing:.02em;padding:4px 8px;border-radius:999px;vertical-align:middle;margin-right:6px;white-space:nowrap}
+.tag.sm{font-size:10px;padding:3px 6px;margin-right:5px}
+.tag.ht{background:color-mix(in srgb,var(--u7) 16%,transparent);color:var(--u7);border:1px solid color-mix(in srgb,var(--u7) 40%,transparent)}
+.tag.po{background:color-mix(in srgb,var(--u4) 14%,transparent);color:var(--u4);border:1px solid color-mix(in srgb,var(--u4) 40%,transparent)}
+.tier-chip{cursor:pointer;border:1px solid var(--line-2);font-weight:600}
+.tier-chip:hover{border-color:var(--accent)}
+.settings-dlg{padding:22px;max-width:560px}
+.seg.big{display:flex;gap:6px;background:var(--surface-2);padding:4px;border-radius:12px;margin-top:6px;flex-wrap:wrap}
+.seg.big button{flex:1;min-width:150px;border:0;background:transparent;padding:10px 12px;border-radius:9px;font-weight:600;color:var(--ink-2)}
+.seg.big button.on{background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
+.unit-a.off,.unit-card.off{opacity:.45}
+.onboard{border:1px solid var(--accent);background:linear-gradient(135deg,var(--accent-soft),var(--surface))}
+.linkcard{text-decoration:none;color:inherit;display:block;transition:transform .15s,border-color .15s}
+.linkcard:hover{transform:translateY(-2px);border-color:var(--accent)}
+.grid.g4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+@media (max-width:1000px){.grid.g4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.grid.g4{grid-template-columns:1fr}}
+.nuc{display:inline-flex;flex-direction:column;align-items:flex-end;font-size:.62em;line-height:1.05;vertical-align:-.42em;margin-right:1px;font-family:var(--f-math)}
+.nuc b{font-weight:400}
+.eq-row.out{opacity:.4}
+.eq-row .eqm{min-width:0}
+#eqlists.covered .eq-row .eqm{filter:blur(7px);cursor:pointer;transition:filter .2s}
+#eqlists.covered .eq-row.peek .eqm{filter:none}
+.prac h5{margin:14px 0 6px}
+.prac .pno{font:800 20px var(--f-display);color:var(--uc,var(--accent));min-width:52px}
+.ht-inline{border-left:3px solid var(--u7);padding-left:10px}
+[data-ht]{border-left:3px solid var(--u7);padding-left:10px}
+[data-po]{border-left:3px solid var(--u4);padding-left:10px}
+.toc a{white-space:normal}
+.fig svg{max-width:100%;height:auto}
+.game-sym{display:grid;place-items:center;min-height:150px}
+.game-sym svg{width:min(260px,70vw);height:auto}
+.dom-sim{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:0;border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;background:var(--surface)}
+@media (max-width:860px){.dom-sim{grid-template-columns:1fr}}

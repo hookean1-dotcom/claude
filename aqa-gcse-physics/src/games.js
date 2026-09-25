@@ -1,47 +1,32 @@
 /* ==========================================================
    Arcade: fast, replayable games that drill core skills
    ========================================================== */
-const BASE_UNITS = [
-  ['force (N)', 'kg m s<sup>−2</sup>'], ['energy (J)', 'kg m<sup>2</sup> s<sup>−2</sup>'], ['power (W)', 'kg m<sup>2</sup> s<sup>−3</sup>'], ['pressure (Pa)', 'kg m<sup>−1</sup> s<sup>−2</sup>'],
-  ['momentum', 'kg m s<sup>−1</sup>'], ['charge (C)', 'A s'], ['potential difference (V)', 'kg m<sup>2</sup> s<sup>−3</sup> A<sup>−1</sup>'], ['resistance (Ω)', 'kg m<sup>2</sup> s<sup>−3</sup> A<sup>−2</sup>'],
-  ['density', 'kg m<sup>−3</sup>'], ['acceleration', 'm s<sup>−2</sup>'], ['frequency (Hz)', 's<sup>−1</sup>'], ['spring constant', 'kg s<sup>−2</sup>'],
-  ['Young modulus', 'kg m<sup>−1</sup> s<sup>−2</sup>'], ['work function', 'kg m<sup>2</sup> s<sup>−2</sup>'], ['Planck constant', 'kg m<sup>2</sup> s<sup>−1</sup>'], ['angular velocity', 's<sup>−1</sup>'],
-  ['magnetic flux density (T)', 'kg s<sup>−2</sup> A<sup>−1</sup>'], ['magnetic flux (Wb)', 'kg m<sup>2</sup> s<sup>−2</sup> A<sup>−1</sup>'], ['capacitance (F)', 'kg<sup>−1</sup> m<sup>−2</sup> s<sup>4</sup> A<sup>2</sup>'], ['electric field strength', 'kg m s<sup>−3</sup> A<sup>−1</sup>'],
-  ['gravitational field strength', 'm s<sup>−2</sup>'], ['specific heat capacity', 'm<sup>2</sup> s<sup>−2</sup> K<sup>−1</sup>'], ['molar gas constant R', 'kg m<sup>2</sup> s<sup>−2</sup> K<sup>−1</sup> mol<sup>−1</sup>'], ['Boltzmann constant k', 'kg m<sup>2</sup> s<sup>−2</sup> K<sup>−1</sup>'],
-  ['activity (Bq)', 's<sup>−1</sup>'], ['decay constant', 's<sup>−1</sup>'], ['resistivity', 'kg m<sup>3</sup> s<sup>−3</sup> A<sup>−2</sup>'], ['G (gravitational constant)', 'kg<sup>−1</sup> m<sup>3</sup> s<sup>−2</sup>'],
-  ['impulse', 'kg m s<sup>−1</sup>'], ['moment of a force', 'kg m<sup>2</sup> s<sup>−2</sup>'], ['intensity (W m⁻²)', 'kg s<sup>−3</sup>'], ['Stefan constant σ', 'kg s<sup>−3</sup> K<sup>−4</sup>']
+const UNIT_BANK = [
+  ['force', 'newton (N)'], ['energy', 'joule (J)'], ['power', 'watt (W)'], ['pressure', 'pascal (Pa)'], ['momentum', 'kg m/s'], ['charge', 'coulomb (C)'],
+  ['potential difference', 'volt (V)'], ['resistance', 'ohm (Ω)'], ['current', 'ampere (A)'], ['density', 'kg/m³'], ['acceleration', 'm/s²'], ['speed', 'm/s'],
+  ['frequency', 'hertz (Hz)'], ['spring constant', 'N/m'], ['gravitational field strength', 'N/kg'], ['specific heat capacity', 'J/kg °C'], ['specific latent heat', 'J/kg'],
+  ['moment of a force', 'newton-metre (Nm)'], ['magnetic flux density', 'tesla (T)'], ['activity of a source', 'becquerel (Bq)'], ['radiation dose', 'sievert (Sv)'],
+  ['wavelength', 'metre (m)'], ['period', 'second (s)'], ['mass', 'kilogram (kg)'], ['volume', 'm³'], ['temperature change', '°C'], ['work done', 'joule (J)'], ['efficiency', 'no unit (ratio)'], ['magnification', 'no unit (ratio)']
 ];
-const EQ_BANK = [
-  ['Kinetic energy', 'E_k = @frac{1}{2}mv^2'], ['Gravitational PE change', 'ΔE_p = mgΔh'], ['Power at constant velocity', 'P = Fv'], ['Work done by a force at angle θ', 'W = Fx@,"cos"@,θ'],
-  ['Young modulus', 'E = @frac{Fl}{AΔl}'], ['Elastic PE in a spring', 'E = @frac{1}{2}kx^2'], ['Wien’s law', 'λ_{max} = @frac{W}{T}'], ['Stefan–Boltzmann law', 'P = AσT^4'],
-  ['Intensity at distance d', 'I = @frac{P}{4πd^2}'], ['Current in a conductor', 'I = nAve'], ['Resistivity', 'R = @frac{ρl}{A}'], ['Terminal pd', 'V = E - Ir'],
-  ['Potential divider', 'V_{out} = V_{in}@frac{R_2}{R_1 + R_2}'], ['Wave equation', 'c = fλ'], ['Young’s double slits', 'λ = @frac{ay}{D}'], ['Diffraction grating', 'd@,"sin"@,θ = nλ'],
-  ['Snell’s law', 'n_1@,"sin"@,θ_1 = n_2@,"sin"@,θ_2'], ['Critical angle', '"sin"@,θ_c = @frac{n_2}{n_1}'], ['Photoelectric equation', 'E_{k max} = hf - φ'], ['de Broglie wavelength', 'λ = @frac{h}{p}'],
-  ['Centripetal force', 'F = @frac{mv^2}{r}'], ['Definition of SHM', 'a = -ω^2x'], ['Period of mass on spring', 'T = 2π@sqrt{@frac{m}{k}}'], ['Period of a pendulum', 'T = 2π@sqrt{@frac{l}{g}}'],
-  ['Ideal gas equation', 'pV = nRT'], ['Kinetic theory pressure', 'p = @frac{1}{3}ρ@bar{c^2}'], ['Mean KE of a molecule', '@frac{1}{2}m@bar{c^2} = @frac{3}{2}kT'], ['First law of thermodynamics', 'ΔU = Q - W'],
-  ['Internal energy of monatomic gas', 'U = @frac{3}{2}nRT'], ['Specific heat capacity', 'Q = mcΔθ'], ['Activity', 'A = λN'], ['Decay constant and half-life', 'λ = @frac{"ln"@,2}{T_{½}}'],
-  ['Parallel-plate capacitance', 'C = @frac{ε_0A}{d}'], ['Energy stored in a capacitor', 'U = @frac{1}{2}CV^2'], ['Capacitor discharge', 'Q = Q_0e^{-t/RC}'], ['Coulomb’s law', 'F = @frac{Q_1Q_2}{4πε_0r^2}'],
-  ['Gravitational potential', 'V_g = -@frac{GM}{r}'], ['Kepler’s 3rd law (circular orbit)', 'T^2 = @frac{4π^2}{GM}r^3'], ['Hubble’s law', 'v = H_0D'], ['Critical density', 'ρ_c = @frac{3H_0^2}{8πG}'],
-  ['Force on a current', 'F = BIl@,"sin"@,θ'], ['Force on a moving charge', 'F = Bqv@,"sin"@,θ'], ['Field of a long wire', 'B = @frac{μ_0I}{2πa}'],
-  ['Field in a solenoid', 'B = μ_0nI'], ['Magnetic flux', 'Φ = AB@,"cos"@,θ'], ['emf in a moving rod', 'E = Blv'], ['Doppler shift', '@frac{Δλ}{λ} = @frac{v}{c}']
-];
+const EQ_BANK = [...EQ_RECALL, ...EQ_SHEET].map(e => [e[0].split(' = ')[0].split(' ÷ ')[0], e[1], e[2] || '', e[0]]);
 const MAGNITUDES = [
-  ['Mass of an adult person', 70, 'kg'], ['Mass of the Earth', 5.97e24, 'kg'], ['Mass of the Sun', 1.99e30, 'kg'], ['Mass of an electron', 9.11e-31, 'kg'], ['Mass of a proton', 1.67e-27, 'kg'],
-  ['Diameter of an atom', 1e-10, 'm'], ['Diameter of a nucleus', 1e-14, 'm'], ['Radius of the Earth', 6.37e6, 'm'], ['Earth–Sun distance', 1.5e11, 'm'], ['One light year', 9.46e15, 'm'],
-  ['Wavelength of green light', 5.5e-7, 'm'], ['Height of a door', 2, 'm'], ['Speed of light', 3e8, 'm s⁻¹'], ['Speed of sound in air', 340, 'm s⁻¹'], ['Top speed of a sprinter', 12, 'm s⁻¹'],
-  ['Drift velocity in a copper wire', 1e-4, 'm s⁻¹'], ['Orbital speed of the Earth', 3e4, 'm s⁻¹'], ['Power of a kettle', 2000, 'W'], ['Power of a large power station', 2e9, 'W'], ['Luminosity of the Sun', 3.85e26, 'W'],
-  ['Atmospheric pressure', 1.01e5, 'Pa'], ['Young modulus of steel', 2e11, 'Pa'], ['Atoms in 1 kg of iron', 1.08e25, ''], ['Age of the universe', 4.4e17, 's'], ['Charge on an electron (magnitude)', 1.6e-19, 'C'],
-  ['Resistivity of copper', 1.7e-8, 'Ω m'], ['Energy of a visible photon', 4e-19, 'J'], ['Frequency of visible light', 5.5e14, 'Hz'], ['Density of air', 1.2, 'kg m⁻³'], ['Density of water', 1000, 'kg m⁻³'],
-  ['Energy released per U-235 fission', 3.2e-11, 'J'], ['Earth’s magnetic flux density', 5e-5, 'T'], ['Flux density in an MRI scanner', 1.5, 'T'], ['A large electrolytic capacitor', 2.2e-3, 'F'], ['Half-life of carbon-14', 1.81e11, 's'],
-  ['Number of seconds in a year', 3.16e7, 's'], ['Mass of a car', 1200, 'kg'], ['Wavelength of FM radio', 3, 'm'], ['Current in a phone charger cable', 1, 'A'], ['Critical density of the universe', 9e-27, 'kg m⁻³']
+  ['Mass of an adult person', 70, 'kg'], ['Mass of a family car', 1200, 'kg'], ['Mass of the Earth', 6e24, 'kg'], ['Mass of an apple', 0.1, 'kg'],
+  ['Radius of an atom', 1e-10, 'm'], ['Radius of a nucleus', 1e-14, 'm'], ['Radius of the Earth', 6.4e6, 'm'], ['Earth–Sun distance', 1.5e11, 'm'],
+  ['Wavelength of visible light', 5e-7, 'm'], ['Wavelength of a radio wave', 100, 'm'], ['Height of a door', 2, 'm'], ['Thickness of a sheet of paper', 1e-4, 'm'],
+  ['Speed of light', 3e8, 'm/s'], ['Speed of sound in air', 330, 'm/s'], ['Walking speed', 1.5, 'm/s'], ['Speed of a car on a motorway', 31, 'm/s'],
+  ['Power of a kettle', 2000, 'W'], ['Power of an LED bulb', 5, 'W'], ['Output of a large power station', 2e9, 'W'], ['UK mains potential difference', 230, 'V'],
+  ['Atmospheric pressure at sea level', 1e5, 'Pa'], ['Density of water', 1000, 'kg/m³'], ['Density of air', 1.2, 'kg/m³'], ['Frequency of UK mains', 50, 'Hz'],
+  ['Upper limit of human hearing', 20000, 'Hz'], ['Frequency of visible light', 5e14, 'Hz'], ['Current in a phone charger', 1, 'A'], ['Energy to boil a kettle of water', 3e5, 'J'],
+  ['Kinetic energy of a car at 30 mph', 1e5, 'J'], ['Human reaction time', 0.5, 's'], ['Age of the universe', 4e17, 's'], ['Weight of an apple', 1, 'N'],
+  ['Half-life of carbon-14', 2e11, 's'], ['Typical annual UK radiation dose', 2.7e-3, 'Sv'], ['Transmission pd of the National Grid', 4e5, 'V'], ['Deceleration in an emergency stop', 8, 'm/s²']
 ];
 
 const GAMES = {
-  sprint: { title: 'Unit Sprint', blurb: 'Match quantities to their SI base units against the clock.', skill: 'Units & homogeneity', col: 'var(--u1)' },
-  rush: { title: 'Equation Rush', blurb: 'Pick the right equation before the timer bar empties.', skill: 'Recall of equations', col: 'var(--u2)' },
+  rush: { title: 'Equation Rush', blurb: 'The 23 equations you must recall — plus the equation sheet. Pick the right one before the bar empties.', skill: 'Recall of equations', col: 'var(--u2)' },
+  sprint: { title: 'Unit Match', blurb: 'Match each quantity to its unit against the clock.', skill: 'Units', col: 'var(--u1)' },
+  symbols: { title: 'Circuit Symbols', blurb: 'Name the standard circuit symbol before time runs out.', skill: 'Circuit diagrams (4.2.1.1)', col: 'var(--u5)' },
   magnitude: { title: 'Powers of Ten', blurb: 'Estimate the order of magnitude of real physical quantities.', skill: 'Estimation', col: 'var(--u3)' },
-  blitz: { title: 'True or False Blitz', blurb: 'Three lives. Judge statements from across the course.', skill: 'Mixed recall', col: 'var(--u4)' },
-  forge: { title: 'Particle Forge', blurb: 'Build hadrons from quarks to hit target charges.', skill: 'Particles (1.7)', col: 'var(--u5)' }
+  blitz: { title: 'True or False Blitz', blurb: 'Three lives. Judge statements from across the course.', skill: 'Mixed recall', col: 'var(--u4)' }
 };
 
 function gameBest(id, score) { S.games[id] ??= { best: 0, plays: 0 }; if (score != null) { S.games[id].plays++; if (score > S.games[id].best) { S.games[id].best = score; save(); return true; } save(); } return false; }
@@ -49,9 +34,9 @@ function gameBest(id, score) { S.games[id] ??= { best: 0, plays: 0 }; if (score 
 function drawGameArt(cv, id) {
   const c = cv.getContext('2d'), dpr = devicePixelRatio || 1, W = cv.clientWidth, H = cv.clientHeight; cv.width = W * dpr; cv.height = H * dpr; c.scale(dpr, dpr);
   c.fillStyle = '#070B10'; c.fillRect(0, 0, W, H);
-  const nm = { sprint: 656, rush: 589, magnitude: 546, blitz: 486, forge: 436 }[id];
+  const nm = { sprint: 640, rush: 589, magnitude: 546, blitz: 486, symbols: 470 }[id];
   if (id === 'magnitude') { for (let i = 0; i < 12; i++) { const x = 14 + i * (W - 28) / 11; c.fillStyle = nmCSS(nm, .25 + .06 * i); c.fillRect(x - 1, H - 20 - i * 5, 3, 10 + i * 5); } CV.mono(c, '10ⁿ', W - 14, 20, '#fff', 14, 'right'); return; }
-  if (id === 'forge') { [[W / 2 - 22, H / 2 - 8, 'u', '#E5484D'], [W / 2 + 22, H / 2 - 8, 'u', '#E5484D'], [W / 2, H / 2 + 20, 'd', '#16A3C6']].forEach(([x, y, l, col]) => { c.beginPath(); c.arc(x, y, 16, 0, 7); c.strokeStyle = col; c.lineWidth = 2; c.stroke(); CV.text(c, l, x, y + 1, col, 16, 'center', 600, 'STIX Two Text, serif'); }); c.beginPath(); c.arc(W / 2, H / 2 + 2, 46, 0, 7); c.strokeStyle = 'rgba(255,255,255,.2)'; c.setLineDash([4, 4]); c.stroke(); c.setLineDash([]); return; }
+  if (id === 'symbols') { c.save(); c.translate(W / 2, H / 2 - 8); c.strokeStyle = nmCSS(nm, .95); c.lineWidth = 2.5; c.beginPath(); c.moveTo(-70, 0); c.lineTo(-22, 0); c.moveTo(22, 0); c.lineTo(70, 0); c.stroke(); c.beginPath(); c.arc(0, 0, 22, 0, 7); c.stroke(); c.beginPath(); c.moveTo(-15, -15); c.lineTo(15, 15); c.moveTo(15, -15); c.lineTo(-15, 15); c.stroke(); c.restore(); CV.text(c, GAMES[id].title.toUpperCase(), 14, H - 18, '#fff', 20, 'left', 800, 'Big Shoulders Display, Impact, sans-serif'); return; }
   for (let i = 0; i < 40; i++) { const x = Math.random() * W, y = Math.random() * H, l = 6 + Math.random() * 30; c.strokeStyle = nmCSS(nm, Math.random() * .6 + .1); c.lineWidth = 1.5; c.beginPath(); c.moveTo(x, y); c.lineTo(x + l, y - l * .3); c.stroke(); }
   CV.text(c, GAMES[id].title.toUpperCase(), 14, H - 18, '#fff', 20, 'left', 800, 'Big Shoulders Display, Impact, sans-serif');
 }
@@ -63,16 +48,15 @@ function mountGame(host, id) {
     host.innerHTML = `<div class="game"><div class="card result"><div class="eyebrow">${GAMES[id].title}</div><div class="big">${score}</div><p class="lede" style="margin:8px auto">${nb ? 'New personal best!' : 'Personal best: ' + S.games[id].best}</p>${extra}<div class="row" style="justify-content:center;margin-top:14px"><button class="btn primary" data-again>Play again</button><a class="btn" href="#/arcade">Back to arcade</a></div></div></div>`;
     $('[data-again]', host).onclick = () => { stop(); cleanup = mountGame(host, id); }; };
   let cleanup = stop;
-  if (id === 'forge') { host.innerHTML = `<div class="game" style="max-width:none">${hud([['Game', 'Forge']])}<div id="forge-host"></div></div>`; mountForge($('#forge-host', host)); return stop; }
 
-  if (id === 'sprint' || id === 'rush') {
-    const bank = id === 'sprint' ? BASE_UNITS : EQ_BANK, total = id === 'sprint' ? 60 : 75;
+  if (id === 'sprint' || id === 'rush' || id === 'symbols') {
+    const bank = id === 'sprint' ? UNIT_BANK : id === 'symbols' ? SYMBOL_BANK : EQ_BANK.filter(e => inScope(e[2])), total = id === 'rush' ? 75 : 60;
     let score = 0, streak = 0, left = total, cur = null, answered = 0, right = 0;
-    const next = () => { const item = pick(bank); const others = shuffle(bank.filter(b => b[1] !== item[1])).slice(0, 3); cur = { item, opts: shuffle([item, ...others]) }; render(); };
+    const next = () => { const item = pick(bank); const others = shuffle(bank.filter(b => b[1] !== item[1] && b[0] !== item[0])).slice(0, 3); cur = { item, opts: shuffle([item, ...others]) }; render(); };
     const render = () => {
       host.innerHTML = `<div class="game">${hud([['Score', score], ['Streak', streak], ['Time', Math.ceil(left) + 's']])}<div class="timer"><i style="width:${left / total * 100}%"></i></div>
-        <div class="eyebrow" style="text-align:center">${id === 'sprint' ? 'SI base units of' : 'Which equation gives'}</div><div class="big-prompt">${cur.item[0]}</div>
-        <div class="opts">${cur.opts.map((o, i) => `<button class="opt" data-i="${i}"><span class="k">${i + 1}</span><span>${id === 'sprint' ? o[1] : M(o[1])}</span></button>`).join('')}</div><p class="kbd-hint">Keys 1–4 to answer.</p></div>`;
+        <div class="eyebrow" style="text-align:center">${id === 'sprint' ? 'What is the unit of' : id === 'symbols' ? 'Name this circuit symbol' : 'Which equation gives'}</div><div class="big-prompt${id === 'symbols' ? ' game-sym' : ''}">${id === 'rush' ? cur.item[0] + (cur.item[2] ? ' ' + tagHTML(cur.item[2], 1) : '') : cur.item[0]}</div>
+        <div class="opts">${cur.opts.map((o, i) => `<button class="opt" data-i="${i}"><span class="k">${i + 1}</span><span>${id === 'rush' ? M(o[1]) : o[1]}</span></button>`).join('')}</div><p class="kbd-hint">Keys 1–4 to answer.</p></div>`;
       $$('.opt', host).forEach(b => b.onclick = () => choose(+b.dataset.i));
     };
     const choose = i => { if (!alive) return; answered++; const ok = cur.opts[i] === cur.item; const btn = $$('.opt', host)[i]; if (ok) { right++; streak++; score += 10 + Math.min(streak, 10) * 2; sfx.good(); btn.classList.add('right'); } else { streak = 0; left = Math.max(0, left - 3); sfx.bad(); btn.classList.add('wrong'); $$('.opt', host)[cur.opts.indexOf(cur.item)].classList.add('right'); } setTimeout(() => alive && left > 0 && next(), ok ? 250 : 900); };
@@ -98,7 +82,7 @@ function mountGame(host, id) {
   }
 
   if (id === 'blitz') {
-    const pool = TOPICS.flatMap(t => t.quiz.map(q => ({ q, t }))); let score = 0, lives = 3, cur;
+    const pool = allTopics().flatMap(t => V_(t).quiz.map(q => ({ q, t }))); let score = 0, lives = 3, cur;
     const next = () => { const { q, t } = pick(pool); const truth = Math.random() < 0.5; const opt = truth ? q.o[0] : pick(q.o.slice(1)); cur = { q, t, truth, opt }; render(); };
     const render = () => { host.innerHTML = `<div class="game">${hud([['Score', score], ['Lives', '♥'.repeat(lives) || '0']])}<div class="card"><div class="eyebrow">${cur.t.id} · ${esc(cur.t.title)}</div><p class="q-text">${rich(cur.q.q)}</p><div class="box def" style="font-size:17px"><b class="lbl">Proposed answer</b><p>${rich(cur.opt)}</p></div>
       <div class="row" style="justify-content:center;gap:14px;margin-top:10px"><button class="btn primary" data-a="1" style="min-width:130px">True <kbd>T</kbd></button><button class="btn" data-a="0" style="min-width:130px">False <kbd>F</kbd></button></div><div id="bz-fb"></div></div></div>`;

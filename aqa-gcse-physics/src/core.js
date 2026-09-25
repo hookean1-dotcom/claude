@@ -192,7 +192,7 @@ function burst(x = innerWidth / 2, y = innerHeight / 2, n = 90) {
 function cssVar(name, el = document.documentElement) { return getComputedStyle(el).getPropertyValue(name).trim(); }
 function themeColors() {
   const r = document.documentElement;
-  return { bg: cssVar('--canvas-bg', r), grid: cssVar('--canvas-grid', r), ink: cssVar('--canvas-ink', r), muted: cssVar('--muted', r), accent: cssVar('--accent', r), good: cssVar('--good', r), bad: cssVar('--bad', r), info: cssVar('--info', r), line: cssVar('--line-2', r), surface: cssVar('--surface', r), u1: cssVar('--u1', r), u2: cssVar('--u2', r), u3: cssVar('--u3', r), u4: cssVar('--u4', r), u5: cssVar('--u5', r) };
+  return { bg: cssVar('--canvas-bg', r), grid: cssVar('--canvas-grid', r), ink: cssVar('--canvas-ink', r), muted: cssVar('--muted', r), accent: cssVar('--accent', r), good: cssVar('--good', r), bad: cssVar('--bad', r), info: cssVar('--info', r), line: cssVar('--line-2', r), surface: cssVar('--surface', r), u1: cssVar('--u1', r), u2: cssVar('--u2', r), u3: cssVar('--u3', r), u4: cssVar('--u4', r), u5: cssVar('--u5', r), u6: cssVar('--u6', r), u7: cssVar('--u7', r), u8: cssVar('--u8', r) };
 }
 
 /* ---------- Icons ---------- */
@@ -220,5 +220,6 @@ const ICON = {
   chev: '<svg class="chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>',
   shuffle: '<svg viewBox="0 0 24 24"><path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>',
   atom: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="1.6"/><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/></svg>',
-  star: '<svg viewBox="0 0 24 24"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/></svg>'
+  star: '<svg viewBox="0 0 24 24"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/></svg>',
+  bolt: '<svg viewBox="0 0 24 24"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg>'
 };

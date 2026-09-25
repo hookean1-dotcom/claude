@@ -18,3 +18,9 @@ Open `index.html` in any modern browser. No build step, server or internet conne
 # Spectra — WJEC A-level Physics
 
 The `wjec-physics/` folder contains **Spectra**, a self-contained study app for the WJEC AS/A level Physics specification. Download **`wjec-physics-spectra.html`** (repository root) and open it in any browser — it is one self-contained file. The same app is also at `wjec-physics/index.html`. See [`wjec-physics/README.md`](wjec-physics/README.md) for details.
+
+---
+
+# Live Wire — AQA GCSE Physics
+
+The `aqa-gcse-physics/` folder contains **Live Wire**, a self-contained study app for AQA GCSE Physics (8463), with Foundation/Higher and Physics/Combined Science filtering. To use it, download **`aqa-gcse-physics-livewire.html`** from the repository root and open it in any browser. See [`aqa-gcse-physics/README.md`](aqa-gcse-physics/README.md) for details.

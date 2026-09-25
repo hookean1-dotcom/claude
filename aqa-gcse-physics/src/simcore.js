@@ -105,3 +105,18 @@ function mountSim(host, key) {
 /* ==========================================================
    1.1 Moments
    ========================================================== */
+
+/* ---- shared constants & canvas circuit symbols (GCSE sims) ---- */
+const deg = Math.PI / 180, g = 9.8;
+const CS = {
+  wire(c, pts, col, w = 2) { c.strokeStyle = col; c.lineWidth = w; c.beginPath(); pts.forEach(([x, y], i) => i ? c.lineTo(x, y) : c.moveTo(x, y)); c.stroke(); },
+  cell(c, x, y, col, vert) { c.save(); c.translate(x, y); if (vert) c.rotate(Math.PI / 2); c.strokeStyle = col; c.lineWidth = 2; c.beginPath(); c.moveTo(-5, -14); c.lineTo(-5, 14); c.stroke(); c.lineWidth = 5; c.beginPath(); c.moveTo(5, -8); c.lineTo(5, 8); c.stroke(); c.restore(); },
+  resistor(c, x, y, col, bg, vert, lab) { c.save(); c.translate(x, y); if (vert) c.rotate(Math.PI / 2); CV.rrect(c, -18, -8, 36, 16, 2, bg, col, 2); c.restore(); if (lab) CV.mono(c, lab, x, y + (vert ? 0 : 20), col, 11, 'center'); },
+  lamp(c, x, y, col, bg, glow = 0) { if (glow > 0.02) { const gr = c.createRadialGradient(x, y, 2, x, y, 12 + 30 * glow); gr.addColorStop(0, `rgba(255,220,120,${0.9 * glow})`); gr.addColorStop(1, 'rgba(255,200,80,0)'); c.fillStyle = gr; c.beginPath(); c.arc(x, y, 12 + 30 * glow, 0, 7); c.fill(); } CV.circle(c, x, y, 12, glow > 0.02 ? `rgba(255,226,140,${0.3 + 0.7 * glow})` : bg, col, 2); CV.line(c, x - 8.5, y - 8.5, x + 8.5, y + 8.5, col, 1.6); CV.line(c, x + 8.5, y - 8.5, x - 8.5, y + 8.5, col, 1.6); },
+  meter(c, x, y, letter, val, col, bg, acc) { CV.circle(c, x, y, 14, bg, col, 2); CV.text(c, letter, x, y + 1, col, 14, 'center', 700); if (val != null) { CV.rrect(c, x - 34, y - 38, 68, 20, 5, hexA(acc, .15), acc, 1); CV.mono(c, val, x, y - 28, col, 11.5, 'center'); } },
+  diode(c, x, y, col, bg) { c.fillStyle = bg; c.strokeStyle = col; c.lineWidth = 2; c.beginPath(); c.moveTo(x - 9, y - 10); c.lineTo(x - 9, y + 10); c.lineTo(x + 9, y); c.closePath(); c.fill(); c.stroke(); CV.line(c, x + 9, y - 10, x + 9, y + 10, col, 2.4); },
+  dots(c, path, t, speed, col, n = 20) { // moving charge along a closed polyline (conventional current direction)
+    const segs = []; let L = 0; for (let i = 0; i < path.length; i++) { const a = path[i], b = path[(i + 1) % path.length], l = Math.hypot(b[0] - a[0], b[1] - a[1]); segs.push([a, b, l, L]); L += l; }
+    for (let k = 0; k < n; k++) { let d = ((k / n) * L + t * speed) % L; if (d < 0) d += L; const sg = segs.find(s => d >= s[3] && d <= s[3] + s[2]) || segs[0], f = (d - sg[3]) / sg[2]; CV.circle(c, sg[0][0] + (sg[1][0] - sg[0][0]) * f, sg[0][1] + (sg[1][1] - sg[0][1]) * f, 2.6, col); }
+  }
+};
