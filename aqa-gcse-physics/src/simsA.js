@@ -165,14 +165,13 @@ SIMS.ohm = {
   change(st) { this.init(st); },
   step(st, dt) { const I = st.p.V / st.p.R; st.Q += I * dt; st.tt += dt; },
   draw(c, W, H, st, C) {
-    CV.grid(c, W, H, C); const p = st.p, I = p.V / p.R, x0 = W * 0.12, x1 = W * 0.82, y0 = 70, y1 = H - 110;
-    const path = [[x0, y0], [x1, y0], [x1, y1], [x0, y1]];
-    CS.wire(c, [...path, [x0, y0]], C.ink); CS.dots(c, [[x0 + (x1 - x0) / 2, y0], [x1, y0], [x1, y1], [x0, y1], [x0, y0]], st.t, I * 120, C.u2, 26);
-    c.fillStyle = C.bg; c.fillRect((x0 + x1) / 2 - 14, y0 - 16, 28, 32); CS.cell(c, (x0 + x1) / 2, y0, C.ink); CV.mono(c, p.V.toFixed(1) + ' V', (x0 + x1) / 2, y0 - 26, C.ink, 12, 'center');
-    c.fillStyle = C.bg; c.fillRect((x0 + x1) / 2 - 22, y1 - 10, 44, 20); CS.resistor(c, (x0 + x1) / 2, y1, C.ink, C.surface); CV.mono(c, p.R + ' Ω', (x0 + x1) / 2, y1 - 20, C.ink, 11.5, 'center');
-    c.fillStyle = C.bg; c.fillRect(x1 - 16, (y0 + y1) / 2 - 16, 32, 32); CS.meter(c, x1, (y0 + y1) / 2, 'A', I.toFixed(3) + ' A', C.ink, C.surface, C.accent);
-    CS.wire(c, [[(x0 + x1) / 2 - 18, y1], [(x0 + x1) / 2 - 18, y1 + 44], [(x0 + x1) / 2 - 14, y1 + 44]], C.ink, 1.6); CS.wire(c, [[(x0 + x1) / 2 + 18, y1], [(x0 + x1) / 2 + 18, y1 + 44], [(x0 + x1) / 2 + 14, y1 + 44]], C.ink, 1.6); CS.meter(c, (x0 + x1) / 2, y1 + 44, 'V', null, C.ink, C.surface, C.accent); CV.mono(c, p.V.toFixed(2) + ' V', (x0 + x1) / 2 + 60, y1 + 44, C.ink, 11.5);
-    CV.text(c, 'ammeter in series · voltmeter in parallel', x0, H - 20, C.muted, 11.5);
+    CV.grid(c, W, H, C); const p = st.p, I = p.V / p.R, x0 = W * 0.1, x1 = W * 0.86, y0 = 64, y1 = H - 130, xm = (x0 + x1) / 2, ym = (y0 + y1) / 2;
+    const loop = [[x0, y0], [x1, y0], [x1, y1], [x0, y1]];
+    CS.gaps(c, W, H, [[xm, y0, CS.HALF.cell], [x1, ym, CS.HALF.meter, true], [xm, y1, CS.HALF.resistor]], () => { CS.wire(c, [...loop, [x0, y0]], C.ink); CS.dots(c, loop, st.t, I * 120, C.u2, 26); });
+    CS.cell(c, xm, y0, C.ink, false, true); CS.meter(c, x1, ym, 'A', C.ink, C.surface); CS.resistor(c, xm, y1, C.ink, C.surface);
+    CS.voltmeter(c, C, xm, y1, CS.HALF.resistor, 54, C.ink);
+    CS.tag(c, C, p.V.toFixed(1) + ' V supply', xm, y0 - 28); CS.tag(c, C, I.toFixed(3) + ' A', x1 - 24, ym, 'right'); CV.mono(c, p.R + ' Ω', xm, y1 - 22, C.ink, 12, 'center'); CS.tag(c, C, p.V.toFixed(2) + ' V', xm, y1 + 54 + 30);
+    CV.text(c, 'ammeter in series · voltmeter in parallel', x0, H - 12, C.muted, 11.5);
   },
   read(st) { const I = st.p.V / st.p.R; return [I.toFixed(3) + ' A', st.Q.toFixed(2) + ' C', st.tt.toFixed(1) + ' s', (st.Q * st.p.V).toFixed(1) + ' J']; }
 };
@@ -193,11 +192,14 @@ SIMS.ivg = {
   rec(st) { const V = st.p.V; if (!st.pts.some(q => Math.abs(q[0] - V) < 0.05)) st.pts.push([V, this.I(st.p.comp, V)]); },
   action(st, a) { if (a === 'clear') st.pts = []; if (a === 'sweep') { st.pts = []; for (let V = -6; V <= 6.001; V += 0.25) st.pts.push([V, this.I(st.p.comp, V)]); } },
   draw(c, W, H, st, C) {
-    CV.grid(c, W, H, C); const p = st.p, I = this.I(p.comp, p.V), cx = W * 0.2, cy = H * 0.34, hw = Math.min(90, W * 0.16);
-    CS.wire(c, [[cx - hw, cy], [cx + hw, cy]], C.ink); c.fillStyle = C.bg; c.fillRect(cx - 22, cy - 16, 44, 32);
-    if (p.comp === 'res') CS.resistor(c, cx, cy, C.ink, C.surface); else if (p.comp === 'lamp') CS.lamp(c, cx, cy, C.ink, C.surface, clamp(Math.abs(p.V * I) / 0.7, 0, 1)); else CS.diode(c, cx, cy, C.ink, C.surface);
-    CS.dots(c, [[cx - hw, cy], [cx + hw, cy]], st.t, I * 400, C.u2, Math.abs(I) > 0.002 ? 10 : 0);
-    CV.text(c, p.V >= 0 ? '+ → −' : '− ← +', cx, cy + 40, C.muted, 11, 'center'); CV.mono(c, 'I = ' + (I * 1000).toFixed(1) + ' mA', cx, cy + 60, C.ink, 12, 'center');
+    CV.grid(c, W, H, C); const p = st.p, I = this.I(p.comp, p.V), x0 = 22, x1 = Math.min(Math.max(W * 0.37, 150), W * 0.42 - 30), y0 = 56, y1 = H * 0.44, xm = (x0 + x1) / 2, ym = (y0 + y1) / 2, xc = x0 + (x1 - x0) * 0.3, xv = x0 + (x1 - x0) * 0.72;
+    const loop = [[x0, y0], [x1, y0], [x1, y1], [x0, y1]], comps = [[xc, y0, CS.HALF.cell], [x0, ym, CS.HALF.meter, true], [xv, y0, CS.HALF.resistor], [xm, y1, p.comp === 'lamp' ? CS.HALF.lamp : p.comp === 'diode' ? CS.HALF.diode : CS.HALF.resistor]];
+    CS.gaps(c, W, H, comps, () => { CS.wire(c, [...loop, [x0, y0]], C.ink); CS.dots(c, p.V >= 0 ? loop : loop.slice().reverse(), st.t, Math.abs(I) * 400, C.u2, Math.abs(I) > 0.002 ? 18 : 0); });
+    CS.cell(c, xc, y0, C.ink, false, p.V >= 0); CS.meter(c, x0, ym, 'A', C.ink, C.surface); CS.resistor(c, xv, y0, C.ink, C.surface, false, true);
+    if (p.comp === 'res') CS.resistor(c, xm, y1, C.ink, C.surface); else if (p.comp === 'lamp') CS.lamp(c, xm, y1, C.ink, C.surface, clamp(Math.abs(p.V * I) / 0.7, 0, 1)); else CS.diode(c, xm, y1, C.ink, C.surface, false, true);
+    CS.voltmeter(c, C, xm, y1, comps[3][2], 50, C.ink);
+    CS.tag(c, C, (I * 1000).toFixed(1) + ' mA', x0 + 20, ym, 'left'); CS.tag(c, C, p.V.toFixed(1) + ' V', xm, y1 + 50 + 28);
+    CV.text(c, p.V >= 0 ? 'cell forwards' : 'cell reversed', xc, y0 - 26, C.muted, 11, 'center');
     const b = { x: W * 0.42, y: 30, w: W * 0.54, h: H - 90 };
     const g2 = CV.plot(c, C, b, { xr: [-6, 6], yr: [-0.32, 0.32], xl: 'V / V', yl: 'I / A', series: [{ f: V => this.I(p.comp, V), col: hexA(C.muted, .35), w: 1, dash: [3, 4] }], dots: st.pts.map(q => [q[0], q[1], C.u2, 3.5]).concat([[p.V, I, C.bad, 6]]) });
     CV.line(c, g2.X(0), b.y, g2.X(0), b.y + b.h, C.ink, 1); [-6, -3, 3, 6].forEach(v => CV.mono(c, v, g2.X(v), g2.Y(0) + 10, C.muted, 9.5, 'center')); [-0.3, 0.3].forEach(v => CV.mono(c, v.toFixed(1), g2.X(0) - 4, g2.Y(v), C.muted, 9.5, 'right'));
@@ -220,6 +222,7 @@ SIMS.sensors = {
     CV.grid(c, W, H, C); const p = st.p, R = this.R(p), b = { x: W * 0.46, y: 30, w: W * 0.5, h: H - 90 };
     const g2 = CV.plot(c, C, b, p.s === 'th' ? { xr: [0, 100], yr: [0, 32], xl: 'temperature / °C', yl: 'resistance / kΩ', series: [{ f: T => this.R({ s: 'th', T }), col: C.u1, w: 2.4 }], dots: [[p.T, R, C.bad, 6]] } : { xr: [0, 100], yr: [0, 105], xl: 'light intensity / %', yl: 'resistance / kΩ', series: [{ f: L => this.R({ s: 'ldr', L }), col: C.u6, w: 2.4 }], dots: [[p.L, R, C.bad, 6]] });
     const cx = W * 0.2, cy = H * 0.3; CV.rrect(c, cx - 60, cy - 30, 120, 60, 10, C.surface, C.line, 1);
+    CS.gaps(c, W, H, [[cx, cy, CS.HALF.resistor]], () => CV.line(c, cx - 50, cy, cx + 50, cy, C.ink, 2));
     if (p.s === 'th') { CS.resistor(c, cx, cy, C.ink, C.surface); CV.line(c, cx - 24, cy + 14, cx - 16, cy + 14, C.ink, 1.5); CV.line(c, cx - 16, cy + 14, cx + 18, cy - 14, C.ink, 1.5); const hot = p.T / 100; CV.circle(c, cx, cy + 90, 34, `rgba(${80 + 170 * hot | 0},${120 - 40 * hot | 0},${220 - 180 * hot | 0},.35)`); CV.text(c, p.T + ' °C', cx, cy + 90, C.ink, 14, 'center', 700);
       const on = p.T < 18; CV.rrect(c, cx - 60, H - 100, 120, 40, 8, on ? hexA(C.u1, .8) : C.surface, C.ink, 1.5); CV.text(c, on ? 'HEATER ON' : 'heater off', cx, H - 80, on ? '#fff' : C.muted, 12, 'center', 700); CV.text(c, 'thermostat set to 18 °C', cx, H - 44, C.muted, 11, 'center'); }
     else { CV.circle(c, cx, cy, 22, 'none', C.ink, 1.4); CS.resistor(c, cx, cy, C.ink, C.surface); for (let i = 0; i < 2; i++) CV.arrow(c, cx - 40 + i * 10, cy - 36, cx - 20 + i * 10, cy - 18, C.u2, 1.6); const Lf = p.L / 100; CV.circle(c, cx, cy + 90, 34, `rgba(255,${200 + 55 * Lf | 0},${80 + 100 * Lf | 0},${0.1 + 0.6 * Lf})`); CV.text(c, p.L + '% light', cx, cy + 90, C.ink, 13, 'center', 700);
@@ -241,17 +244,21 @@ SIMS.serpar = {
   note: 'Series: one current; the pd is shared (bigger R, bigger share); R_total = R₁ + R₂. Parallel: each branch gets the full pd; branch currents add up; the total resistance is less than the smallest resistor. (You don’t need to calculate parallel totals.)',
   calc(p) { if (p.mode === 'ser') { const I = p.V / (p.R1 + p.R2); return { I, V1: I * p.R1, V2: I * p.R2, I1: I, I2: I }; } const I1 = p.V / p.R1, I2 = p.V / p.R2; return { I: I1 + I2, V1: p.V, V2: p.V, I1, I2 }; },
   draw(c, W, H, st, C) {
-    CV.grid(c, W, H, C); const p = st.p, k = this.calc(p), x0 = W * 0.12, x1 = W * 0.88, y0 = 70, y1 = H - 90, xm = (x0 + x1) / 2;
+    CV.grid(c, W, H, C); const p = st.p, k = this.calc(p), x0 = W * 0.1, x1 = W * 0.9, y0 = 60, xm = (x0 + x1) / 2, ya = y0 + 70;
     if (p.mode === 'ser') {
-      CS.wire(c, [[x0, y0], [x1, y0], [x1, y1], [x0, y1], [x0, y0]], C.ink); CS.dots(c, [[x0, y0], [x1, y0], [x1, y1], [x0, y1]], st.t, k.I * 150, C.u2, 30);
-      [[x0 + (x1 - x0) * 0.3, 'R₁ = ' + p.R1 + ' Ω', k.V1], [x0 + (x1 - x0) * 0.7, 'R₂ = ' + p.R2 + ' Ω', k.V2]].forEach(([x, lab, v]) => { c.fillStyle = C.bg; c.fillRect(x - 22, y1 - 12, 44, 24); CS.resistor(c, x, y1, C.ink, C.surface); CV.text(c, lab, x, y1 + 24, C.ink, 12, 'center', 600); CV.rrect(c, x - 38, y1 - 44, 76, 20, 5, hexA(C.u5, .15), C.u5, 1); CV.mono(c, v.toFixed(2) + ' V', x, y1 - 34, C.ink, 11.5, 'center'); });
+      const y1 = H - 150, xr1 = x0 + (x1 - x0) * 0.3, xr2 = x0 + (x1 - x0) * 0.7, loop = [[x0, y0], [x1, y0], [x1, y1], [x0, y1]];
+      CS.gaps(c, W, H, [[xm, y0, CS.HALF.cell], [x0, ya, CS.HALF.meter, true], [xr1, y1, CS.HALF.resistor], [xr2, y1, CS.HALF.resistor]], () => { CS.wire(c, [...loop, [x0, y0]], C.ink); CS.dots(c, loop, st.t, k.I * 150, C.u2, 30); });
+      [[xr1, 'R₁ = ' + p.R1 + ' Ω', k.V1], [xr2, 'R₂ = ' + p.R2 + ' Ω', k.V2]].forEach(([x, lab, v]) => { CS.resistor(c, x, y1, C.ink, C.surface); CV.text(c, lab, x, y1 - 24, C.ink, 12, 'center', 600); CS.voltmeter(c, C, x, y1, CS.HALF.resistor, 56, C.ink); CS.tag(c, C, v.toFixed(2) + ' V', x, y1 + 56 + 30); });
     } else {
-      const yb1 = (y0 + y1) / 2 - 10, yb2 = y1; CS.wire(c, [[x0, y0], [x1, y0], [x1, yb2], [x0, yb2], [x0, y0]], C.ink); CS.wire(c, [[x0, yb1], [x1, yb1]], C.ink);
-      CS.dots(c, [[x0, y0], [x1, y0], [x1, yb1], [x0, yb1]], st.t, k.I1 * 150, C.u2, 22); CS.dots(c, [[x1, yb1], [x1, yb2], [x0, yb2], [x0, yb1]], st.t, k.I2 * 150, C.u2, 18);
-      [[yb1, 'R₁ = ' + p.R1 + ' Ω', k.I1], [yb2, 'R₂ = ' + p.R2 + ' Ω', k.I2]].forEach(([y, lab, i]) => { c.fillStyle = C.bg; c.fillRect(xm - 22, y - 12, 44, 24); CS.resistor(c, xm, y, C.ink, C.surface); CV.text(c, lab, xm, y + 24, C.ink, 12, 'center', 600); CV.rrect(c, xm - 44, y - 44, 88, 20, 5, hexA(C.u5, .15), C.u5, 1); CV.mono(c, (i).toFixed(3) + ' A · ' + p.V.toFixed(1) + ' V', xm, y - 34, C.ink, 10.5, 'center'); });
+      const yb1 = y0 + 150, yb2 = H - 70, xa = x0 + (x1 - x0) * 0.25;
+      CS.gaps(c, W, H, [[xm, y0, CS.HALF.cell], [x0, ya, CS.HALF.meter, true], [xm, yb1, CS.HALF.resistor], [xm, yb2, CS.HALF.resistor], [xa, yb1, CS.HALF.meter], [xa, yb2, CS.HALF.meter]], () => {
+        CS.wire(c, [[x0, yb1], [x0, y0], [x1, y0], [x1, yb1]], C.ink); CS.wire(c, [[x0, yb1], [x0, yb2], [x1, yb2], [x1, yb1]], C.ink); CS.wire(c, [[x0, yb1], [x1, yb1]], C.ink);
+        CS.dots(c, [[x0, yb1], [x0, y0], [x1, y0], [x1, yb1]], st.t, k.I * 150, C.u2, 22, true); CS.dots(c, [[x1, yb1], [x0, yb1]], st.t, k.I1 * 150, C.u2, 8, true); CS.dots(c, [[x1, yb1], [x1, yb2], [x0, yb2], [x0, yb1]], st.t, k.I2 * 150, C.u2, 16, true); });
+      CS.junction(c, x0, yb1, C.ink); CS.junction(c, x1, yb1, C.ink);
+      [[yb1, 'R₁ = ' + p.R1 + ' Ω', k.I1], [yb2, 'R₂ = ' + p.R2 + ' Ω', k.I2]].forEach(([y, lab, i]) => { CS.resistor(c, xm, y, C.ink, C.surface); CV.text(c, lab, xm, y + 24, C.ink, 12, 'center', 600); CS.meter(c, xa, y, 'A', C.ink, C.surface); CS.tag(c, C, i.toFixed(3) + ' A', xa, y - 30); CS.tag(c, C, p.V.toFixed(1) + ' V across', xm + (x1 - xm) / 2 + 6, y - 30); });
     }
-    c.fillStyle = C.bg; c.fillRect(xm - 14, y0 - 16, 28, 32); CS.cell(c, xm, y0, C.ink); CV.mono(c, p.V.toFixed(1) + ' V', xm, y0 - 26, C.ink, 12, 'center');
-    c.fillStyle = C.bg; c.fillRect(x0 - 16, y0 + 40 - 16, 32, 32); CS.meter(c, x0, y0 + 40, 'A', null, C.ink, C.surface, C.accent); CV.mono(c, k.I.toFixed(3) + ' A', x0 + 22, y0 + 40, C.ink, 11.5);
+    CS.cell(c, xm, y0, C.ink, false, true); CS.tag(c, C, p.V.toFixed(1) + ' V supply', xm, y0 - 28);
+    CS.meter(c, x0, ya, 'A', C.ink, C.surface); CS.tag(c, C, k.I.toFixed(3) + ' A', x0 + 22, ya, 'left');
   },
   read(st) { const p = st.p, k = this.calc(p); return [k.I.toFixed(3) + ' A', k.V1.toFixed(2) + ' V · ' + k.V2.toFixed(2) + ' V', k.I1.toFixed(3) + ' A · ' + k.I2.toFixed(3) + ' A', (p.V / k.I).toFixed(2) + ' Ω' + (p.mode === 'par' ? ' (< ' + Math.min(p.R1, p.R2) + ')' : '')]; }
 };
@@ -326,13 +333,14 @@ SIMS.grid = {
   k(p) { const I = p.P * 1e6 / (p.kV * 1e3), loss = Math.min(I * I * 5, p.P * 1e6); return { I, loss, del: p.P * 1e6 - loss }; },
   draw(c, W, H, st, C) {
     CV.grid(c, W, H, C); const p = st.p, k = this.k(p), y = H * 0.45, frac = k.loss / (p.P * 1e6);
-    const bw2 = Math.min(46, W * 0.11), fs = bw2 < 40 ? 9.5 : 11.5, box = (x, lab, col) => { CV.rrect(c, x - bw2, y - 28, bw2 * 2, 56, 10, C.surface, col, 2); lab.split('|').forEach((l, i) => CV.text(c, l, x, y - 6 + i * 16, C.ink, fs, 'center', i ? 500 : 700)); };
-    const x1 = W * 0.12, x2 = W * 0.36, x3 = W * 0.64, x4 = W * 0.88;
-    const hot = clamp(frac * 3, 0, 1); c.strokeStyle = `rgb(${100 + 155 * hot | 0},${110 - 70 * hot | 0},${120 - 90 * hot | 0})`; c.lineWidth = 3 + 5 * hot; c.shadowColor = C.bad; c.shadowBlur = 20 * hot; c.beginPath(); c.moveTo(x2 + bw2, y); c.lineTo(x3 - bw2, y); c.stroke(); c.shadowBlur = 0; CV.line(c, x1 + bw2, y, x2 - bw2, y, C.ink, 2); CV.line(c, x3 + bw2, y, x4 - bw2, y, C.ink, 2);
-    for (let i = 1; i <= 2; i++) { const px = x2 + (x3 - x2) * i / 3; CV.line(c, px - 12, y + 60, px, y - 4, C.muted, 2); CV.line(c, px + 12, y + 60, px, y - 4, C.muted, 2); }
-    CS.dots(c, [[x2 + bw2, y], [x3 - bw2, y]], st.t, Math.min(k.I / 4, 400), C.u2, Math.min(40, 4 + k.I / 200 | 0));
-    box(x1, 'power|station', C.u1); box(x2, 'step-up|transformer', C.u5); box(x3, 'step-down|transformer', C.u5); box(x4, 'homes|230 V', C.u3);
-    CV.text(c, `${p.kV} kV`, (x2 + x3) / 2, y - 40, C.ink, 14, 'center', 700); CV.text(c, `cables glow when lots of energy is wasted`, (x2 + x3) / 2, y + 86, C.muted, 11, 'center');
+    const bw2 = 20, node = (x, lab, col, icon) => { CV.rrect(c, x - bw2, y - bw2, bw2 * 2, bw2 * 2, 8, C.surface, col, 2); CV.text(c, icon, x, y + 1, col, 16, 'center', 800); lab.split('|').forEach((l, i) => CV.text(c, l, x, y + 34 + i * 14, C.ink, 11, 'center', i ? 500 : 700)); };
+    const x1 = W * 0.1, x2 = W * 0.37, x3 = W * 0.63, x4 = W * 0.9;
+    const pa = x2 + (x3 - x2) * 0.33, pb = x3 - (x3 - x2) * 0.33, yt = y - 56, line = [[x2 + bw2, y], [pa, yt], [pb, yt], [x3 - bw2, y]];
+    [pa, pb].forEach(px => { CV.line(c, px - 12, y + 14, px - 3, yt - 8, C.muted, 2); CV.line(c, px + 12, y + 14, px + 3, yt - 8, C.muted, 2); CV.line(c, px - 16, yt, px + 16, yt, C.muted, 2); CV.line(c, px - 8, y - 14, px + 8, y - 14, C.muted, 1.5); });
+    const hot = clamp(frac * 3, 0, 1); c.strokeStyle = `rgb(${100 + 155 * hot | 0},${110 - 70 * hot | 0},${120 - 90 * hot | 0})`; c.lineWidth = 3 + 5 * hot; c.lineJoin = 'round'; c.shadowColor = C.bad; c.shadowBlur = 20 * hot; c.beginPath(); line.forEach(([px, py], i) => i ? c.lineTo(px, py) : c.moveTo(px, py)); c.stroke(); c.shadowBlur = 0; CV.line(c, x1 + bw2, y, x2 - bw2, y, C.ink, 2); CV.line(c, x3 + bw2, y, x4 - bw2, y, C.ink, 2);
+    CS.dots(c, line, st.t, Math.min(k.I / 4, 400), C.u2, Math.min(40, 4 + k.I / 200 | 0), true);
+    node(x1, 'power|station', C.u1, '⚡'); node(x2, 'step-up|transformer', C.u5, '↑'); node(x3, 'step-down|transformer', C.u5, '↓'); node(x4, 'homes|230 V', C.u3, '⌂');
+    CS.tag(c, C, `${p.kV} kV · ${k.I >= 1000 ? (k.I / 1000).toFixed(2) + ' kA' : k.I.toFixed(0) + ' A'}`, (x2 + x3) / 2, y - 88); CV.text(c, 'cables glow when lots of energy is wasted', W / 2, y + 86, C.muted, 11, 'center');
     const bw = W - 120, bx = 60, by = H - 50; CV.rrect(c, bx, by, bw, 18, 6, hexA(C.u3, .25)); CV.rrect(c, bx, by, bw * (1 - frac), 18, 6, C.u3); CV.text(c, 'delivered', bx, by - 10, C.muted, 11); CV.text(c, 'wasted in cables', bx + bw, by - 10, C.bad, 11, 'right');
   },
   read(st) { const p = st.p, k = this.k(p); return [k.I >= 1000 ? (k.I / 1000).toFixed(2) + ' kA' : k.I.toFixed(0) + ' A', (k.loss / 1e6).toFixed(2) + ' MW', (k.del / 1e6).toFixed(1) + ' MW', (k.del / (p.P * 1e6) * 100).toFixed(1) + '%']; }

@@ -75,7 +75,8 @@ const SYM = {
   'ammeter': (x, y) => ln(x - 30, y, x - 12, y) + `<circle cx="${x}" cy="${y}" r="12" fill="var(--surface)" stroke="${INK}" stroke-width="1.8"/>` + tx(x, y + 5, 'A', { a: 'middle', fs: 14, c: INK, w: 700 }) + ln(x + 12, y, x + 30, y),
   'voltmeter': (x, y) => ln(x - 30, y, x - 12, y) + `<circle cx="${x}" cy="${y}" r="12" fill="var(--surface)" stroke="${INK}" stroke-width="1.8"/>` + tx(x, y + 5, 'V', { a: 'middle', fs: 14, c: INK, w: 700 }) + ln(x + 12, y, x + 30, y)
 };
-const sym = (name, x, y, rot) => rot ? `<g transform="rotate(${rot} ${x} ${y})">${SYM[name](x, y)}</g>` : SYM[name](x, y);
+const sym = (name, x, y, rot) => { if (!rot) return SYM[name](x, y); const m = /meter$/.test(name), body = m ? SYM[name](x, y).replace(/<text[\s\S]*?<\/text>/, '') : SYM[name](x, y); // meter letters stay upright
+  return `<g transform="rotate(${rot} ${x} ${y})">${body}</g>` + (m ? tx(x, y + 5, name === 'ammeter' ? 'A' : 'V', { a: 'middle', fs: 14, c: INK, w: 700 }) : ''); };
 const wire = (...pts) => `<polyline points="${pts.map(p => p.join(',')).join(' ')}" fill="none" stroke="${INK}" stroke-width="1.6" stroke-linejoin="round"/>`;
 const dot = (x, y, c = INK, r = 3) => `<circle cx="${x}" cy="${y}" r="${r}" fill="${c}"/>`;
 const SYMBOL_BANK = Object.keys(SYM).map(k => [svg(120, 70, SYM[k](60, 38), k).replace('width="120"', 'width="240"'), k]);
@@ -113,8 +114,8 @@ const DIAG = {
     s += box(40, 150, 420, 22, 'color-mix(in srgb,var(--u2) 20%,var(--surface))', INK, 3); for (let i = 0; i <= 10; i++) s += ln(50 + i * 40, 150, 50 + i * 40, 158, INK, 1) + tx(50 + i * 40, 168, i * 10, { a: 'middle', fs: 9, f: 'var(--f-mono)' });
     s += ln(50, 145, 450, 145, C1, 2.2) + tx(452, 138, 'resistance wire', { a: 'end', fs: 11, c: C1 });
     s += `<path d="M44,136 l12,0 l0,14 l-12,0 z" fill="${INK}"/><path d="M284,136 l12,0 l0,14 l-12,0 z" fill="${INK}"/>` + tx(290, 188, '↑ crocodile clip at length L', { a: 'middle', fs: 11 });
-    s += sym('battery', 170, 40) + sym('ammeter', 330, 40) + wire([140, 40], [60, 40], [60, 90], [50, 90], [50, 136]) + wire([200, 40], [300, 40]) + wire([360, 40], [420, 40], [420, 90], [290, 90], [290, 136]);
-    s += sym('voltmeter', 170, 100) + wire([140, 100], [50, 100]) + wire([200, 100], [260, 100], [260, 118], [290, 118]) + dot(50, 100) + dot(290, 118);
+    s += sym('battery', 170, 40) + sym('ammeter', 330, 40) + wire([140, 40], [50, 40], [50, 136]) + wire([200, 40], [300, 40]) + wire([360, 40], [420, 40], [420, 90], [290, 90], [290, 136]);
+    s += sym('voltmeter', 170, 100) + wire([140, 100], [50, 100]) + wire([200, 100], [290, 100]) + dot(50, 100) + dot(290, 100);
     return svg(500, 198, s, 'Resistance of a wire apparatus') + cap('Required practical 3: the voltmeter measures the pd across length L of wire; the ammeter measures the current. R = V ÷ I. Use a low pd so the wire stays cool.'); },
   ivall: () => { const g = (ox, title, f, col) => { let s = ''; const X = v => ox + 90 + v * 70, Y = v => 100 - v * 70; s += arrow(ox + 10, 100, ox + 170, 100, INK, 1.2) + arrow(ox + 90, 175, ox + 90, 22, INK, 1.2) + tx(ox + 172, 114, 'V', { fs: 12, c: INK, it: true, a: 'end' }) + tx(ox + 96, 28, 'I', { fs: 12, c: INK, it: true });
       let d = ''; for (let i = 0; i <= 80; i++) { const v = -1.1 + 2.2 * i / 80, iv = f(v); if (iv > 1.1 || iv < -1.1) continue; d += (d ? 'L' : 'M') + X(v).toFixed(1) + ',' + Y(iv).toFixed(1); } s += pth(d, col, 2.6) + tx(ox + 90, 198, title, { a: 'middle', fs: 13, c: INK, w: 700 }); return s; };
@@ -131,8 +132,9 @@ const DIAG = {
   series: () => { let s = '';
     s += sym('battery', 250, 30) + tx(250, 12, '6.0 V', { a: 'middle', fs: 12, c: INK }) + sym('resistor', 150, 150) + sym('resistor', 350, 150) + sym('ammeter', 60, 90, 90);
     s += wire([220, 30], [60, 30], [60, 60]) + wire([60, 120], [60, 150], [120, 150]) + wire([180, 150], [320, 150]) + wire([380, 150], [440, 150], [440, 30], [280, 30]);
-    s += tx(150, 180, 'R₁ = 4 Ω · V₁ = 2.0 V', { a: 'middle', fs: 12, c: C1, w: 600 }) + tx(350, 180, 'R₂ = 8 Ω · V₂ = 4.0 V', { a: 'middle', fs: 12, c: C1, w: 600 }) + tx(78, 94, 'I = 0.50 A everywhere', { fs: 12, c: C5, w: 600 });
-    return svg(480, 200, s, 'Series circuit') + cap('Series: the same current through each component; the supply pd is shared (2.0 V + 4.0 V = 6.0 V); total resistance = 4 + 8 = 12 Ω.'); },
+    [[150, 'R₁ = 4 Ω', '2.0 V'], [350, 'R₂ = 8 Ω', '4.0 V']].forEach(([x, r, v]) => { s += tx(x, 134, r, { a: 'middle', fs: 12, c: INK, w: 600 }) + sym('voltmeter', x, 205) + wire([x - 30, 205], [x - 36, 205], [x - 36, 150]) + wire([x + 30, 205], [x + 36, 205], [x + 36, 150]) + dot(x - 36, 150) + dot(x + 36, 150) + tx(x, 238, 'V = ' + v, { a: 'middle', fs: 12, c: C1, w: 600 }); });
+    s += tx(78, 94, 'I = 0.50 A everywhere', { fs: 12, c: C5, w: 600 });
+    return svg(480, 250, s, 'Series circuit') + cap('Series: the same current through each component; the supply pd is shared (2.0 V + 4.0 V = 6.0 V); total resistance = 4 + 8 = 12 Ω.'); },
   parallel: () => { let s = '';
     s += sym('battery', 250, 30) + tx(250, 12, '12 V', { a: 'middle', fs: 12, c: INK }) + sym('lamp', 250, 110) + sym('lamp', 250, 180);
     s += wire([220, 30], [100, 30], [100, 180], [220, 180]) + wire([100, 110], [220, 110]) + wire([280, 30], [400, 30], [400, 180], [280, 180]) + wire([280, 110], [400, 110]) + dot(100, 110) + dot(400, 110);

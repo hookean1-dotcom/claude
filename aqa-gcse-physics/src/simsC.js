@@ -385,7 +385,8 @@ SIMS.solenoid = {
     if (dir) { const nl = clamp(Math.round(1 + B / 20), 1, 5); for (let k = 1; k <= nl; k++) { const off = k * (r - 12) / (nl + 0.5); [-1, 1].forEach(s => { c.strokeStyle = hexA(C.u6, .8); c.lineWidth = 1.4; c.beginPath(); c.moveTo(cx - L / 2, cy + s * off * 0.5); c.lineTo(cx + L / 2, cy + s * off * 0.5); c.bezierCurveTo(cx + L / 2 + 60 + k * 20, cy + s * off * 0.5, cx + L / 2 + 40 + k * 20, cy + s * (r + 30 + k * 22), cx, cy + s * (r + 30 + k * 22)); c.bezierCurveTo(cx - L / 2 - 40 - k * 20, cy + s * (r + 30 + k * 22), cx - L / 2 - 60 - k * 20, cy + s * off * 0.5, cx - L / 2, cy + s * off * 0.5); c.stroke(); CV.arrow(c, cx - 10 * dir, cy + s * off * 0.5, cx + 10 * dir, cy + s * off * 0.5, C.u6, 1.4, 6); }); } }
     // coil
     for (let i = 0; i < p.N; i++) { const x = cx - L / 2 + (i + 0.5) * L / p.N; c.strokeStyle = '#B87333'; c.lineWidth = 3; c.beginPath(); c.ellipse(x, cy, 6, r, 0, 0, 2 * Math.PI); c.stroke(); }
-    CV.line(c, cx - L / 2, cy + r, cx - L / 2, H - 40, '#B87333', 2); CV.line(c, cx + L / 2, cy + r, cx + L / 2, H - 40, '#B87333', 2); CV.line(c, cx - L / 2, H - 40, cx - 20, H - 40, '#B87333', 2); CV.line(c, cx + 20, H - 40, cx + L / 2, H - 40, '#B87333', 2); CS.cell(c, cx, H - 40, C.ink);
+    const yb = H - 44, xa = cx + L / 4; CS.gaps(c, W, H, [[cx, yb, CS.HALF.cell], [xa, yb, CS.HALF.meter]], () => CS.wire(c, [[cx - L / 2 + 0.5 * L / p.N, cy + r], [cx - L / 2 + 0.5 * L / p.N, yb], [cx + L / 2 - 0.5 * L / p.N, yb], [cx + L / 2 - 0.5 * L / p.N, cy + r]], C.ink));
+    CS.cell(c, cx, yb, C.ink, false, p.I < 0); CS.meter(c, xa, yb, 'A', C.ink, C.surface); CS.tag(c, C, Math.abs(p.I).toFixed(1) + ' A', xa, yb + 26);
     if (dir) { CV.text(c, dir > 0 ? 'N' : 'S', cx + L / 2 + 26, cy, C.u1, 20, 'center', 800); CV.text(c, dir > 0 ? 'S' : 'N', cx - L / 2 - 26, cy, C.u4, 20, 'center', 800); }
     const clips = Math.min(12, Math.floor(B / 6)); for (let i = 0; i < clips; i++) { const x = cx + L / 2 + 44 + (i % 3) * 10, y = cy + 14 + Math.floor(i / 3) * 16; c.strokeStyle = C.muted; c.lineWidth = 1.5; c.beginPath(); c.ellipse(x, y, 4, 7, 0, 0, 7); c.stroke(); }
   },
@@ -493,12 +494,15 @@ SIMS.transformer = {
   draw(c, W, H, st, C) {
     CV.grid(c, W, H, C); const p = st.p, k = this.k(p), cx = W / 2, cy = H * 0.45, cw = Math.min(W * 0.4, 220), ch = 180;
     c.strokeStyle = '#8C949C'; c.lineWidth = 26; c.strokeRect(cx - cw / 2, cy - ch / 2, cw, ch); CV.text(c, 'iron core', cx, cy - ch / 2 - 24, C.muted, 11, 'center');
-    const coil = (x, n, col) => { const t = clamp(Math.round(n / 100), 1, 20); for (let i = 0; i < t; i++) { const y = cy - ch / 2 + 16 + i * (ch - 32) / Math.max(1, t - 1 || 1); c.strokeStyle = col; c.lineWidth = 3; c.beginPath(); c.ellipse(x, y, 22, 5, 0, 0, 7); c.stroke(); } };
-    coil(cx - cw / 2, p.np, '#B87333'); coil(cx + cw / 2, p.ns, '#C0392B');
-    const ph = Math.sin(st.t * 4); CV.text(c, 'primary', cx - cw / 2, cy + ch / 2 + 26, C.ink, 11.5, 'center', 700); CV.text(c, 'secondary', cx + cw / 2, cy + ch / 2 + 26, C.ink, 11.5, 'center', 700);
-    CV.mono(c, 'a.c. ' + p.Vp + ' V', cx - cw / 2 - 40, cy, C.ink, 12, 'right'); CV.mono(c, k.Vs.toFixed(1) + ' V', cx + cw / 2 + 40, cy, C.bad, 12);
+    const coil = (x, n, col) => { const t = clamp(Math.round(n / 100), 2, 20), sp = Math.min(10, (ch - 40) / (t - 1)), y0 = cy - sp * (t - 1) / 2; for (let i = 0; i < t; i++) { c.strokeStyle = col; c.lineWidth = 3; c.beginPath(); c.ellipse(x, y0 + i * sp, 22, 5, 0, 0, 7); c.stroke(); } return [y0, y0 + sp * (t - 1)]; };
+    const [pt, pb] = coil(cx - cw / 2, p.np, '#B87333'), [st2, sb] = coil(cx + cw / 2, p.ns, '#C0392B');
+    const ph = Math.sin(st.t * 4); CV.text(c, 'primary', cx - cw / 2 + 10, cy + ch / 2 + 26, C.ink, 11.5, 'center', 700); CV.text(c, 'secondary', cx + cw / 2, cy + ch / 2 + 26, C.ink, 11.5, 'center', 700);
+    const xl = cx - cw / 2, xr = cx + cw / 2, yt = cy - ch / 2 + 16, ybt = cy + ch / 2 - 16, xs = xl - 34 - Math.min(44, (W - cw) / 5), xL = xr + 34 + Math.min(44, (W - cw) / 5);
+    CS.gaps(c, W, H, [[xs, cy, 16, true], [xL, cy, CS.HALF.lamp, true]], () => { CS.wire(c, [[xl - 22, pt], [xl - 34, pt], [xl - 34, yt], [xs, yt], [xs, ybt], [xl - 34, ybt], [xl - 34, pb], [xl - 22, pb]], C.ink); CS.wire(c, [[xr + 22, st2], [xr + 34, st2], [xr + 34, yt], [xL, yt], [xL, ybt], [xr + 34, ybt], [xr + 34, sb], [xr + 22, sb]], C.ink); });
+    CV.circle(c, xs, cy, 16, C.surface, C.ink, 2); c.strokeStyle = C.ink; c.lineWidth = 2; c.beginPath(); for (let i = 0; i <= 20; i++) { const u = -9 + i * 0.9; c.lineTo(xs + u, cy - 5 * Math.sin(u / 9 * Math.PI)); } c.stroke();
+    CS.tag(c, C, p.Vp + ' V a.c.', Math.max(xs, 44), ybt + 34); CS.tag(c, C, k.Vs.toFixed(1) + ' V', Math.min(xL, W - 40), yt - 22, 'center', C.bad);
     for (let i = 0; i < 6; i++) { const f = ((st.t * 0.6 + i / 6) % 1), per = 2 * (cw + ch), d = f * per; let x, y; if (d < cw) { x = cx - cw / 2 + d; y = cy - ch / 2; } else if (d < cw + ch) { x = cx + cw / 2; y = cy - ch / 2 + d - cw; } else if (d < 2 * cw + ch) { x = cx + cw / 2 - (d - cw - ch); y = cy + ch / 2; } else { x = cx - cw / 2; y = cy + ch / 2 - (d - 2 * cw - ch); } CV.circle(c, x, y, 3, hexA(C.u6, 0.4 + 0.5 * Math.abs(ph))); }
-    CS.lamp(c, cx + cw / 2 + 80, cy + 50, C.ink, C.surface, clamp(k.Vs * k.Is / 200, 0, 1));
+    CS.lamp(c, xL, cy, C.ink, C.surface, clamp(k.Vs * k.Is / 200, 0, 1));
   },
   read(st) { const p = st.p, k = this.k(p); return [k.Vs.toFixed(1) + ' V', p.ns > p.np ? 'step-up' : p.ns < p.np ? 'step-down' : 'neither (1 : 1)', k.Is.toFixed(2) + ' A', k.Ip.toFixed(3) + ' A']; }
 };
