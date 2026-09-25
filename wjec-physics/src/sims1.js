@@ -46,6 +46,20 @@ function hexA(col, a) { // accepts #rrggbb or rgb(...) → rgba
   return col.replace('rgb(', 'rgba(').replace(')', `,${a})`);
 }
 
+/* ---- canvas circuit symbols: wires are drawn inside CK.gaps(), which clips out each component's span,
+   so wires end exactly at the terminals (no gaps, no wire through a symbol) ---- */
+const CK = {
+  gaps(c, W, H, comps, fn) { c.save(); c.beginPath(); c.rect(-10, -10, W + 20, H + 20); comps.forEach(([x, y, half, vert]) => vert ? c.rect(x - 7, y - half, 14, 2 * half) : c.rect(x - half, y - 7, 2 * half, 14)); c.clip('evenodd'); fn(); c.restore(); },
+  wire(c, pts, col, w = 2) { c.strokeStyle = col; c.lineWidth = w; c.lineJoin = 'round'; c.beginPath(); pts.forEach(([x, y], i) => i ? c.lineTo(x, y) : c.moveTo(x, y)); c.stroke(); },
+  dot(c, x, y, col) { CV.circle(c, x, y, 3.4, col); },
+  // cell centred at (x, y); vert: plates horizontal (wire runs vertically); the long thin plate (+) is at −5, i.e. top/left unless flip
+  cell(c, x, y, col, vert, flip) { c.save(); c.translate(x, y); if (vert) c.rotate(Math.PI / 2); if (flip) c.rotate(Math.PI); c.strokeStyle = col; c.lineWidth = 2; c.beginPath(); c.moveTo(-5, -14); c.lineTo(-5, 14); c.stroke(); c.lineWidth = 5; c.beginPath(); c.moveTo(5, -8); c.lineTo(5, 8); c.stroke(); c.restore(); },
+  cap(c, x, y, col, vert) { c.save(); c.translate(x, y); if (vert) c.rotate(Math.PI / 2); CV.line(c, -5, -16, -5, 16, col, 3); CV.line(c, 5, -16, 5, 16, col, 3); c.restore(); },
+  resistor(c, x, y, col, bg, vert) { c.save(); c.translate(x, y); if (vert) c.rotate(Math.PI / 2); CV.rrect(c, -18, -8, 36, 16, 2, bg, col, 2); c.restore(); },
+  meter(c, x, y, letter, col, bg) { CV.circle(c, x, y, 15, bg, col, 2); CV.text(c, letter, x, y + 1, col, 14, 'center', 700); },
+  tag(c, C, text, x, y, align = 'center') { c.font = '500 12px IBM Plex Mono, ui-monospace, monospace'; const w = c.measureText(text).width + 14, x0 = align === 'left' ? x : align === 'right' ? x - w : x - w / 2; CV.rrect(c, x0, y - 11, w, 22, 5, C.surface, hexA(C.accent, .7), 1); CV.mono(c, text, x0 + w / 2, y, C.ink, 12, 'center'); }
+};
+
 /* ---- mount ---- */
 function mountSim(host, key) {
   const def = SIMS[key]; if (!def) { host.innerHTML = '<div class="empty">Simulation unavailable.</div>'; return () => { }; }
@@ -67,7 +81,7 @@ function mountSim(host, key) {
     ${def.note ? `<div class="sim-note">${rich(def.note)}</div>` : ''}</div></div>`;
   const cv = $('canvas', host), stage = $('.sim-stage', host), c = cv.getContext('2d');
   let W = 0, H = 0;
-  const size = () => { const r = stage.getBoundingClientRect(), dpr = Math.min(2, devicePixelRatio || 1); W = r.width; H = r.height; cv.width = W * dpr; cv.height = H * dpr; c.setTransform(dpr, 0, 0, dpr, 0, 0); st.W = W; st.H = H; def.resize && def.resize(st); };
+  const size = () => { if (def.hNarrow) { const want = (stage.getBoundingClientRect().width < 560 ? def.hNarrow : def.h) + 'px'; if (stage.style.height !== want) stage.style.height = want; } const r = stage.getBoundingClientRect(), dpr = Math.min(2, devicePixelRatio || 1); W = r.width; H = r.height; cv.width = W * dpr; cv.height = H * dpr; c.setTransform(dpr, 0, 0, dpr, 0, 0); st.W = W; st.H = H; def.resize && def.resize(st); };
   const ro = new ResizeObserver(size); ro.observe(stage); size();
   const setFill = inp => inp.style.setProperty('--p', ((inp.value - inp.min) / (inp.max - inp.min) * 100) + '%');
   $$('input[type=range]', host).forEach(inp => { setFill(inp); inp.addEventListener('input', () => { const id = inp.dataset.id, cdef = def.controls.find(x => x.id === id); st.p[id] = +inp.value; inp.previousElementSibling.querySelector('output').innerHTML = cdef.fmt ? cdef.fmt(+inp.value) : inp.value; setFill(inp); def.change && def.change(st, id); }); });
@@ -484,7 +498,7 @@ SIMS.iv = {
    2.3 EMF & internal resistance circuit
    ========================================================== */
 SIMS.circuit = {
-  title: 'EMF & internal resistance', h: 460,
+  title: 'EMF & internal resistance', h: 460, hNarrow: 720,
   controls: [
     { id: 'E', label: 'EMF E', min: 1.5, max: 12, step: 0.5, value: 6, fmt: v => v.toFixed(1) + ' V' },
     { id: 'r', label: 'Internal resistance r', min: 0, max: 5, step: 0.1, value: 2, fmt: v => v.toFixed(1) + ' Ω' },
@@ -495,28 +509,25 @@ SIMS.circuit = {
   init(st) { st.ph = 0; },
   step(st, dt) { const I = st.p.E / (st.p.R + st.p.r); st.ph = (st.ph + I * dt * 0.25) % 1; },
   draw(c, W, H, st, C) {
-    CV.grid(c, W, H, C); const p = st.p, I = p.E / (p.R + p.r), V = I * p.R;
-    const x0 = 40, y0 = 50, w = Math.min(W * 0.45, 300), h = 170;
-    c.strokeStyle = C.ink; c.lineWidth = 2; c.strokeRect(x0, y0, w, h);
-    // cell (left) with dashed box for r
-    c.setLineDash([4, 4]); CV.rrect(c, x0 - 22, y0 + 40, 44, 90, 6, C.bg, C.muted, 1.2); c.setLineDash([]);
-    CV.line(c, x0 - 12, y0 + 64, x0 + 12, y0 + 64, C.ink, 3); CV.line(c, x0 - 6, y0 + 72, x0 + 6, y0 + 72, C.ink, 3);
-    CV.rrect(c, x0 - 7, y0 + 88, 14, 30, 2, C.bg, C.ink, 1.6); CV.mono(c, 'r', x0 - 30, y0 + 103, C.ink, 12, 'right'); CV.mono(c, 'E', x0 - 30, y0 + 68, C.ink, 12, 'right');
-    CV.rrect(c, x0 + w - 10, y0 + 60, 20, 50, 3, C.bg, C.ink, 2); CV.mono(c, 'R', x0 + w + 16, y0 + 85, C.ink, 12);
-    // voltmeter across cell terminals
-    CV.line(c, x0, y0 + 30, x0 + 70, y0 + 30, C.muted, 1.2); CV.line(c, x0, y0 + 145, x0 + 70, y0 + 145, C.muted, 1.2); CV.line(c, x0 + 70, y0 + 30, x0 + 70, y0 + 70, C.muted, 1.2); CV.line(c, x0 + 70, y0 + 105, x0 + 70, y0 + 145, C.muted, 1.2);
-    CV.circle(c, x0 + 70, y0 + 88, 17, C.surface, C.ink, 1.6); CV.mono(c, 'V', x0 + 70, y0 + 88, C.ink, 13, 'center');
-    // current dots
-    const per = 2 * (w + h), n = 18; for (let i = 0; i < n; i++) { let d = ((i / n + st.ph) % 1) * per, x, y; if (d < w) { x = x0 + d; y = y0; } else if (d < w + h) { x = x0 + w; y = y0 + d - w; } else if (d < 2 * w + h) { x = x0 + w - (d - w - h); y = y0 + h; } else { x = x0; y = y0 + h - (d - 2 * w - h); } CV.circle(c, x, y, 3.2, C.u2); }
-    CV.mono(c, `V = ${V.toFixed(2)} V`, x0 + 70, y0 + h + 30, C.ink, 13, 'center');
-    // graph V–I
-    const b = { x: x0 + w + 70, y: 30, w: W - (x0 + w + 100), h: H * 0.42 };
-    if (b.w > 120) {
+    CV.grid(c, W, H, C); const p = st.p, I = p.E / (p.R + p.r), V = I * p.R, narrow = W < 560;
+    const x0 = 52, y0 = 46, w = narrow ? W - 100 : Math.min(W * 0.42, 300), h = 190, yc = y0 + 62, yr = y0 + 118, bt = y0 + 34, bb = y0 + 148, xv = x0 + Math.min(80, w * 0.4), yv = (bt + bb) / 2 - 3;
+    const loop = [[x0, y0], [x0 + w, y0], [x0 + w, y0 + h], [x0, y0 + h]];
+    c.setLineDash([4, 4]); CV.rrect(c, x0 - 24, bt, 48, bb - bt, 6, null, C.muted, 1.2); c.setLineDash([]); // the real cell: emf + internal resistance
+    CK.gaps(c, W, H, [[x0, yc, 5, true], [x0, yr, 18, true], [x0 + w, y0 + h / 2, 18, true], [xv, yv, 15, true]], () => {
+      CK.wire(c, [...loop, [x0, y0]], C.ink);
+      const per = 2 * (w + h), n = 18; for (let i = 0; i < n; i++) { let d = ((i / n + st.ph) % 1) * per, x, y; if (d < w) { x = x0 + d; y = y0; } else if (d < w + h) { x = x0 + w; y = y0 + d - w; } else if (d < 2 * w + h) { x = x0 + w - (d - w - h); y = y0 + h; } else { x = x0; y = y0 + h - (d - 2 * w - h); } CV.circle(c, x, y, 3.2, C.u2); }
+      CK.wire(c, [[x0, bt - 12], [xv, bt - 12], [xv, bb + 12], [x0, bb + 12]], C.ink, 1.6); });
+    CK.dot(c, x0, bt - 12, C.ink); CK.dot(c, x0, bb + 12, C.ink);
+    CK.cell(c, x0, yc, C.ink, true); CK.resistor(c, x0, yr, C.ink, C.surface, true); CK.resistor(c, x0 + w, y0 + h / 2, C.ink, C.surface, true); CK.meter(c, xv, yv, 'V', C.ink, C.surface);
+    CV.mono(c, 'E', x0 - 32, yc, C.ink, 13, 'right'); CV.mono(c, 'r', x0 - 32, yr, C.ink, 13, 'right'); CV.mono(c, 'R', x0 + w + 18, y0 + h / 2, C.ink, 13);
+    CK.tag(c, C, 'I = ' + I.toFixed(2) + ' A', x0 + w / 2 + (narrow ? 20 : 30), y0 - 22); CK.tag(c, C, 'V = ' + V.toFixed(2) + ' V', xv + 22, yv, 'left');
+    // graphs: beside the circuit when wide, underneath when narrow
+    const gx = narrow ? 50 : x0 + w + 70, gw = narrow ? W - 80 : W - (x0 + w + 100), gy = narrow ? y0 + h + 50 : 30, gh = narrow ? (H - gy - 90) / 2 : H * 0.42;
+    if (gw > 120) {
       const Imax = p.E / Math.max(p.r, 0.2) * 1.05;
-      const g2 = CV.plot(c, C, b, { xr: [0, Math.min(Imax, 10)], yr: [0, 12.5], xl: 'I / A', yl: 'V / V', series: [{ f: i => p.E - i * p.r, col: C.u2, w: 2.4 }], dots: [[I, V, C.accent, 6]] });
-      const b2 = { x: b.x, y: b.y + b.h + 50, w: b.w, h: H - (b.y + b.h + 100) };
-      const Pm = p.E * p.E / (4 * Math.max(p.r, 0.2));
-      const g3 = CV.plot(c, C, b2, { xr: [0, 30], yr: [0, Pm * 1.15], xl: 'R / Ω', yl: 'P in load / W', series: [{ f: R => p.E * p.E * R / (R + p.r) ** 2, col: C.u5, w: 2.2 }], dots: [[p.R, I * I * p.R, C.accent, 5]] });
+      CV.plot(c, C, { x: gx, y: gy, w: gw, h: gh }, { xr: [0, Math.min(Imax, 10)], yr: [0, 12.5], xl: 'I / A', yl: 'V / V', series: [{ f: i => p.E - i * p.r, col: C.u2, w: 2.4 }], dots: [[I, V, C.accent, 6]] });
+      const Pm = p.E * p.E / (4 * Math.max(p.r, 0.2)), g3y = gy + gh + 50;
+      CV.plot(c, C, { x: gx, y: g3y, w: gw, h: narrow ? gh : H - g3y - 50 }, { xr: [0, 30], yr: [0, Pm * 1.15], xl: 'R / Ω', yl: 'P in load / W', series: [{ f: R => p.E * p.E * R / (R + p.r) ** 2, col: C.u5, w: 2.2 }], dots: [[p.R, I * I * p.R, C.accent, 5]] });
     }
   },
   read(st) { const p = st.p, I = p.E / (p.R + p.r); return [I.toFixed(3) + ' A', (I * p.R).toFixed(2) + ' V', (I * p.r).toFixed(2) + ' V', (I * I * p.R).toFixed(2) + ' W']; }

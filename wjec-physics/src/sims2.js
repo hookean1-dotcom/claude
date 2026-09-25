@@ -222,14 +222,15 @@ SIMS.capacitor = {
     st.hist.push([st.tt, st.q / Cf, Math.abs(target - st.q) / Cf / (p.R * 1e3)]); if (st.hist.length > 2000) st.hist.shift(); },
   draw(c, W, H, st, C) {
     CV.grid(c, W, H, C); const p = st.p, Cf = p.C * 1e-6, V = st.q / Cf, RC = p.R * 1e3 * Cf;
-    const x0 = 30, y0 = 40, w = Math.min(220, W * 0.32), h = 150;
-    c.strokeStyle = C.ink; c.lineWidth = 2; c.beginPath(); c.moveTo(x0, y0); c.lineTo(x0 + w, y0); c.lineTo(x0 + w, y0 + h); c.lineTo(x0, y0 + h); c.lineTo(x0, y0); c.stroke();
-    CV.rrect(c, x0 + w / 2 - 24, y0 - 8, 48, 16, 3, C.bg, C.ink, 2); CV.mono(c, 'R', x0 + w / 2, y0 - 20, C.ink, 12, 'center');
-    c.fillStyle = C.bg; c.fillRect(x0 + w - 10, y0 + h / 2 - 16, 20, 32); CV.line(c, x0 + w - 16, y0 + h / 2 - 5, x0 + w + 16, y0 + h / 2 - 5, C.ink, 3); CV.line(c, x0 + w - 16, y0 + h / 2 + 5, x0 + w + 16, y0 + h / 2 + 5, C.ink, 3);
-    const fill = clamp(V / 12, 0, 1); CV.rrect(c, x0 + w + 22, y0 + h / 2 - 5 - 30 * fill, 6, 30 * fill, 2, C.u4);
-    if (p.mode === 'c') { c.fillStyle = C.bg; c.fillRect(x0 - 10, y0 + h / 2 - 14, 20, 28); CV.line(c, x0 - 14, y0 + h / 2 - 6, x0 + 14, y0 + h / 2 - 6, C.ink, 3); CV.line(c, x0 - 8, y0 + h / 2 + 6, x0 + 8, y0 + h / 2 + 6, C.ink, 3); CV.mono(c, p.V0 + ' V', x0 - 18, y0 + h / 2, C.ink, 11, 'right'); }
-    else CV.mono(c, '(supply removed)', x0 + 8, y0 + h / 2, C.muted, 10.5);
-    CV.mono(c, 'V = ' + V.toFixed(2) + ' V', x0 + w / 2, y0 + h + 22, C.ink, 13, 'center');
+    const x0 = 44, y0 = 44, w = Math.min(220, W * 0.32, W - 110), h = 150, ym = y0 + h / 2, xr = x0 + w;
+    const comps = [[x0 + w / 2, y0, 18], [xr, ym, 5, true]].concat(p.mode === 'c' ? [[x0, ym, 5, true]] : []);
+    CK.gaps(c, W, H, comps, () => CK.wire(c, [[x0, y0], [xr, y0], [xr, y0 + h], [x0, y0 + h], [x0, y0]], C.ink));
+    CK.resistor(c, x0 + w / 2, y0, C.ink, C.surface); CV.mono(c, 'R', x0 + w / 2, y0 - 20, C.ink, 12, 'center');
+    CK.cap(c, xr, ym, C.ink, true); CV.mono(c, 'C', xr + 24, ym, C.ink, 12);
+    const fill = clamp(V / 12, 0, 1); if (fill > 0.01) { CV.text(c, '+', xr - 26, ym - 8, C.u4, 13, 'center', 700); CV.text(c, '−', xr - 26, ym + 9, C.u4, 13, 'center', 700); }
+    if (p.mode === 'c') { CK.cell(c, x0, ym, C.ink, true); CV.mono(c, p.V0 + ' V', x0 - 20, ym, C.ink, 11, 'right'); }
+    else CV.text(c, 'supply removed', x0 + w / 2, ym, C.muted, 11, 'center');
+    CK.tag(c, C, 'V = ' + Math.max(0, V).toFixed(2) + ' V', x0 + w / 2, y0 + h + 24);
     const narrow = W < 560, top = narrow ? y0 + h + 50 : 30;
     const b = narrow ? { x: 40, w: W - 70, h: (H - top - 70) / 2 } : { x: x0 + w + 80, w: W - (x0 + w + 110), h: (H - 110) / 2 };
     const tmax = 5 * RC;
@@ -398,7 +399,7 @@ SIMS.induction = {
     const turns = Math.round(st.p.N / 50) + 3; for (let i = 0; i < turns; i++) { const x = cx - 50 + i * 100 / turns; c.strokeStyle = '#B87333'; c.lineWidth = 3; c.beginPath(); c.ellipse(x, cy, 8, 46, 0, 0, Math.PI * 2); c.stroke(); }
     const mx = cx + st.x * sc; const nfirst = st.p.pole === 1; CV.rrect(c, mx - 70, cy - 16, 70, 32, 4, nfirst ? C.u4 : C.u1); CV.rrect(c, mx, cy - 16, 70, 32, 4, nfirst ? C.u1 : C.u4); CV.text(c, nfirst ? 'S' : 'N', mx - 35, cy, '#fff', 14, 'center', 700); CV.text(c, nfirst ? 'N' : 'S', mx + 35, cy, '#fff', 14, 'center', 700);
     // galvanometer needle
-    const gx = cx + 130, gy = 42; CV.line(c, cx - 50, cy - 46, cx - 50, gy, '#B87333', 1.5); CV.line(c, cx - 50, gy, gx - 26, gy, '#B87333', 1.5); CV.line(c, cx + 50, cy - 46, cx + 50, gy + 14, '#B87333', 1.5); CV.line(c, cx + 50, gy + 14, gx - 24, gy + 14, '#B87333', 1.5); CV.circle(c, gx, gy, 26, C.surface, C.ink, 1.5); const ang = clamp(st.emf * 0.3, -1.2, 1.2); CV.line(c, gx, gy + 16, gx + Math.sin(ang) * 22, gy + 16 - Math.cos(ang) * 22, C.bad, 2.2); CV.mono(c, '0', gx, gy - 17, C.muted, 9, 'center');
+    const gx = cx + 130, gy = 42; CV.line(c, cx - 50, cy - 46, cx - 50, gy, '#B87333', 1.5); CV.line(c, cx - 50, gy, gx - 26, gy, '#B87333', 1.5); CV.line(c, cx + 50, cy - 46, cx + 50, gy + 14, '#B87333', 1.5); CV.line(c, cx + 50, gy + 14, gx - 22, gy + 14, '#B87333', 1.5); CV.circle(c, gx, gy, 26, C.surface, C.ink, 1.5); const ang = clamp(st.emf * 0.3, -1.2, 1.2); CV.line(c, gx, gy + 16, gx + Math.sin(ang) * 22, gy + 16 - Math.cos(ang) * 22, C.bad, 2.2); CV.mono(c, '0', gx, gy - 17, C.muted, 9, 'center');
     const b = { x: 50, w: W - 90, h: (H * 0.64 - 80) / 2 }, tmax = 4.4 / st.p.sp;
     const mf = st.p.N / 300 * 1.1, me = Math.max(1, ...st.hist.map(h => Math.abs(h[2]))) * 1.1;
     CV.plot(c, C, { x: b.x, y: H * 0.42, w: b.w, h: b.h }, { xr: [0, tmax], yr: [-mf, mf], yl: 'flux linkage NΦ', series: [{ pts: st.hist.map(h => [h[0], h[1]]), col: C.u4, w: 2.2 }] });
