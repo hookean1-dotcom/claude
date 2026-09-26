@@ -24,3 +24,9 @@ The `wjec-physics/` folder contains **Spectra**, a self-contained study app for 
 # Live Wire — AQA GCSE Physics
 
 The `aqa-gcse-physics/` folder contains **Live Wire**, a self-contained study app for AQA GCSE Physics (8463), with Foundation/Higher and Physics/Combined Science filtering. To use it, download **`aqa-gcse-physics-livewire.html`** from the repository root and open it in any browser. See [`aqa-gcse-physics/README.md`](aqa-gcse-physics/README.md) for details.
+
+---
+
+# Proof — WJEC Level 3 Food Science and Nutrition
+
+The `food-science/` folder contains **Proof**, a self-contained study app for the WJEC Level 3 Alternative Academic Qualification in Food Science and Nutrition (Extended Certificate). It covers all five units and has a setting for the optional unit (Unit 4 or Unit 5). To use it, download **`wjec-food-science-proof.html`** from the repository root and open it in any browser. See [`food-science/README.md`](food-science/README.md) for details.

@@ -13,7 +13,7 @@ const h = (tag, attrs = {}, html = '') => { const e = document.createElement(tag
 
 /* ---------- Maths typesetting ----------
    Inside $...$ :  x^2  x^{-1}  v_0  E_{k max}  @frac{a}{b}  @sqrt{x}  @bar{x}  @, (thin space)  "roman text"
-   Single Latin/Greek letters are set in italic (as in printed physics); function names upright. */
+   Single Latin/Greek letters are set in italic (as in printed science); function names upright. */
 const MFN = new Set(['sin', 'cos', 'tan', 'ln', 'log', 'exp', 'max', 'min', 'rms', 'd', 'dt', 'dx']);
 function mx(s, roman) {
   let i = 0, out = '';

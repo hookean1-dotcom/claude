@@ -275,9 +275,9 @@ h1,h2,h3,h4{text-wrap:balance;margin:0}
 .notes p{margin:0 0 12px}
 .notes ul,.notes ol{margin:0 0 12px;padding-left:22px}
 .notes li{margin:4px 0}
-.notes table{border-collapse:collapse;margin:8px 0 14px;font-size:14px;width:100%}
-.notes th,.notes td{border-bottom:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top}
-.notes th{font:600 11.5px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);background:var(--surface-2)}
+.notes table,.tbl table{border-collapse:collapse;margin:8px 0 14px;font-size:14px;width:100%}
+.notes th,.notes td,.tbl th,.tbl td{border-bottom:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top}
+.notes th,.tbl th{font:600 11.5px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);background:var(--surface-2)}
 .tbl{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--surface);margin:8px 0 14px}
 .tbl table{margin:0}
 .box{position:relative;border-radius:12px;padding:14px 16px 12px;margin:14px 0;background:var(--surface);border:1px solid var(--line)}

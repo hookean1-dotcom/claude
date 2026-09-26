@@ -8,7 +8,7 @@ SIMS.sugars = {
   controls: [{ type: 'seg', id: 'pair', label: 'Monosaccharides', value: 'mal', options: [['mal', 'glucose + glucose'], ['suc', 'glucose + fructose'], ['lac', 'glucose + galactose']] },
     { type: 'button', act: 'join', label: 'Condense (join)' }, { type: 'button', act: 'split', label: 'Hydrolyse (split)' }],
   readouts: ['Product', 'Found in', 'Water'],
-  note: 'Condensation joins two monosaccharides with a glycosidic bond and releases water. Digestion reverses it by **hydrolysis**, using an enzyme (maltase, sucrase or lactase).',
+  note: 'Condensation joins two monosaccharides with a glycosidic bond and releases water. Digestion reverses it by <b>hydrolysis</b>, using an enzyme (maltase, sucrase or lactase).',
   info: { mal: ['maltose', 'malted drinks, germinating grain', 'glucose', 'maltase'], suc: ['sucrose', 'table sugar, cane, beet', 'fructose', 'sucrase'], lac: ['lactose', 'milk and dairy', 'galactose', 'lactase'] },
   init(st) { st.k = 0; st.target = 0; st.w = 0; },
   action(st, a) { st.target = a === 'join' ? 1 : 0; },
@@ -37,7 +37,7 @@ SIMS.protein = {
   controls: [{ type: 'seg', id: 'a', label: 'Food A', value: 'rice', options: [['rice', 'rice'], ['wheat', 'bread'], ['peanuts', 'peanuts'], ['quinoa', 'quinoa'], ['egg', 'egg']] },
     { type: 'seg', id: 'b', label: 'Food B', value: 'none', options: [['none', 'none'], ['beans', 'beans'], ['lentils', 'lentils'], ['soya', 'soya'], ['wheat', 'bread']] }],
   readouts: ['Limiting amino acid', 'Biological value'],
-  note: 'Bars show each indispensable amino acid relative to what the body needs (the dashed line = 100%). The shortest bar is the **limiting amino acid**. Cereals lack lysine; pulses lack methionine — together they complement each other.',
+  note: 'Bars show each indispensable amino acid relative to what the body needs (the dashed line = 100%). The shortest bar is the <b>limiting amino acid</b>. Cereals lack lysine; pulses lack methionine — together they complement each other.',
   mix(st) { const A = AA_FOOD[st.p.a], B = st.p.b === 'none' ? null : AA_FOOD[st.p.b]; return A.map((v, i) => B ? (v + B[i]) / 2 : v); },
   draw(c, W, H, st, C) {
     const v = this.mix(st), x0 = 150, bw = W - x0 - 40, y0 = 40, bh = 42, sc = bw / 1.5, mi = v.indexOf(Math.min(...v));
@@ -224,7 +224,7 @@ SIMS.teeth = {
   title: 'Sugar and tooth decay', h: 380, noPlay: true,
   controls: [{ type: 'seg', id: 'pat', label: 'Eating pattern', value: 'meals', options: [['meals', '3 meals'], ['snacks', 'meals + 4 sugary snacks'], ['sip', 'sipping a sugary drink']] }, { type: 'seg', id: 'fl', label: 'Fluoride toothpaste', value: 1, options: [[1, 'yes'], [0, 'no']] }],
   readouts: ['Sugar exposures', 'Time below pH 5.5', 'Risk'],
-  note: 'Each time sugar is eaten, plaque bacteria make acid and plaque pH drops below **5.5**, where enamel dissolves (demineralisation). Saliva restores pH in 20–40 minutes. How **often** you eat sugar matters more than how much.',
+  note: 'Each time sugar is eaten, plaque bacteria make acid and plaque pH drops below <b>5.5</b>, where enamel dissolves (demineralisation). Saliva restores pH in 20–40 minutes. How <b>often</b> you eat sugar matters more than how much.',
   times(st) { return st.p.pat === 'meals' ? [8, 13, 18.5] : st.p.pat === 'snacks' ? [8, 10.5, 13, 15, 16.5, 18.5, 21] : [8, 9, 10, 11, 12, 13, 14, 15, 16, 18.5]; },
   pH(st, t) { const T = this.times(st); let d = 0; T.forEach(t0 => { if (t >= t0) d += 2.3 * ((t - t0) / 0.15) * Math.exp(1 - (t - t0) / 0.15) * (t - t0 < 0.15 ? 1 : Math.exp(-(t - t0 - 0.15) / 0.35)); }); return 7 - Math.min(3, d); },
   draw(c, W, H, st, C) { const self = this, crit = st.p.fl ? 5.3 : 5.5;

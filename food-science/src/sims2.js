@@ -56,7 +56,7 @@ SIMS.probe = {
   title: 'Probe a chicken breast', h: 400,
   controls: [{ id: 'oven', label: 'Oven temperature', min: 140, max: 220, step: 10, value: 180, fmt: v => v + ' °C' }, { type: 'seg', id: 'pos', label: 'Probe position', value: 'core', options: [['core', 'centre (thickest part)'], ['edge', 'near the surface']] }, { type: 'button', act: 'out', label: 'Take it out of the oven' }],
   readouts: ['Time in oven', 'Probe reading', 'True core temperature', 'Safe?'],
-  note: 'Always probe the **thickest part**. The core must reach at least 75 °C (in England/Wales, 70 °C for 2 minutes is equivalent). A reading near the surface is misleadingly high. Clean and sanitise the probe before and after use.',
+  note: 'Always probe the <b>thickest part</b>. The core must reach at least 75 °C (in England/Wales, 70 °C for 2 minutes is equivalent). A reading near the surface is misleadingly high. Clean and sanitise the probe before and after use.',
   init(st) { st.t = 0; st.core = 5; st.surf = 5; st.out = false; st.held = 0; st.run = true; },
   action(st, a) { if (a === 'out') { st.out = true; st.run = false; } },
   step(st, dt) { if (st.out) return; const k = 60 * dt; st.surf += (st.p.oven * 0.55 - st.surf) * 0.012 * k; st.core += (st.surf - st.core) * 0.009 * k; st.t += k; if (st.core >= 75) st.held += k; },

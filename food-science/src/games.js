@@ -1,31 +1,29 @@
 /* ==========================================================
    Arcade: fast, replayable games that drill core skills
    ========================================================== */
-const UNIT_BANK = [
-  ['force', 'newton (N)'], ['energy', 'joule (J)'], ['power', 'watt (W)'], ['pressure', 'pascal (Pa)'], ['momentum', 'kg m/s'], ['charge', 'coulomb (C)'],
-  ['potential difference', 'volt (V)'], ['resistance', 'ohm (Ω)'], ['current', 'ampere (A)'], ['density', 'kg/m³'], ['acceleration', 'm/s²'], ['speed', 'm/s'],
-  ['frequency', 'hertz (Hz)'], ['spring constant', 'N/m'], ['gravitational field strength', 'N/kg'], ['specific heat capacity', 'J/kg °C'], ['specific latent heat', 'J/kg'],
-  ['moment of a force', 'newton-metre (Nm)'], ['magnetic flux density', 'tesla (T)'], ['activity of a source', 'becquerel (Bq)'], ['radiation dose', 'sievert (Sv)'],
-  ['wavelength', 'metre (m)'], ['period', 'second (s)'], ['mass', 'kilogram (kg)'], ['volume', 'm³'], ['temperature change', '°C'], ['work done', 'joule (J)'], ['efficiency', 'no unit (ratio)'], ['magnification', 'no unit (ratio)']
+const NUTRIENT_BANK = [
+  ['vitamin C', 'scurvy — bleeding gums, poor wound healing'], ['vitamin D', 'rickets in children; osteomalacia in adults'], ['vitamin A', 'night blindness'], ['iron', 'iron-deficiency anaemia — tiredness, pale skin'],
+  ['thiamin (B1)', 'beriberi'], ['niacin (B3)', 'pellagra'], ['vitamin B12', 'pernicious (megaloblastic) anaemia, nerve damage'], ['folate', 'neural tube defects (spina bifida) in babies'],
+  ['iodine', 'goitre — enlarged thyroid'], ['calcium', 'weak bones — osteoporosis in later life'], ['vitamin K', 'slow blood clotting, bleeding'], ['protein (and energy)', 'kwashiorkor / marasmus'],
+  ['fluoride', 'weaker enamel — more tooth decay'], ['fibre', 'constipation, diverticular disease'], ['water', 'dehydration — headaches, poor concentration'], ['sodium (excess)', 'high blood pressure → stroke'],
+  ['riboflavin (B2)', 'cracked lips and corners of the mouth'], ['zinc', 'poor growth and wound healing'], ['vitamin E', 'nerve and muscle damage (rare)'], ['potassium', 'muscle weakness, irregular heartbeat']
 ];
-const EQ_BANK = [...EQ_RECALL, ...EQ_SHEET].map(e => [e[0].split(' = ')[0].split(' ÷ ')[0], e[1], e[2] || '', e[0]]);
-const MAGNITUDES = [
-  ['Mass of an adult person', 70, 'kg'], ['Mass of a family car', 1200, 'kg'], ['Mass of the Earth', 6e24, 'kg'], ['Mass of an apple', 0.1, 'kg'],
-  ['Radius of an atom', 1e-10, 'm'], ['Radius of a nucleus', 1e-14, 'm'], ['Radius of the Earth', 6.4e6, 'm'], ['Earth–Sun distance', 1.5e11, 'm'],
-  ['Wavelength of visible light', 5e-7, 'm'], ['Wavelength of a radio wave', 100, 'm'], ['Height of a door', 2, 'm'], ['Thickness of a sheet of paper', 1e-4, 'm'],
-  ['Speed of light', 3e8, 'm/s'], ['Speed of sound in air', 330, 'm/s'], ['Walking speed', 1.5, 'm/s'], ['Speed of a car on a motorway', 31, 'm/s'],
-  ['Power of a kettle', 2000, 'W'], ['Power of an LED bulb', 5, 'W'], ['Output of a large power station', 2e9, 'W'], ['UK mains potential difference', 230, 'V'],
-  ['Atmospheric pressure at sea level', 1e5, 'Pa'], ['Density of water', 1000, 'kg/m³'], ['Density of air', 1.2, 'kg/m³'], ['Frequency of UK mains', 50, 'Hz'],
-  ['Upper limit of human hearing', 20000, 'Hz'], ['Frequency of visible light', 5e14, 'Hz'], ['Current in a phone charger', 1, 'A'], ['Energy to boil a kettle of water', 3e5, 'J'],
-  ['Kinetic energy of a car at 30 mph', 1e5, 'J'], ['Human reaction time', 0.5, 's'], ['Age of the universe', 4e17, 's'], ['Weight of an apple', 1, 'N'],
-  ['Half-life of carbon-14', 2e11, 's'], ['Typical annual UK radiation dose', 2.7e-3, 'Sv'], ['Transmission pd of the National Grid', 4e5, 'V'], ['Deceleration in an emergency stop', 8, 'm/s²']
-];
+const EATWELL_BANK = [['broccoli', 'Fruit & vegetables'], ['tinned peaches', 'Fruit & vegetables'], ['frozen peas', 'Fruit & vegetables'], ['baked potato', 'Potatoes, bread, rice, pasta'], ['wholemeal pasta', 'Potatoes, bread, rice, pasta'], ['porridge oats', 'Potatoes, bread, rice, pasta'], ['brown rice', 'Potatoes, bread, rice, pasta'],
+  ['lentils', 'Beans, pulses, fish, eggs, meat'], ['salmon', 'Beans, pulses, fish, eggs, meat'], ['tofu', 'Beans, pulses, fish, eggs, meat'], ['chicken breast', 'Beans, pulses, fish, eggs, meat'], ['eggs', 'Beans, pulses, fish, eggs, meat'], ['baked beans', 'Beans, pulses, fish, eggs, meat'],
+  ['yogurt', 'Dairy & alternatives'], ['cheddar', 'Dairy & alternatives'], ['fortified soya drink', 'Dairy & alternatives'], ['semi-skimmed milk', 'Dairy & alternatives'], ['rapeseed oil', 'Oils & spreads'], ['olive oil spread', 'Oils & spreads'],
+  ['chocolate', 'Eat less often (HFSS)'], ['crisps', 'Eat less often (HFSS)'], ['cola', 'Eat less often (HFSS)'], ['cake', 'Eat less often (HFSS)']];
+const PATHOGEN_BANK = [['Campylobacter', 'the UK’s most common cause — raw poultry'], ['Salmonella', 'raw eggs and poultry; 12–36 h'], ['Bacillus cereus', 'cooked rice kept warm'], ['Listeria', 'grows in the fridge — soft cheese, pâté; dangerous in pregnancy'],
+  ['E. coli O157', 'undercooked burgers; kidney failure (HUS)'], ['Staphylococcus aureus', 'from food handlers’ skin and nose; toxin, 1–6 h'], ['Clostridium perfringens', 'large stews and gravy cooled slowly'], ['Clostridium botulinum', 'badly canned food; paralysis'],
+  ['Norovirus', 'virus — oysters, ill food handlers; sudden vomiting'], ['Hepatitis A', 'virus — shellfish; jaundice']];
+const TEMP_BANK = [['A fridge should run between 0 °C and…', 5], ['Legal maximum temperature for chilled food', 8], ['Core temperature for cooking (30 s)', 75], ['Minimum hot-holding temperature', 63], ['Freezer temperature (at or below)', -18],
+  ['Optimum temperature for most food poisoning bacteria', 37], ['Milk pasteurisation temperature (15 s)', 72], ['Yeast is killed at about', 60], ['Egg white starts to set at about', 62], ['Caramelisation begins at about', 160],
+  ['Soft-ball stage for fudge (about)', 114], ['Jam setting point', 105], ['Canning temperature to destroy spores', 121], ['Reheating in Scotland (minimum)', 82], ['Gelatine melts at about', 35], ['Top of the danger zone', 63]];
 
 const GAMES = {
-  rush: { title: 'Equation Rush', blurb: 'The 23 equations you must recall — plus the equation sheet. Pick the right one before the bar empties.', skill: 'Recall of equations', col: 'var(--u2)' },
-  sprint: { title: 'Unit Match', blurb: 'Match each quantity to its unit against the clock.', skill: 'Units', col: 'var(--u1)' },
-  symbols: { title: 'Circuit Symbols', blurb: 'Name the standard circuit symbol before time runs out.', skill: 'Circuit diagrams (4.2.1.1)', col: 'var(--u5)' },
-  magnitude: { title: 'Powers of Ten', blurb: 'Estimate the order of magnitude of real physical quantities.', skill: 'Estimation', col: 'var(--u3)' },
+  nutrient: { title: 'Deficiency Detective', blurb: 'Match each deficiency disease or symptom to the nutrient that is lacking.', skill: 'Unit 1 · micronutrients', col: 'var(--u1)' },
+  eatwell: { title: 'Eatwell Sort', blurb: 'Sort foods into the Eatwell Guide groups against the clock.', skill: 'Unit 1 · classifying food', col: 'var(--u5)' },
+  pathogen: { title: 'Pathogen Profiles', blurb: 'Which micro-organism fits the clue? Name it before the bar empties.', skill: 'Unit 3 · food poisoning', col: 'var(--u3)' },
+  temp: { title: 'Temperature Check', blurb: 'Set the thermometer to the critical temperature. Closer = more points.', skill: 'Units 2–4 · critical temperatures', col: 'var(--u2)' },
   blitz: { title: 'True or False Blitz', blurb: 'Three lives. Judge statements from across the course.', skill: 'Mixed recall', col: 'var(--u4)' }
 };
 
@@ -33,12 +31,13 @@ function gameBest(id, score) { S.games[id] ??= { best: 0, plays: 0 }; if (score 
 
 function drawGameArt(cv, id) {
   const c = cv.getContext('2d'), dpr = devicePixelRatio || 1, W = cv.clientWidth, H = cv.clientHeight; cv.width = W * dpr; cv.height = H * dpr; c.scale(dpr, dpr);
-  c.fillStyle = '#070B10'; c.fillRect(0, 0, W, H);
-  const nm = { sprint: 640, rush: 589, magnitude: 546, blitz: 486, symbols: 470 }[id];
-  if (id === 'magnitude') { for (let i = 0; i < 12; i++) { const x = 14 + i * (W - 28) / 11; c.fillStyle = nmCSS(nm, .25 + .06 * i); c.fillRect(x - 1, H - 20 - i * 5, 3, 10 + i * 5); } CV.mono(c, '10ⁿ', W - 14, 20, '#fff', 14, 'right'); return; }
-  if (id === 'symbols') { c.save(); c.translate(W / 2, H / 2 - 8); c.strokeStyle = nmCSS(nm, .95); c.lineWidth = 2.5; c.beginPath(); c.moveTo(-70, 0); c.lineTo(-22, 0); c.moveTo(22, 0); c.lineTo(70, 0); c.stroke(); c.beginPath(); c.arc(0, 0, 22, 0, 7); c.stroke(); c.beginPath(); c.moveTo(-15, -15); c.lineTo(15, 15); c.moveTo(15, -15); c.lineTo(-15, 15); c.stroke(); c.restore(); CV.text(c, GAMES[id].title.toUpperCase(), 14, H - 18, '#fff', 20, 'left', 800, 'Big Shoulders Display, Impact, sans-serif'); return; }
-  for (let i = 0; i < 40; i++) { const x = Math.random() * W, y = Math.random() * H, l = 6 + Math.random() * 30; c.strokeStyle = nmCSS(nm, Math.random() * .6 + .1); c.lineWidth = 1.5; c.beginPath(); c.moveTo(x, y); c.lineTo(x + l, y - l * .3); c.stroke(); }
-  CV.text(c, GAMES[id].title.toUpperCase(), 14, H - 18, '#fff', 20, 'left', 800, 'Big Shoulders Display, Impact, sans-serif');
+  c.fillStyle = '#1A1511'; c.fillRect(0, 0, W, H);
+  const col = { nutrient: '#6CC47A', eatwell: '#E8B84A', pathogen: '#64A8F0', temp: '#FF8A5B', blitz: '#B98AEF' }[id];
+  if (id === 'temp') { for (let i = 0; i < 12; i++) { c.fillStyle = hexA(col, .2 + .06 * i); c.fillRect(20 + i * (W - 40) / 12, H - 24 - i * 5, (W - 40) / 12 - 4, 10 + i * 5); } }
+  else if (id === 'eatwell') { const cx = W - 70, cy = H / 2 - 6; [[.4, '#6CC47A'], [.38, '#E8B84A'], [.12, '#FF8A5B'], [.08, '#64A8F0'], [.02, '#B98AEF']].reduce((a0, [p, cc]) => { c.fillStyle = cc; c.beginPath(); c.moveTo(cx, cy); c.arc(cx, cy, 44, a0, a0 + p * Math.PI * 2); c.fill(); return a0 + p * Math.PI * 2; }, -Math.PI / 2); }
+  else if (id === 'pathogen') { for (let i = 0; i < 14; i++) { const x = 20 + Math.random() * (W - 40), y = 10 + Math.random() * (H - 50); c.save(); c.translate(x, y); c.rotate(Math.random() * 3); c.fillStyle = hexA(col, .3 + Math.random() * .5); c.beginPath(); c.roundRect ? c.roundRect(-10, -4, 20, 8, 4) : c.rect(-10, -4, 20, 8); c.fill(); c.restore(); } }
+  else for (let i = 0; i < 26; i++) { c.fillStyle = hexA(col, Math.random() * .5 + .1); c.beginPath(); c.arc(Math.random() * W, Math.random() * (H - 30), 2 + Math.random() * 8, 0, 7); c.fill(); }
+  CV.text(c, GAMES[id].title, 14, H - 18, '#fff', 21, 'left', 700, 'Fraunces, Georgia, serif');
 }
 
 function mountGame(host, id) {
@@ -49,14 +48,14 @@ function mountGame(host, id) {
     $('[data-again]', host).onclick = () => { stop(); cleanup = mountGame(host, id); }; };
   let cleanup = stop;
 
-  if (id === 'sprint' || id === 'rush' || id === 'symbols') {
-    const bank = id === 'sprint' ? UNIT_BANK : id === 'symbols' ? SYMBOL_BANK : EQ_BANK.filter(e => inScope(e[2])), total = id === 'rush' ? 75 : 60;
+  if (id === 'nutrient' || id === 'eatwell' || id === 'pathogen') {
+    const bank = id === 'nutrient' ? NUTRIENT_BANK.map(x => [x[1], x[0]]) : id === 'pathogen' ? PATHOGEN_BANK.map(x => [x[1], x[0]]) : EATWELL_BANK, total = 60;
     let score = 0, streak = 0, left = total, cur = null, answered = 0, right = 0;
-    const next = () => { const item = pick(bank); const others = shuffle(bank.filter(b => b[1] !== item[1] && b[0] !== item[0])).slice(0, 3); cur = { item, opts: shuffle([item, ...others]) }; render(); };
+    const next = () => { const item = pick(bank); const seen = new Set([item[1]]), others = shuffle(bank.filter(b => b[1] !== item[1])).filter(b => !seen.has(b[1]) && seen.add(b[1])).slice(0, 3); cur = { item, opts: shuffle([item, ...others]) }; render(); };
     const render = () => {
       host.innerHTML = `<div class="game">${hud([['Score', score], ['Streak', streak], ['Time', Math.ceil(left) + 's']])}<div class="timer"><i style="width:${left / total * 100}%"></i></div>
-        <div class="eyebrow" style="text-align:center">${id === 'sprint' ? 'What is the unit of' : id === 'symbols' ? 'Name this circuit symbol' : 'Which equation gives'}</div><div class="big-prompt${id === 'symbols' ? ' game-sym' : ''}">${id === 'rush' ? cur.item[0] + (cur.item[2] ? ' ' + tagHTML(cur.item[2], 1) : '') : cur.item[0]}</div>
-        <div class="opts">${cur.opts.map((o, i) => `<button class="opt" data-i="${i}"><span class="k">${i + 1}</span><span>${id === 'rush' ? M(o[1]) : o[1]}</span></button>`).join('')}</div><p class="kbd-hint">Keys 1–4 to answer.</p></div>`;
+        <div class="eyebrow" style="text-align:center">${id === 'nutrient' ? 'Which nutrient is lacking?' : id === 'pathogen' ? 'Which micro-organism?' : 'Which Eatwell group?'}</div><div class="big-prompt">${esc(cur.item[0])}</div>
+        <div class="opts">${cur.opts.map((o, i) => `<button class="opt" data-i="${i}"><span class="k">${i + 1}</span><span>${esc(o[1])}</span></button>`).join('')}</div><p class="kbd-hint">Keys 1–4 to answer.</p></div>`;
       $$('.opt', host).forEach(b => b.onclick = () => choose(+b.dataset.i));
     };
     const choose = i => { if (!alive) return; answered++; const ok = cur.opts[i] === cur.item; const btn = $$('.opt', host)[i]; if (ok) { right++; streak++; score += 10 + Math.min(streak, 10) * 2; sfx.good(); btn.classList.add('right'); } else { streak = 0; left = Math.max(0, left - 3); sfx.bad(); btn.classList.add('wrong'); $$('.opt', host)[cur.opts.indexOf(cur.item)].classList.add('right'); } setTimeout(() => alive && left > 0 && next(), ok ? 250 : 900); };
@@ -67,16 +66,16 @@ function mountGame(host, id) {
     return () => { stop(); removeEventListener('keydown', key); };
   }
 
-  if (id === 'magnitude') {
-    const qs = shuffle(MAGNITUDES).slice(0, 10); let i = 0, score = 0;
+  if (id === 'temp') {
+    const qs = shuffle(TEMP_BANK).slice(0, 10); let i = 0, score = 0;
     const render = () => { const q = qs[i];
-      host.innerHTML = `<div class="game">${hud([['Round', (i + 1) + '/10'], ['Score', score]])}<div class="eyebrow" style="text-align:center">Estimate the order of magnitude</div><div class="big-prompt">${q[0]}</div>
-        <div class="card" style="text-align:center"><div style="font:800 56px var(--f-display)"><span class="m">10<sup id="mg-out">0</sup></span> <span class="muted" style="font-size:22px">${q[2]}</span></div>
-        <input id="mg-in" type="range" min="-32" max="32" step="1" value="0" style="margin:14px 0" aria-label="Power of ten"><div class="row" style="justify-content:center"><button class="btn primary" id="mg-go">Lock in</button></div><div id="mg-fb"></div></div></div>`;
-      const inp = $('#mg-in', host); const upd = () => { $('#mg-out', host).textContent = (+inp.value).toString().replace('-', '−'); inp.style.setProperty('--p', ((+inp.value + 32) / 64 * 100) + '%'); }; inp.oninput = upd; upd();
-      $('#mg-go', host).onclick = () => { const L = Math.log10(q[1]), g0 = +inp.value, d = Math.min(Math.abs(g0 - Math.floor(L)), Math.abs(g0 - Math.round(L))), pts = d === 0 ? 10 : d === 1 ? 6 : d === 2 ? 2 : 0; score += pts; (pts >= 6 ? sfx.good : sfx.bad)();
-        $('#mg-fb', host).innerHTML = `<div class="explain" style="margin-top:14px"><b class="v ${pts >= 6 ? 'good' : 'bad'}">${pts ? '+' + pts : 'Off by ' + d}</b> Actual value: <span class="m">${sf(q[1], 3)}</span> ${q[2]} — order of magnitude <span class="m">10<sup>${String(Math.round(L)).replace('-', '−')}</sup></span></div><div class="row" style="justify-content:center;margin-top:10px"><button class="btn" id="mg-next">${i < 9 ? 'Next' : 'Finish'}</button></div>`;
-        $('#mg-go', host).disabled = true; $('#mg-next', host).onclick = () => { i++; i < 10 ? render() : endScreen(score, '<p class="muted">10 points for an exact power of ten, 6 for one out, 2 for two out.</p>'); }; };
+      host.innerHTML = `<div class="game">${hud([['Round', (i + 1) + '/10'], ['Score', score]])}<div class="eyebrow" style="text-align:center">Set the thermometer</div><div class="big-prompt">${esc(q[0])}</div>
+        <div class="card" style="text-align:center"><div style="font:700 56px var(--f-display)"><span id="tp-out">20</span> <span class="muted" style="font-size:24px">°C</span></div>
+        <input id="tp-in" type="range" min="-30" max="180" step="1" value="20" style="margin:14px 0" aria-label="Temperature"><div class="row" style="justify-content:center"><button class="btn primary" id="tp-go">Lock in</button></div><div id="tp-fb"></div></div></div>`;
+      const inp = $('#tp-in', host); const upd = () => { $('#tp-out', host).textContent = String(inp.value).replace('-', '−'); inp.style.setProperty('--p', ((+inp.value + 30) / 210 * 100) + '%'); }; inp.oninput = upd; upd();
+      $('#tp-go', host).onclick = () => { const d = Math.abs(+inp.value - q[1]), pts = d === 0 ? 10 : d <= 2 ? 8 : d <= 5 ? 5 : d <= 10 ? 2 : 0; score += pts; pts >= 5 ? sfx.good() : sfx.bad();
+        $('#tp-fb', host).innerHTML = `<div class="explain" style="margin-top:14px"><b class="v ${pts >= 5 ? 'good' : 'bad'}">${pts ? '+' + pts : 'Off by ' + d + ' °C'}</b> The answer is <b>${String(q[1]).replace('-', '−')} °C</b>.</div><div class="row" style="justify-content:center;margin-top:10px"><button class="btn" id="tp-next">${i < 9 ? 'Next' : 'Finish'}</button></div>`;
+        $('#tp-go', host).disabled = true; $('#tp-next', host).onclick = () => { i++; i < 10 ? render() : endScreen(score, '<p class="muted">10 points for exact, 8 within 2 °C, 5 within 5 °C, 2 within 10 °C.</p>'); }; };
     };
     render(); return stop;
   }
