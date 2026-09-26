@@ -65,7 +65,7 @@ function sqrtify(t) {
 function rich(html) {
   if (html == null) return '';
   return String(html)
-    .replace(/\[\[d:([\w-]+)\]\]/g, (_, k) => (window.DIAG && DIAG[k]) ? `<figure class="fig">${DIAG[k]()}</figure>` : '')
+    .replace(/\[\[d:([\w-]+)\]\]/g, (_, k) => (typeof DIAG !== "undefined" && DIAG[k]) ? `<figure class="fig">${DIAG[k]()}</figure>` : '')
     .split(/(\$[^$]+\$)/).map(seg => seg.startsWith('$') && seg.endsWith('$') && seg.length > 1 ? M(seg.slice(1, -1)) : sqrtify(seg)).join('');
 }
 

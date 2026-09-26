@@ -1,5 +1,5 @@
 /* ==========================================================
-   Simulation framework + Unit 1 & 2 simulations
+   Simulation framework (canvas sims via mountSim; DOM explorations via DS)
    ========================================================== */
 const SIMS = {};
 let simTheme = null;
@@ -102,32 +102,58 @@ function mountSim(host, key) {
   return () => { alive = false; cancelAnimationFrame(raf); ro.disconnect(); };
 }
 
-/* ==========================================================
-   1.1 Moments
-   ========================================================== */
 
-/* ---- shared constants & canvas circuit symbols (GCSE sims) ---- */
-const deg = Math.PI / 180, g = 9.8;
-const CS = {
-  /* Components are drawn centred on a wire. Draw the wires (and moving charges) inside CS.gaps(): it clips out each
-     component's span so the wire ends exactly at the component's terminals — no gaps, no wire through the symbol. */
-  HALF: { cell: 5, resistor: 18, lamp: 12, meter: 14, diode: 9, switch: 14 },
-  gaps(c, W, H, comps, fn) { c.save(); c.beginPath(); c.rect(-10, -10, W + 20, H + 20); comps.forEach(([x, y, half, vert]) => vert ? c.rect(x - 6, y - half, 12, 2 * half) : c.rect(x - half, y - 6, 2 * half, 12)); c.clip('evenodd'); fn(); c.restore(); },
-  wire(c, pts, col, w = 2) { c.strokeStyle = col; c.lineWidth = w; c.lineJoin = 'round'; c.beginPath(); pts.forEach(([x, y], i) => i ? c.lineTo(x, y) : c.moveTo(x, y)); c.stroke(); },
-  junction(c, x, y, col) { CV.circle(c, x, y, 3.4, col); },
-  cell(c, x, y, col, vert, flip) { c.save(); c.translate(x, y); if (vert) c.rotate(Math.PI / 2); if (flip) c.rotate(Math.PI); c.strokeStyle = col; c.lineCap = 'butt'; c.lineWidth = 2; c.beginPath(); c.moveTo(-5, -14); c.lineTo(-5, 14); c.stroke(); c.lineWidth = 5; c.beginPath(); c.moveTo(5, -8); c.lineTo(5, 8); c.stroke(); c.restore(); },
-  resistor(c, x, y, col, bg, vert, variable) { c.save(); c.translate(x, y); if (vert) c.rotate(Math.PI / 2); CV.rrect(c, -18, -8, 36, 16, 2, bg, col, 2); if (variable) CV.arrow(c, -16, 16, 18, -16, col, 1.5, 6); c.restore(); },
-  lamp(c, x, y, col, bg, glow = 0) { if (glow > 0.02) { const gr = c.createRadialGradient(x, y, 2, x, y, 12 + 30 * glow); gr.addColorStop(0, `rgba(255,220,120,${0.9 * glow})`); gr.addColorStop(1, 'rgba(255,200,80,0)'); c.fillStyle = gr; c.beginPath(); c.arc(x, y, 12 + 30 * glow, 0, 7); c.fill(); } CV.circle(c, x, y, 12, glow > 0.02 ? `rgba(255,226,140,${0.3 + 0.7 * glow})` : bg, col, 2); CV.line(c, x - 8.5, y - 8.5, x + 8.5, y + 8.5, col, 1.6); CV.line(c, x + 8.5, y - 8.5, x - 8.5, y + 8.5, col, 1.6); },
-  meter(c, x, y, letter, col, bg) { CV.circle(c, x, y, 14, bg, col, 2); CV.text(c, letter, x, y + 1, col, 14, 'center', 700); },
-  diode(c, x, y, col, bg, vert, flip) { c.save(); c.translate(x, y); if (vert) c.rotate(Math.PI / 2); if (flip) c.rotate(Math.PI); c.fillStyle = bg; c.strokeStyle = col; c.lineWidth = 2; c.beginPath(); c.moveTo(-9, -10); c.lineTo(-9, 10); c.lineTo(9, 0); c.closePath(); c.fill(); c.stroke(); CV.line(c, 9, -10, 9, 10, col, 2.4); c.restore(); },
-  /* a reading on an opaque label, so wires never hide it; align 'left' | 'right' | 'center' */
-  tag(c, C, text, x, y, align = 'center', col) { c.font = '500 11.5px IBM Plex Mono, ui-monospace, monospace'; const w = c.measureText(text).width + 12, x0 = align === 'left' ? x : align === 'right' ? x - w : x - w / 2; CV.rrect(c, x0, y - 10, w, 20, 5, C.surface, hexA(col || C.accent, .7), 1); CV.mono(c, text, x0 + w / 2, y, col ? col : C.ink, 11.5, 'center'); },
-  /* voltmeter in parallel with a component centred at (x, y) on a horizontal wire (half = its half-length).
-     The leads join the main wire a little beyond each end of the component, then run out to a meter at distance d
-     (d > 0 below, d < 0 above). Returns the meter centre. Call AFTER the main wires, BEFORE the tag. */
-  voltmeter(c, C, x, y, half, d, col) { const gap = half + 16, my = y + d; CS.wire(c, [[x - gap, y], [x - gap, my], [x - 14, my]], col); CS.wire(c, [[x + gap, y], [x + gap, my], [x + 14, my]], col); CS.junction(c, x - gap, y, col); CS.junction(c, x + gap, y, col); CS.meter(c, x, my, 'V', col, C.surface); return [x, my]; },
-  dots(c, path, t, speed, col, n = 20, open = false) { // moving charge along a closed polyline (conventional current direction); draw inside CS.gaps
-    const segs = []; let L = 0; for (let i = 0; i < path.length - (open ? 1 : 0); i++) { const a = path[i], b = path[(i + 1) % path.length], l = Math.hypot(b[0] - a[0], b[1] - a[1]); segs.push([a, b, l, L]); L += l; }
-    for (let k = 0; k < n; k++) { let d = ((k / n) * L + t * speed) % L; if (d < 0) d += L; const sg = segs.find(s => d >= s[3] && d <= s[3] + s[2]) || segs[0], f = (d - sg[3]) / sg[2]; CV.circle(c, sg[0][0] + (sg[1][0] - sg[0][0]) * f, sg[0][1] + (sg[1][1] - sg[0][1]) * f, 2.6, col); }
-  }
-};
+/* ==========================================================
+   DOM explorations: tools, sorters and explorers that suit HTML better than canvas.
+   SIMS[key] = DS(title, note, build) — build(body) may return a cleanup function.
+   ========================================================== */
+function DS(title, note, build) {
+  return { title, mount(host) {
+    host.innerHTML = `<div class="dom-sim"><div class="sim-title">${title}</div>${note ? `<p class="small muted" style="margin:6px 0 14px;max-width:75ch">${rich(note)}</p>` : ''}<div class="ds-body"></div></div>`;
+    const r = build($('.ds-body', host)); return typeof r === 'function' ? r : () => { };
+  } };
+}
+/* sort items into categories: items = [[text, catIndex, why]] */
+function sorterSim(title, note, cats, items) {
+  return DS(title, note, body => {
+    let order = shuffle(items.map((_, i) => i)), done = {};
+    const draw = () => {
+      const n = Object.keys(done).length, ok = Object.values(done).filter(x => x).length;
+      body.innerHTML = `<div class="row" style="justify-content:space-between;margin-bottom:10px"><span class="pill">${n} / ${items.length} sorted</span><span class="pill good">${ok} correct</span><button class="btn sm ghost" data-reset>Shuffle and restart</button></div>
+      <div class="sort-list">${order.map(i => { const [t, c, why] = items[i], d = done[i];
+        return `<div class="sort-row${d === undefined ? '' : d ? ' ok' : ' no'}"><div class="sort-t">${rich(t)}</div><div class="sort-b">${cats.map((cn, j) => `<button class="pickb${d !== undefined && j === c ? ' on' : ''}" data-i="${i}" data-c="${j}" ${d !== undefined ? 'disabled' : ''}>${cn}</button>`).join('')}</div>${d !== undefined ? `<div class="sort-why">${d ? '<span class="flag ok">✓ correct</span>' : `<span class="flag no">✗ it is ${cats[c]}</span>`} ${rich(why || '')}</div>` : ''}</div>`; }).join('')}</div>`;
+      $('[data-reset]', body).onclick = () => { order = shuffle(order); done = {}; draw(); };
+      $$('[data-c]', body).forEach(b => b.onclick = () => { const i = +b.dataset.i, ok = +b.dataset.c === items[i][1]; done[i] = ok; ok ? sfx.good() : sfx.bad(); draw(); if (Object.keys(done).length === items.length && Object.values(done).every(x => x)) burst(); });
+    };
+    draw();
+  });
+}
+/* explorer: pick an entry to see its card. entries = [[name, html, tag?]] */
+function explorerSim(title, note, entries, o = {}) {
+  return DS(title, note, body => {
+    let cur = 0;
+    const draw = () => { body.innerHTML = `<div class="opt-grid" style="margin-bottom:14px">${entries.map((e, i) => `<button class="pickb${i === cur ? ' on' : ''}" data-i="${i}">${e[0]}${e[2] ? ` <span class="small muted">${e[2]}</span>` : ''}</button>`).join('')}</div><div class="card" style="padding:16px 18px">${rich(entries[cur][1])}</div>`;
+      $$('[data-i]', body).forEach(b => b.onclick = () => { cur = +b.dataset.i; draw(); sfx.tick(); }); };
+    draw();
+  });
+}
+/* slider + select helpers for DOM tools */
+const dsRange = (id, label, min, max, step, val, unit = '') => `<div class="ctl"><label for="${id}">${label}<output id="${id}-o">${val}${unit}</output></label><input type="range" id="${id}" min="${min}" max="${max}" step="${step}" value="${val}" data-unit="${unit}"></div>`;
+const dsSelect = (id, label, opts, val) => `<div class="ctl"><label for="${id}">${label}</label><select id="${id}" class="ds-sel">${opts.map(o => `<option value="${esc(o[0])}" ${o[0] == val ? 'selected' : ''}>${o[1]}</option>`).join('')}</select></div>`;
+function dsWire(body, fn) { $$('input[type=range]', body).forEach(inp => { const set = () => { inp.style.setProperty('--p', ((inp.value - inp.min) / (inp.max - inp.min) * 100) + '%'); const o = $('#' + inp.id + '-o', body); if (o) o.textContent = inp.value + (inp.dataset.unit || ''); }; set(); inp.addEventListener('input', () => { set(); fn(); }); }); $$('select, input[type=checkbox], input[type=number], input[type=text]', body).forEach(el => el.addEventListener('input', fn)); fn(); }
+const val = (body, id) => { const e = $('#' + id, body); return e.type === 'checkbox' ? e.checked : (e.tagName === 'SELECT' || e.type === 'text') ? e.value : +e.value; };
+/* horizontal bar comparison (HTML) */
+const hbar = (label, v, max, col, txt, target) => `<div class="hbar"><span>${label}</span><div class="hbar-t"><i style="width:${clamp(v / max * 100, 0, 100)}%;background:${col}"></i>${target != null ? `<b style="left:${clamp(target / max * 100, 0, 100)}%"></b>` : ''}</div><em>${txt}</em></div>`;
+/* SVG star (radar) chart; series = [{v:[0..max], c}] */
+function starSVG(axes, series, max = 9, W = 320) { const cx = W / 2, cy = W / 2, R = W / 2 - 46, A = i => -Math.PI / 2 + i * 2 * Math.PI / axes.length; let s = '';
+  [.25, .5, .75, 1].forEach(k => s += `<polygon points="${axes.map((_, i) => [cx + R * k * Math.cos(A(i)), cy + R * k * Math.sin(A(i))].join(',')).join(' ')}" fill="none" stroke="var(--line)"/>`);
+  axes.forEach((a, i) => s += ln(cx, cy, cx + R * Math.cos(A(i)), cy + R * Math.sin(A(i)), 'var(--line-2)', 1) + tx(cx + (R + 10) * Math.cos(A(i)), cy + (R + 10) * Math.sin(A(i)) + 4, a, { a: Math.abs(Math.cos(A(i))) < .2 ? 'middle' : Math.cos(A(i)) > 0 ? 'start' : 'end', fs: 11, c: INK }));
+  series.forEach(sr => s += `<polygon points="${sr.v.map((x, i) => [cx + R * x / max * Math.cos(A(i)), cy + R * x / max * Math.sin(A(i))].join(',')).join(' ')}" fill="${sr.c}" fill-opacity=".18" stroke="${sr.c}" stroke-width="2.2"/>`);
+  return `<svg viewBox="0 0 ${W} ${W}" width="${W}" style="max-width:100%;height:auto">${s}</svg>`; }
+
+/* ---- shared canvas helpers for food sims ---- */
+const FOODCOL = { carb: '#D9A21B', protein: '#C0466E', fat: '#E0B040', fibre: '#6B8E23', water: '#2F6FB3' };
+function glassTube(c, C, x, y, w, h, frac, col, label) { CV.rrect(c, x, y, w, h, 10, C.surface, C.line, 1.5); const fh = h * clamp(frac, 0, 1); c.save(); c.beginPath(); c.roundRect ? c.roundRect(x + 2, y + 2, w - 4, h - 4, 8) : c.rect(x + 2, y + 2, w - 4, h - 4); c.clip(); c.fillStyle = col; c.fillRect(x, y + h - fh, w, fh); c.restore(); if (label) CV.text(c, label, x + w / 2, y + h + 14, C.muted, 11, 'center'); }
+function thermometer(c, C, x, y, h, T, Tmin, Tmax, marks = []) { const Y = t => y + h - (t - Tmin) / (Tmax - Tmin) * h; CV.rrect(c, x - 7, y - 6, 14, h + 12, 7, C.surface, C.line, 1.5); CV.circle(c, x, y + h + 14, 12, C.bad); c.fillStyle = C.bad; c.fillRect(x - 3.5, Y(clamp(T, Tmin, Tmax)), 7, y + h + 8 - Y(clamp(T, Tmin, Tmax))); marks.forEach(([t, lab, col]) => { CV.line(c, x + 8, Y(t), x + 16, Y(t), col || C.muted, 1.4); CV.text(c, lab, x + 20, Y(t), col || C.muted, 10.5); }); }
+const lerp = (a, b, t) => a + (b - a) * t;
+function mixCol(a, b, t) { const p = s => { const n = parseInt(s.slice(1), 16); return [n >> 16 & 255, n >> 8 & 255, n & 255]; }; const A = p(a), B = p(b); return `rgb(${A.map((v, i) => Math.round(lerp(v, B[i], clamp(t, 0, 1)))).join(',')})`; }
