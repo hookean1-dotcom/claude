@@ -36,9 +36,24 @@ TOPICS.push({
 <li><b>Functional foods</b> — foods with added health benefits beyond basic nutrition: <b>probiotics</b> (live beneficial bacteria, e.g. live yogurt, kefir, kombucha), <b>prebiotics</b> (fibres such as inulin and oligosaccharides that feed good bacteria), sterol-enriched spreads, omega-3 enriched eggs.</li>
 <li><b>Sustainable sourcing and packaging</b> — certified sustainable palm oil, MSC fish, reduced plastic, recyclable, compostable or refillable packaging, reducing food waste (“wonky” veg).</li>
 <li><b>Personalised nutrition</b> — tailoring diets to individual <b>genetic profiles</b> (nutrigenomics), the gut microbiome, wearable data, and <b>health conditions</b> such as diabetes (carbohydrate counting, continuous glucose monitors) or CVD.</li></ul>` },
+    { h: 'More detail on the key factors', html: `
+<ul><li><b>Cost</b> — lower incomes favour foods with the most calories per pound (white bread, processed meat, white rice); a £2 frozen pizza may beat buying ingredients; more families rely on food banks. Yet many nutrient-dense foods are cheap — plan meals, compare prices, choose own-brand and seasonal food, reduce waste. Special diets (low sodium, allergen-free) often cost more.</li>
+<li><b>Culture</b> — early experiences shape lifelong preferences (Italian pasta and olive oil; South Asian lentils, rice and spices; Caribbean jerk chicken, rice and peas). Festival foods carry meaning: Chinese New Year dumplings and fish, a UK Christmas roast and mince pies, Diwali ladoo and jalebi, Eid biryani and sheer khurma. Migration creates <b>fusion</b> dishes (chicken tikka masala); globalisation spreads fast food and trends such as Korean kimchi and barbecue; insects are eaten in many cultures as cheap, sustainable HBV protein.</li>
+<li><b>Environmental</b> — food miles and carbon emissions, plastic packaging (choose loose produce, recyclable or refill), deforestation (palm oil, soya), over-fishing (look for the blue <b>MSC</b> logo), water use (almonds, rice), livestock emissions; food waste releases methane in landfill. Cost is the main barrier to sustainable choices.</li>
+<li><b>Ethical</b> — animal welfare (free-range, <b>Red Tractor</b> standards for safety, traceability, welfare and environment), fair pay (<b>Fairtrade</b>), supporting local businesses, avoiding waste (“wonky” veg).</li>
+<li><b>Media</b> — HFSS advertising aimed at children (characters, jingles, offers); the UK introduced a <b>9 pm TV watershed for HFSS adverts from January 2026</b>. Social media, influencers and viral recipes; packaging claims (“high protein”, “low fat”); eye-level and end-of-aisle placement. Public health campaigns and cooking shows can be positive but have far smaller budgets.</li>
+<li><b>Availability and seasonality</b> — rural vs urban access, food deserts, transport and deliveries, supply shocks (weather, costs, shortages), retailer stocking and meal deals. Seasonal British produce (strawberries in summer, squash and root vegetables in autumn and winter) is cheaper and tastier; frozen and tinned are good out-of-season alternatives.</li>
+<li><b>Physical activity</b> — shapes energy needs, meal timing (pre- and post-exercise snacks) and appetite; performance foods can be costly.</li>
+<li><b>Lifestyle</b> — time pressure, shift work (disrupts the <b>circadian rhythm</b> → cravings, irregular meals), social eating out, family structure, personal goals.</li>
+<li><b>Personal preferences</b> — taste, texture, smell, appearance; emotional associations (comfort food); <b>food neophobia</b> (fear of new foods, common in young children); sensory sensitivity; repeated exposure increases acceptance.</li>
+<li><b>Sensory qualities</b> — taste, smell (aroma), texture, appearance and even <b>sound</b> (crunch).</li>
+<li><b>Shelf life and storage facilities</b> — long-life foods suit infrequent shoppers and budgets; high-risk foods have short “use by” dates; “sell by” and “display until” are for shops but reduced-price items influence buying; freezer, fridge and cupboard space decide what people buy.</li>
+<li><b>Socio-economic influences</b> — income, education and nutritional knowledge, occupation, social class and shopping habits, cultural expectations.</li>
+<li><b>Specific dietary needs</b> — allergies, intolerances, deficiencies and NCDs require informed choices; barriers include lack of knowledge (hidden salt), habit, cost, time and emotional eating.</li></ul>` },
     { h: 'Using the factors in your NEA', html: `
 <div class="box tip"><b class="lbl">Make the link explicit</b><p>For each dish in your plan, say which factors from the brief it responds to and how: “Seasonal British strawberries (June) — cheaper, better flavour, lower food miles.” A list of factors without justification earns few marks.</p></div>
-<p>Useful research: the brief’s client profile, surveys of the target group, supermarket price checks, seasonality charts, nutritional analysis software.</p>` }
+<p>Keep up to date with trends using reliable sources: <b>verify with science</b> (NHS, British Dietetic Association, government guidelines), follow registered dietitians and nutritionists, read industry publications (<i>Food Manufacture</i>, <i>The Grocer</i>, <i>Food Matters Live</i>), check academic journals, watch documentaries and food programmes, and track supermarket launches.</p>
+<p>Useful research for the brief: the client profile, surveys or interviews with the target group, price checks, seasonality charts, nutritional analysis software.</p>` }
   ],
   eqs: [],
   worked: [
@@ -95,6 +110,15 @@ TOPICS.push({
 <li><b>Feasibility checks</b> — can it be made at the right cost, with available ingredients and packaging, in the production time?</li>
 <li><b>Customer feedback</b> — taste panels (sensory testing) and cost review with the target group.</li>
 <li><b>Product/outcome review</b> — final amendments based on feedback; the product specification is agreed.</li></ol>` },
+    { h: 'Working like a product developer', html: `
+<p>In the NEA you respond to an annually changing scenario. Show not only <b>what</b> you intend to make but <b>why</b>: analyse the brief, link every decision to the target audience, apply trends to real dishes, justify ingredients, cost, presentation and pricing, and show refinement.</p>
+<ul><li><b>Product brief</b> — highlight key words (e.g. older adults, shelf-stable, high fibre, low cost). Describe the <b>target audience</b> in detail (age, lifestyle, spending habits, preferences, motivations, barriers), the <b>food trend</b> (what it is, why it is popular, what consumers expect, how it affects ingredients, methods, cost and presentation) and any <b>nutritional need</b>. Look beyond the brief: eco-conscious consumers expect seasonal ingredients and minimal waste; older adults may need more calcium on a fixed income.</li>
+<li><b>Idea generation</b> — market research (questionnaires, surveys, interviews); each idea names the dish, main ingredients, how it meets the trend or need and why the audience will like it; evaluate a range with a <b>select-and-reject</b> table.</li>
+<li><b>Feasibility checks</b> — cost, availability and practicality of ingredients; cost and feasibility of packaging/presentation; production times (manageable in the practical and in the real world).</li>
+<li><b>Recipe development and testing</b> — draft a recipe, trial it and give a rationale for every amendment. Trialling and feedback happen <b>outside</b> assessment time, but you can include the results to justify decisions; experienced cooks can adapt recipes without trialling.</li>
+<li><b>Customer feedback</b> — taste panel (flavour, texture, appearance, aroma — needs a cooked trial) and cost review (is the price right? — can be done without cooking).</li>
+<li><b>Product and outcome review</b> — evidence-based amendments (too sweet, too dry, too costly, unsuitable nutritional profile).</li></ul>
+<div class="box tip"><b class="lbl">Example cost guidance</b><p>Packaging no more than 50p per unit; ingredients under £3 per portion (or £10 for the recipe); selling price competitive with similar products (£3.50–£4.50).</p></div>` },
     { h: 'Costing a product', html: `
 <p>Ingredient cost for the amount used = (amount used ÷ pack size) × pack price. Add up for the whole recipe, then divide by portions.</p>
 <div class="box def"><b class="lbl">Selling price</b><p>Food businesses add overheads (labour, energy, rent, packaging) and profit. A common catering rule: food cost ≈ <b>30%</b> of the selling price (i.e. selling price ≈ food cost ÷ 0.30), giving a <b>gross profit</b> of 70%.</p></div>
@@ -170,8 +194,17 @@ TOPICS.push({
 [[d:gantt]]
 <p><b>Dovetailing</b> means fitting tasks together so that while one dish is proving, chilling, baking or simmering, you work on another. Start with the items that take longest or need resting/chilling (bread dough, pastry, cheesecake bases, marinades).</p>
 <div class="box tip"><b class="lbl">Good contingency plans are specific</b><p>“If the sauce splits, whisk in a spoonful of cold water off the heat”; “if the pastry is too soft to roll, chill for 10 more minutes”; “if the oven is busy, cook the vegetables on the hob”. Build 10–15 minutes of slack before service.</p></div>` },
+    { h: 'Recipes, combined lists and nutrition labels', html: `
+<p>Finalise each recipe first: ingredients with quantities (allergens in <b>bold</b>), equipment (including colour-coded boards, chef rings, trays) and portion sizes. Then combine all recipes into <b>one ingredients list and one equipment list</b> for shopping and set-up (e.g. 50 g + 250 g butter = 300 g).</p>
+<p>Nutritional information can be calculated at the development or planning stage. Loose foods need no label by law, but any information given voluntarily must follow the rules for pre-packed foods, which must show, <b>per 100 g or 100 ml, in this order</b>: <b>energy (kJ and kcal), fat, saturates, carbohydrate, sugars, protein, salt</b>. Per-portion values are optional, but any nutrient named in the title or in a claim (“high in vitamin D”) must be listed.</p>` },
+    { h: 'Mise en place, CCPs and clean-down', html: `
+<div class="tbl"><table><tr><th>Stage</th><th>Checks</th></tr>
+<tr><td>Advance preparation (<b>mise en place</b>)</td><td>bins present, clean, covered, correct waste streams; hair tied, hands washed, apron or whites; surfaces cleaned and sanitised; clean cloths; <b>record fridge (below 5 °C) and freezer (−18 °C or colder) temperatures</b>; cross-check ingredients against recipes; store high-risk foods correctly; check equipment and scales (use <b>tare</b>); weigh, label and cover ingredients</td></tr>
+<tr><td>Critical control points in the plan</td><td>raw meat handled separately and early, away from ready-to-eat food; allergen control — allergen-clean equipment; contaminated waste removed immediately, area cleaned and sanitised, hands washed</td></tr>
+<tr><td>Final clean-down</td><td>scrape waste into the correct bins; wash, rinse, sanitise and dry equipment (check boards, knives and mixers); two-stage clean of surfaces; clean hob, oven, microwave; sinks and taps; floors swept and mopped; empty bins; check allergen controls; leave the station safe for the next user</td></tr></table></div>
+<p>A good plan orders ready-to-eat preparation <b>before</b> raw meat, highlights allergens, and uses timers and weighed-out ingredients so there is no stopping mid-task.</p>` },
     { h: 'Quality points', html: `
-<p>Quality points are specific, measurable checks built into your method:</p>
+<p>Quality points are specific, measurable checks built into your method — <b>physical</b> checks (uniform portion sizes and dimensions), <b>sensory</b> checks (tasting a sauce) and <b>safety</b> checks (core temperature):</p>
 <ul><li>weigh and measure accurately;</li><li>chill pastry for 20 minutes before rolling;</li><li>even-sized dice (1 cm) so they cook at the same rate;</li><li>core temperature of chicken ≥ 75 °C checked with a probe;</li><li>cake springs back and a skewer comes out clean;</li><li>bread sounds hollow when tapped;</li><li>sauce reaches coating consistency;</li><li>serve hot food above 63 °C.</li></ul>` }
   ],
   eqs: [],
@@ -218,7 +251,20 @@ TOPICS.push({
   ],
   learn: [
     { h: 'Why complexity matters', html: `
-<p>In the Unit 2 assessment you are rewarded for demonstrating a <b>range</b> of skills, including <b>advanced (***)</b> ones, carried out <b>accurately and independently</b>. Plan dishes that let you show several advanced skills — e.g. a laminated pastry, piped choux, a filleted fish, segmented citrus, an emulsified sauce.</p>` },
+<p>In the Unit 2 assessment you are rewarded for demonstrating a <b>range</b> of skills, including <b>advanced (***)</b> ones, carried out <b>accurately and independently</b>. Plan dishes that let you show several advanced skills — e.g. a laminated pastry, piped choux, a filleted fish, segmented citrus, an emulsified sauce. <b>Repeated skills are only credited once</b>, so choose a varied range across preparation, cooking and presentation.</p>` },
+    { h: 'Upskilling recipes', html: `
+<p>Many recipes need <b>upskilling</b>: swap a bought component for one you make (pastry, pasta, custard, mayonnaise, ice cream), portion whole produce yourself, or add skilled accompaniments and garnishes.</p>
+<div class="tbl"><table><tr><th>Basic dish</th><th>Medium upskill</th><th>Advanced upskill</th></tr>
+<tr><td>Tomato bruschetta</td><td>balsamic reduction; griddled bread with char lines; homemade bread</td><td>brunoise tomatoes; basil chiffonade; piped ricotta; plaited multi-flavour loaf</td></tr>
+<tr><td>Grilled mackerel</td><td>fillet it; pickled onion and herb oil; light cure and torched skin</td><td>segmented citrus salad with shredded herbs and pickled shallot; aerated dressing piped precisely</td></tr>
+<tr><td>Cheese soufflé</td><td>roux-based cheese sauce; spinach squeezed of moisture</td><td>twice-baked soufflé; chiffonade or brunoise salad; emulsified dressing or foam</td></tr>
+<tr><td>Lasagne (jar sauces, dried sheets)</td><td>roux cheese sauce; reduced bolognese; julienned vegetables</td><td>homemade pasta, coloured with natural powders; ravioli or tortellini; chiffonade of greens</td></tr>
+<tr><td>Stuffed chicken</td><td>intricate sauces and garnishes</td><td>portion a whole chicken; French-bone and stuff the legs</td></tr>
+<tr><td>Dumplings</td><td>carefully minced raw fillings; caramelised onions</td><td>joint a whole chicken or portion a whole fish</td></tr>
+<tr><td>Lemon tart</td><td>churned ice cream; glossy chocolate sauce</td><td>French, Italian or Swiss meringue; tempered custard; segmented fruit</td></tr>
+<tr><td>Poached fruit</td><td>homemade ice cream or egg custard</td><td>spiced sabayon</td></tr>
+<tr><td>Mousse</td><td>biscuit crumb</td><td>aeration, foaming, tempered chocolate shards</td></tr></table></div>
+<p>Laminated pastry from scratch is advanced in itself; add a braided plait, a coulis, royal icing, self-minced pork filling, julienned vegetables or segmented fruit to reach all the available marks.</p>` },
     { h: 'Preparation skills', html: `
 <div class="tbl"><table><tr><th>Skill</th><th>Level</th><th>What / why</th></tr>
 <tr><td>Creaming</td><td>**</td><td>beating fat and sugar until pale and fluffy — traps air for a light cake</td></tr>
@@ -391,23 +437,47 @@ TOPICS.push({
     { h: 'Personal hygiene', html: `
 <ul><li><b>Handwashing</b> — wet hands, apply soap, rub palms, backs, between fingers, thumbs, fingertips and wrists for at least 20 seconds, rinse, dry with a disposable towel; turn off the tap with the towel.</li>
 <li>Wash hands before starting, after handling raw meat, fish, eggs or unwashed vegetables, after touching hair/face/phone, after the toilet, after handling waste or cleaning chemicals.</li>
-<li>Clean apron or whites; hair tied back and covered; no jewellery (except a plain band); short, clean nails with no varnish; cover cuts with a <b>blue</b> waterproof plaster; do not work with vomiting or diarrhoea (stay off for 48 hours after symptoms stop).</li></ul>` },
+<li>Clean apron or chef’s whites (to protect the food first, your clothes second); hair tied back and covered with a hat or hairnet (beard nets too); daily washing; short, clean, unpolished nails; no strong perfume.</li>
+<li><b>Jewellery</b>: only a plain wedding band — jewellery traps dirt, can fall into food, tears gloves and stops effective handwashing.</li>
+<li>Cover cuts with a <b>blue waterproof, detectable plaster</b> (some contain metal for detection on production lines).</li>
+<li>Report illness; <b>exclude food handlers for 48 hours after the last symptom</b> of vomiting or diarrhoea.</li>
+<li><b>Gloves</b> — useful in some settings but give a false sense of safety; change them often or they are as risky as dirty hands.</li>
+<li>Avoid smoking, vaping, chewing gum, using a phone, touching hair, face or glasses, and eating or drinking in food areas.</li></ul>` },
+    { h: 'Safe working practices', html: `
+<ul><li>Follow food safety legislation (Food Safety Act 1990) and <b>HACCP</b> procedures, workplace policies and training.</li>
+<li><b>Documentation</b> — delivery checks, temperature logs, equipment maintenance, training records, reviews.</li>
+<li><b>Training and supervision</b>, refresher training and a safety culture.</li>
+<li><b>Safe layout</b> — clean dry floors, logical raw-to-ready flow, good lighting, ventilation and handwash basins; correct lifting; non-slip footwear.</li>
+<li><b>Equipment</b> — checked for damage, cleanliness and temperature before use; used as instructed; maintained; <b>thermometers calibrated</b>.</li>
+<li><b>Pest prevention</b> — building maintenance, sealed storage, immediate clean-up of spills, lidded bins emptied often and kept away from food, fly killers.</li></ul>` },
     { h: 'Cross-contamination', html: `
-<p><b>Cross-contamination</b> is the transfer of bacteria (or allergens) from one food or surface to another — especially from raw to ready-to-eat food.</p>
+<p><b>Cross-contamination</b> is the transfer of bacteria (or allergens) from one food, surface or piece of equipment to another — one of the major causes of food poisoning in kitchens.</p>
+<ul><li><b>Direct</b>: raw food (meat, poultry, unwashed produce) touches ready-to-eat food.</li><li><b>Indirect</b>: a “vehicle” carries bacteria — hands, cloths, equipment, poor storage.</li></ul>
 <div class="tbl"><table><tr><th>Board colour</th><th>Use</th></tr><tr><td style="color:#d33;font-weight:700">Red</td><td>raw meat</td></tr><tr><td style="color:#2a62c9;font-weight:700">Blue</td><td>raw fish</td></tr><tr><td style="color:#c9a100;font-weight:700">Yellow</td><td>cooked meat</td></tr><tr><td style="color:#2e8b3d;font-weight:700">Green</td><td>salad and fruit</td></tr><tr><td style="color:#8b5a2b;font-weight:700">Brown</td><td>vegetables</td></tr><tr><td><b>White</b></td><td>bakery and dairy</td></tr><tr><td style="color:#8a4fbf;font-weight:700">Purple</td><td>allergen-free preparation</td></tr></table></div>
 <ul><li>Store raw meat and fish <b>covered on the bottom shelf</b> of the fridge, below ready-to-eat food.</li><li>Separate equipment, or wash and sanitise between uses; wash hands.</li><li>Do not wash raw chicken — it splashes <i>Campylobacter</i>.</li></ul>` },
     { h: 'Temperature control', html: `
 [[d:thermo]]
-<div class="tbl"><table><tr><th>Temperature</th><th>Meaning</th></tr>
-<tr><td>−18 °C or below</td><td>freezer: bacteria dormant (not killed)</td></tr>
-<tr><td>0–5 °C</td><td>fridge: slows growth (legal maximum for chilled food 8 °C; aim for below 5 °C)</td></tr>
-<tr><td><b>5–63 °C</b></td><td><b>danger zone</b> — bacteria multiply rapidly (fastest around 37 °C)</td></tr>
-<tr><td>63 °C or above</td><td>hot holding (legal minimum in England/Wales); discard after 2 hours if not above 63 °C</td></tr>
-<tr><td><b>75 °C</b> core</td><td>cooking (or 70 °C for 2 minutes) — kills most pathogenic bacteria</td></tr>
-<tr><td>75 °C (Scotland 82 °C)</td><td>reheating — once only, until piping hot throughout</td></tr></table></div>
-<p><b>Cooling</b>: cool cooked food to below 8 °C (ideally 5 °C) within <b>90 minutes</b> — divide into shallow containers, use an ice bath or blast chiller. <b>Defrost</b> in the fridge, not at room temperature. Use a clean, sanitised probe inserted into the thickest part.</p>` },
+<div class="tbl"><table><tr><th>Process</th><th>Temperature / time</th><th>Guidance</th></tr>
+<tr><td>Chilling</td><td><b>0–5 °C</b></td><td>slows bacterial growth (legal maximum for chilled food 8 °C)</td></tr>
+<tr><td>Freezing</td><td><b>−18 to −24 °C</b></td><td>stops (does not kill) bacterial growth</td></tr>
+<tr><td>Danger zone</td><td><b>5–63 °C</b></td><td>bacteria multiply rapidly (fastest around 37 °C)</td></tr>
+<tr><td>Cooking</td><td>core <b>75 °C for 30 seconds</b> (or 70 °C for 2 minutes)</td><td>reduces pathogens to a safe level</td></tr>
+<tr><td>Hot holding</td><td><b>above 63 °C</b>, for a <b>maximum of 2 hours</b></td><td>keeps growth minimal</td></tr>
+<tr><td>Cooling</td><td>chill within <b>90 minutes</b> of cooking</td><td>shallow containers, ice bath, blast chiller</td></tr>
+<tr><td>Defrosting</td><td>in the fridge</td><td>so the outside never exceeds 5 °C</td></tr>
+<tr><td>High-risk food at room temperature</td><td>maximum <b>2 hours</b></td><td>then chill or discard</td></tr>
+<tr><td>Reheating</td><td>to 75 °C (82 °C in Scotland), <b>once only</b></td><td>cooking reduces but never removes all pathogens, so numbers rise with each reheat</td></tr></table></div>
+<p>Use a clean, sanitised probe inserted into the thickest part. Never put hot food straight into a fridge — it raises the temperature and pushes other food into the danger zone.</p>` },
+    { h: 'Storage', html: `
+<ul><li>Check quality, freshness and dates on delivery and before use; rotate stock <b>FIFO</b> (first in, first out); store allergens separately; label everything.</li>
+<li><b>Chilled</b> (cooked meats, dairy, seafood, ready-to-eat): 0–5 °C, covered, spaced for air circulation, raw below ready-to-eat.</li>
+<li><b>Frozen</b> (raw meat, vegetables, bread, meals): −18 to −24 °C.</li>
+<li><b>Ambient</b> (tins, pasta, rice, flour, oils, vinegars, unopened packs): stable because they are dry, acidic or processed; many need refrigerating once opened.</li>
+<li><b>Opened tins</b>: transfer contents to a clean, sealed container in the fridge (prevents reactions with the metal and contamination).</li></ul>` },
     { h: 'Cleaning and dates', html: `
-<p><b>Cleaning</b> removes dirt and grease (detergent + hot water). <b>Sanitising/disinfecting</b> reduces bacteria to a safe level (sanitiser, or heat above 82 °C). The two-stage clean: clean first, then sanitise, following contact time on the label. Clean as you go.</p>
+<p><b>Cleaning</b> physically removes food debris, grease and dirt (hot water + detergent) — visible dirt shields bacteria and stops sanitisers working. <b>Sanitising/disinfecting</b> applies heat or chemicals to a <b>clean</b> surface to reduce bacteria to a safe level.</p>
+<ol><li><b>Stage 1</b>: clean with hot water and detergent, then rinse.</li><li><b>Stage 2</b>: apply sanitiser and leave for the correct <b>contact time</b>.</li></ol>
+<p>Clean and sanitise before use, between tasks and after raw food; use separate cloths; follow the manufacturer’s dilution and contact times; store chemicals away from food. Mixers, slicers and blenders need cleaning after raw mixtures; damaged equipment harbours bacteria. Keep cleaning schedules.</p>
 <div class="tbl"><table><tr><th>Date mark</th><th>Used on</th><th>Meaning</th></tr>
 <tr><td><b>Use by</b></td><td>high-risk perishable food (meat, fish, dairy, ready meals)</td><td><b>safety</b> — do not eat after this date, even if it looks and smells fine</td></tr>
 <tr><td><b>Best before</b></td><td>longer-life food (canned, dried, frozen, biscuits)</td><td><b>quality</b> — safe after the date but may be less good; not for eggs after the date</td></tr></table></div>` }
@@ -430,7 +500,15 @@ TOPICS.push({
     ['Green / brown / white boards?', 'Salad and fruit / vegetables / bakery and dairy.'],
     ['Why blue plasters?', 'Easy to see if they fall into food.'],
     ['Cleaning vs sanitising?', 'Cleaning removes dirt/grease; sanitising reduces bacteria to safe levels.'],
-    ['Why not wash raw chicken?', 'Splashing spreads Campylobacter to surfaces.']
+    ['Why not wash raw chicken?', 'Splashing spreads Campylobacter to surfaces.'],
+    ['Core cooking standard (WJEC notes)?', '75 °C for 30 seconds, or 70 °C for 2 minutes.'],
+    ['Maximum hot-holding time?', '2 hours (above 63 °C).'],
+    ['Maximum time high-risk food at room temperature?', '2 hours.'],
+    ['Exclusion after vomiting/diarrhoea?', '48 hours from the last symptom.'],
+    ['What is FIFO?', 'First in, first out — stock rotation.'],
+    ['Direct vs indirect cross-contamination?', 'Direct: raw food touches ready-to-eat food. Indirect: via hands, cloths, equipment.'],
+    ['Why can’t food be reheated more than once?', 'Cooking only reduces pathogens; numbers rise with each reheat.'],
+    ['Only jewellery allowed in a kitchen?', 'A plain wedding band.']
   ],
   quiz: [
     { q: 'The danger zone for bacterial growth is…', o: ['5–63 °C', '0–5 °C', '63–100 °C', '−18–0 °C'], x: 'Keep food out of 5–63 °C.' },
@@ -442,7 +520,11 @@ TOPICS.push({
     { q: 'Freezing food at −18 °C…', o: ['makes bacteria dormant but does not kill them', 'kills all bacteria', 'speeds growth', 'destroys toxins'], x: 'Bacteria resume growth on thawing.' },
     { q: 'Handwashing should last at least…', o: ['20 seconds', '2 seconds', '2 minutes', '5 seconds'], x: 'Include thumbs, fingertips and wrists.' },
     { q: 'Which is correct about “best before” dates?', o: ['Food may be safe after the date but quality may fall', 'Food must be thrown away the next day', 'They are used on raw chicken', 'They show when food is unsafe'], x: 'Quality, not safety (except eggs).' },
-    { q: 'Sanitising a surface means…', o: ['reducing bacteria to a safe level', 'removing visible dirt only', 'drying it', 'polishing it'], x: 'Clean first, then sanitise.' }
+    { q: 'Sanitising a surface means…', o: ['reducing bacteria to a safe level', 'removing visible dirt only', 'drying it', 'polishing it'], x: 'Clean first, then sanitise.' },
+    { q: 'Food can be hot-held above 63 °C for a maximum of…', o: ['2 hours', '12 hours', '24 hours', 'unlimited time'], x: 'WJEC temperature and time standards.' },
+    { q: 'Food handlers with diarrhoea should be excluded until…', o: ['48 hours after the last symptom', 'they feel better', '2 hours after symptoms', 'the next day'], x: 'Norovirus spreads easily.' },
+    { q: 'Using a dirty cloth to wipe a board after raw chicken, then salad, is…', o: ['indirect cross-contamination', 'direct cross-contamination', 'sanitising', 'FIFO'], x: 'The cloth is the vehicle.' },
+    { q: 'Why should hot food not go straight into the fridge?', o: ['It raises the fridge temperature and warms other food into the danger zone', 'It kills bacteria in the fridge', 'It freezes too quickly', 'It improves flavour'], x: 'Cool quickly first — within 90 minutes.' }
   ],
   exam: [
     { q: 'State the purpose of a temperature probe and how to use it correctly. [3]', m: 3, ms: ['measure core temperature to check food is cooked / held / chilled safely', 'clean and sanitise the probe before and after use (probe wipes)', 'insert into the thickest part / centre of the food, not touching bone or the tin; wait for reading'] },
@@ -474,9 +556,21 @@ TOPICS.push({
 <div class="box tip"><b class="lbl">Evaluate, don’t describe</b><p>Weak: “My lasagne was nice.” Strong: “The taste panel rated flavour 4.3/5 but texture 2.8/5 because the pasta was over-soft; next time I would reduce the sauce by a third so the sheets absorb less liquid. Salt per portion was 1.2 g — within the 1.5 g target for the client.”</p></div>` },
     { h: 'Sources of feedback and sensory testing', html: `
 [[d:star]]
-<ul><li><b>Taste panels</b> — a group of tasters rating attributes; use clean spoons, water between samples, coded samples and quiet booths to reduce bias.</li>
+<div class="tbl"><table><tr><th>Criterion</th><th>Caesar salad</th><th>Fried chicken</th><th>Lemon tart</th></tr>
+<tr><td>Flavour</td><td>tasty dressing but a bit too salty — 6/10</td><td>seasoning spot-on — 9/10</td><td>tangy and refreshing — 10/10</td></tr>
+<tr><td>Texture</td><td>crunchy croutons, leaves could be crisper — 7/10</td><td>crisp skin, juicy inside — 10/10</td><td>silky filling, would prefer a sturdier crust — 7/10</td></tr>
+<tr><td>Appearance</td><td>clean but heavy on dressing — 7/10</td><td>golden-brown, professional — 9/10</td><td>vibrant yellow, delicate — 9/10</td></tr>
+<tr><td>Aroma</td><td>garlic and parmesan — 8/10</td><td>comforting, black pepper — 8/10</td><td>punchy citrus — 9/10</td></tr></table></div>
+<p class="small muted">An example taste-panel form: comments plus scores make the feedback usable as evidence.</p>
+<ul><li><b>Taste panels</b> — a group of tasters rating attributes; use clean spoons, water between samples, coded samples and quiet booths to reduce bias. Organise your data collection paperwork before the practical.</li>
 <li><b>Sensory testing methods</b> — <b>preference/hedonic</b> (how much do you like it? 5- or 9-point scale), <b>ranking</b> (put samples in order), <b>rating</b> (score an attribute), <b>paired comparison</b> and <b>triangle tests</b> (can tasters detect a difference?), <b>profiling</b> — results drawn as a <b>star (radar) diagram</b>.</li>
-<li><b>Peer review</b>, <b>target audience reviews</b> (the real client), <b>self-reflection</b>, <b>expert feedback</b> (teacher, chef).</li></ul>` }
+<li><b>Sensory testing</b> — structured scoring of specific qualities (sweetness, crunch, aroma, colour) with carefully chosen, positive criteria; shown as a star chart.</li>
+<li><b>Peer review</b> — classmates evaluate against agreed criteria.</li>
+<li><b>Target audience reviews</b> — the group the product is for; shows whether it truly meets their needs.</li>
+<li><b>Self-reflection</b> — honest and objective: no exaggerated praise, no harsh self-criticism.</li>
+<li><b>Expert feedback</b> — chef, nutritionist or food teacher; ask for it in writing or take notes.</li></ul>` },
+    { h: 'Evaluating nutritional value properly', html: `
+<p>Simply pasting a nutrition table is <b>not</b> evaluation. Enter quantities accurately (including accompaniments), then <b>compare specific nutrient values with the target audience’s needs</b>: e.g. “one portion provides 43 g protein — 95% of the adult RI — ideal for the rugby team’s recovery, but 2.5 g salt (42% RI) is high; I would halve the stock cube.” Use front-of-pack traffic lights and, for depth, an extended table (vitamins, minerals, fibre, saturates) to judge fit with the brief.</p>` }
   ],
   eqs: [],
   worked: [
