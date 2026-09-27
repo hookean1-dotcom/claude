@@ -448,7 +448,7 @@ const App = (() => {
   /* ---------- ASSESSMENT ---------- */
   function assess() {
     crumbs('<b>Assessment</b>'); if (!S.assessSeen) { S.assessSeen = 1; save(); checkBadges(); }
-    V().innerHTML = `<div class="notes" style="max-width:none">${ASSESS_HTML}</div>`;
+    V().innerHTML = `<div class="notes" style="max-width:none">${ASSESS_HTML}</div>`; wireSettingsLinks();
   }
 
   /* ---------- MOCK PAPERS ---------- */

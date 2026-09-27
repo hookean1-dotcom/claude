@@ -140,6 +140,7 @@ kbd{font:500 11px var(--f-mono);padding:1px 6px;border-radius:5px;border:1px sol
   .hide-m{display:none!important}
 }
 @media (min-width:901px){.menu-btn{display:none!important}}
+@media (max-width:480px){.top{gap:6px;padding:8px 12px}.top .icon-btn{width:32px;height:32px}.top .chip{padding:4px 8px}}
 
 /* ---------- Type ---------- */
 h1,h2,h3,h4{text-wrap:balance;margin:0}
@@ -509,9 +510,10 @@ canvas.fx{position:fixed;inset:0;pointer-events:none;z-index:150;width:100%;heig
 .stat-list{display:flex;flex-direction:column;gap:10px}
 .statute{border:1px solid var(--line);border-radius:14px;background:var(--surface);padding:14px 16px;border-left:3px solid var(--uc)}
 .statute h4{font:700 17px/1.25 var(--f-display);margin:0 0 8px}
-.statute dl{display:grid;grid-template-columns:auto 1fr;gap:6px 12px;margin:0;font-size:14px}
-.statute dt{font:600 12.5px var(--f-mono);color:var(--uc);white-space:nowrap}
+.statute dl{display:grid;grid-template-columns:minmax(0,max-content) minmax(0,1fr);gap:6px 12px;margin:0;font-size:14px}
+.statute dt{font:600 12.5px var(--f-mono);color:var(--uc);max-width:14em}
 .statute dd{margin:0}
+@media (max-width:520px){.statute dl{grid-template-columns:1fr;gap:2px}.statute dd{margin-bottom:6px}}
 .gloss{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px}
 .gloss div{padding:12px 14px;border-radius:12px;background:var(--surface);border:1px solid var(--line)}
 .gloss b{font:italic 700 16px var(--f-display);display:block}
@@ -6816,6 +6818,182 @@ TOOLS.reformsorthr = { type: 'sort', title: 'Which reform position?', intro: 'Wh
   ['Declarations of incompatibility already leave Parliament the final say.', 'Keep the HRA', 'Dialogue model.']
 ] };
 
+/* ---- data/skills.js ---- */
+/* ==========================================================
+   LEGAL SKILLS — exam technique across all components
+   ========================================================== */
+TOPICS.push({
+  id: 'S1', unit: 'S', ref: 'Skills', title: 'Answering problem questions (AO2)',
+  short: 'Component 1 Section A scenarios and all Component 2 questions: identify, state, apply, conclude',
+  summary: 'Every Component 2 question — and the scenario question in Component 1 — gives you a set of facts and asks you to advise the parties. Most of the marks are for AO2: applying legal rules to the facts to build a legal argument using correct legal terminology. Examiners reward a methodical, issue-by-issue approach that uses authority and reaches a conclusion.',
+  spec: ['Analyse a factual scenario by identifying the relevant legal issues', 'Apply legal rules and principles to a hypothetical scenario', 'Present a legal argument using appropriate legal terminology', 'Support the argument with legal authority (statute and case law)', 'Reach a reasoned, justified conclusion'],
+  learn: [
+    { h: 'What AO2 rewards', html: `
+<p>AO2 is worth <b>30% of the A level</b>, and <b>22.5%</b> of that comes from Component 2 alone. It rewards <b>applying</b> the law — not just knowing it. A candidate who lists every rule of offer and acceptance but never says whether <i>this</i> letter was an offer will score in the lower bands.</p>
+<div class="box tip"><b class="lbl">The golden rule</b><p>Every rule you state should be followed immediately by the facts it applies to. Use the parties’ names, quote the scenario, and say “therefore”.</p></div>` },
+    { h: 'A method: IDEA (or IRAC)', html: `
+<ol><li><b>Identify</b> each legal issue in the order it arises in the facts (e.g. “Was Ben’s advert an offer or an invitation to treat?”).</li>
+<li><b>Define</b> the relevant rule precisely, citing the <b>statute section</b> or <b>leading case</b>.</li>
+<li><b>Explain and apply</b>: compare the facts with the authority — are they similar, or can they be distinguished? Use the facts given; do not invent new ones. Where facts are unclear, say what depends on them (“If Amy knew…”).</li>
+<li><b>Answer</b>: a mini-conclusion for that issue, then move on.</li></ol>
+<p>Finish with an <b>overall conclusion</b> advising each party: likely liability, defences, and remedies or sentence where relevant.</p>` },
+    { h: 'Using authority well', html: `
+<ul><li>Cite a case by name, then the <b>principle</b>, then <b>compare facts</b>: “As in [[c:thomasthomas|Thomas v Thomas]], the £1 rent was sufficient consideration even though it was not adequate; similarly, Cara’s promise to…”.</li>
+<li>You don’t need dates or citations — the name and principle are what matter. A short description (“the snail in the bottle case”) is acceptable if you forget the name.</li>
+<li>Statute sections carry real credit: s1 Theft Act 1968; ss9–11 Consumer Rights Act 2015; s2(1) Occupiers’ Liability Act 1957.</li>
+<li>Prefer <b>higher-court</b> and <b>more recent</b> authority where the law has moved on (e.g. <i>R v Ghosh</i> → [[c:ivey]]; [[c:caparo]] → [[c:robinson]]).</li></ul>` },
+    { h: 'Structure by party and by issue', html: `
+<ul><li><b>Contract</b>: formation (offer, acceptance, consideration, intention) → terms → vitiating factors → discharge → remedies.</li>
+<li><b>Tort</b>: duty → breach → causation and remoteness → defences → remedies; or the occupiers’ liability route; nuisance/Rylands.</li>
+<li><b>Criminal</b>: take each <b>defendant</b> and each <b>victim</b> in turn; for each offence, actus reus → mens rea → defences. Start with the most serious offence (murder) then consider alternatives (voluntary/involuntary manslaughter).</li>
+<li><b>Human rights</b>: which Convention right is engaged → is the interference prescribed by law / legitimate aim / proportionate → domestic law (PACE, POA 1986) → remedies (HRA, JR, ECtHR).</li></ul>` },
+    { h: 'Common ways to lose marks', html: `
+<ul><li>Writing everything you know about a topic (“knowledge dumping”) instead of what the facts raise.</li>
+<li>Missing issues — read the scenario twice and annotate every fact; examiners rarely include irrelevant details.</li>
+<li>Getting the law wrong on a key element (e.g. using the old <i>Ghosh</i> test, or treating adverts as offers).</li>
+<li>No conclusion, or “it depends” without explaining on what.</li>
+<li>Spending too long on the first issue. In Component 2 you have about <b>45 minutes per 25-mark question</b>.</li></ul>` }
+  ],
+  debate: [],
+  cases: ['thomasthomas', 'ivey', 'caparo', 'robinson'],
+  worked: [{ q: '<b>Model paragraph (criminal law).</b> “Dev punched Eli once, intending only to frighten him. Eli fell, hit his head and died.” Consider Dev’s liability for unlawful act manslaughter.', s: ['<b class="st">Identify</b>Dev lacks the intention to kill or cause GBH needed for murder, so the issue is unlawful act manslaughter.', '<b class="st">Define</b>The prosecution must prove an unlawful act (a crime), which is dangerous on an objective test — sober and reasonable people would recognise it carries the risk of some harm ([[c:church]]) — and which causes death.', '<b class="st">Apply</b>The punch is a battery, a criminal act; Dev intended the application of force, so has the mens rea for battery. A reasonable person would see a punch as risking some harm, so it is dangerous. The punch caused Eli to fall and hit his head: but for the punch he would not have died, and it was an operating and substantial cause with no intervening act breaking the chain (compare [[c:pagett]]).', '<b class="st">Answer</b>Dev is likely to be guilty of unlawful act manslaughter.'], a: 'Notice that every sentence of application uses the facts: “the punch”, “Dev”, “Eli”.' }],
+  pitfalls: ['Stating the law in one block and then applying it in another — integrate them.', 'Inventing facts not in the scenario.', 'Ignoring defences or remedies when the facts plainly raise them.', 'Forgetting to consider alternative outcomes where the facts are ambiguous.'],
+  cards: [
+    ['What does AO2 reward?', 'Applying legal rules and principles to a scenario to present a legal argument using legal terminology.'],
+    ['What percentage of the A level is AO2?', '30% (7.5% Component 1; 22.5% Component 2).'],
+    ['What are the four steps of IDEA?', 'Identify the issue; Define the law; Explain and apply to facts; Answer (conclude).'],
+    ['Roughly how long for a 25-mark Component 2 question?', 'About 45 minutes.'],
+    ['What should follow every rule you state in a problem answer?', 'Application to the specific facts, using the parties’ names.'],
+    ['Where the facts are unclear, what should you do?', 'Explain the alternative outcomes depending on the missing fact.'],
+    ['Order for criminal problems?', 'Each defendant, each victim, most serious offence first: actus reus, mens rea, defences.']
+  ],
+  quiz: [
+    { q: 'Component 2 questions are mainly assessed on…', o: ['AO1 and AO2', 'AO1 and AO3', 'AO3 only', 'AO2 and AO3'], x: 'No AO3 in Component 2.' },
+    { q: 'The best way to use a case in a problem answer is to…', o: ['state its principle and compare its facts with the scenario', 'give its full citation and date', 'describe its facts at length', 'list as many cases as possible'], x: 'Application.' },
+    { q: 'If a key fact is missing from the scenario, you should…', o: ['explain how the outcome depends on it', 'invent the fact', 'ignore the issue', 'assume the worst'], x: 'Alternative outcomes.' },
+    { q: '“Knowledge dumping” means…', o: ['writing everything you know about a topic rather than what the facts raise', 'using too many statute sections', 'writing a conclusion', 'citing recent cases'], x: 'Loses AO2 credit.' }
+  ],
+  exam: [{ q: 'Practise the method: advise Fatima. [10]', m: 10, scen: 'Fatima displays a vintage guitar in her shop window with a label “£500 — bargain!”. Gary walks in, puts £500 on the counter and says “I accept”. Fatima refuses to sell because she has had a better offer.', ms: ['identify issue: was the display an offer or invitation to treat?', 'define: invitation to treat — Fisher v Bell; Pharmaceutical Society v Boots', 'apply: the label in the window is an invitation to treat', 'Gary’s “I accept” is therefore an offer', 'Fatima is free to reject his offer', 'conclude: no contract; Gary has no claim'] }],
+  tools: ['iracsteps']
+});
+
+TOPICS.push({
+  id: 'S2', unit: 'S', ref: 'Skills', title: 'Writing evaluative essays (AO3)',
+  short: 'Component 1 Section B part (b) and all Component 3 questions: analyse, evaluate, conclude',
+  summary: 'Component 3 and the 15-mark essays in Component 1 reward AO3: analysing and evaluating legal rules, principles, concepts and issues. That means building an argument — explaining what the law is (AO1), then weighing its strengths and weaknesses with evidence, considering reform, and reaching a justified conclusion that answers the question set.',
+  spec: ['Analyse and evaluate legal rules, principles, concepts and issues', 'Construct and develop a clear, logical argument', 'Use authority to support evaluation', 'Consider reform and the nature of law (law and morality, justice, society)', 'Reach a substantiated conclusion'],
+  learn: [
+    { h: 'What AO3 rewards', html: `
+<p>AO3 is worth <b>30% of the A level</b> — 7.5% in Component 1 and <b>22.5% in Component 3</b>. Top-band answers are <b>arguments</b>, not descriptions: every paragraph makes a point that helps answer the question, supports it with authority, and links back to it.</p>
+<div class="box tip"><b class="lbl">Read the question</b><p>“Analyse and evaluate the extent to which…” wants a judgment on a scale (“to a large extent, but…”). “Analyse and evaluate the law on…” wants strengths, weaknesses and reforms. “Consider whether…” wants a yes/no answer argued both ways.</p></div>` },
+    { h: 'A structure that works', html: `
+<ol><li><b>Introduction</b> (2–3 sentences): define the key terms and state your line of argument.</li>
+<li><b>Point paragraphs</b> — PEEL: <b>P</b>oint (a strength or weakness); <b>E</b>vidence (case, statute, statistic, report); <b>E</b>valuate (why it matters; the counter-argument; how far it is true); <b>L</b>ink back to the question.</li>
+<li>Cover <b>both sides</b>, then <b>reform</b>: Law Commission reports, recent statutes, academic or judicial criticism, other jurisdictions.</li>
+<li><b>Conclusion</b>: answer the question directly, weighing the arguments — do not introduce new material.</li></ol>` },
+    { h: 'Sources of evaluation', html: `
+<ul><li><b>Judicial comment</b>: judges criticising the law (e.g. the Supreme Court abandoning the Ghosh test in [[c:ivey]]; the continuing uncertainty over oblique intent after [[c:woollin]]).</li>
+<li><b>Law Commission</b> reports: e.g. <i>Murder, Manslaughter and Infanticide</i> (2006), <i>Offences Against the Person</i> (2015), <i>Unfair Terms</i>.</li>
+<li><b>Legislation</b> that reformed the law: Consumer Rights Act 2015; Coroners and Justice Act 2009; Defamation Act 2013.</li>
+<li><b>Principles</b>: certainty v flexibility; fairness; consistency; the role of judges v Parliament; the rule of law.</li>
+<li><b>Nature of law</b> (Component 1 and synoptically): law and <b>morality</b> (e.g. euthanasia, consent), law and <b>justice</b> (distributive, corrective, social), law and <b>society</b> (balancing conflicting interests).</li></ul>` },
+    { h: 'Component 1 Section B', html: `
+<p>You answer <b>one question</b> from a choice of two, each with two parts: <b>part (a)</b> is explanatory (mainly AO1 — e.g. “Explain the role of lay magistrates”), and <b>part (b)</b> is evaluative (AO3 — e.g. “Analyse and evaluate the use of lay people in the criminal justice system”). Don’t repeat (a) in (b): build on it with argument.</p>` }
+  ],
+  debate: [],
+  cases: ['ivey', 'woollin', 'majewski'],
+  worked: [{ q: '<b>Model PEEL paragraph.</b> “Analyse and evaluate whether the law on intoxication is fair.”', s: ['<b class="st">Point</b>The rule that voluntary intoxication is no defence to basic intent crimes is arguably unfair because it convicts people who lacked mens rea.', '<b class="st">Evidence</b>In [[c:majewski]] the House of Lords held that becoming voluntarily intoxicated is itself a reckless course of conduct which supplies the mens rea for basic intent offences.', '<b class="st">Evaluate</b>This conflicts with the principle that mens rea and actus reus should coincide, since the “recklessness” occurred earlier when drinking and the defendant may not have foreseen any harm. However, it protects the public and reflects moral blame, as intoxication is a factor in many violent offences.', '<b class="st">Link</b>So the law is arguably unfair to defendants in principle, but it is justifiable on grounds of public policy.'], a: 'Each paragraph moves the argument forward and leads into the conclusion.' }],
+  pitfalls: ['Describing the law with no evaluation until the final paragraph.', 'Only one side of the argument.', 'A conclusion that doesn’t answer the question or sits on the fence without reason.', 'Evaluation without authority (“this is unfair” — why? says who?).'],
+  cards: [
+    ['What does AO3 reward?', 'Analysing and evaluating legal rules, principles, concepts and issues.'],
+    ['What percentage of the A level is AO3?', '30% (7.5% Component 1; 22.5% Component 3).'],
+    ['What does PEEL stand for?', 'Point, Evidence, Evaluate, Link.'],
+    ['Four sources of evaluation?', 'Judicial criticism; Law Commission reports; reforming legislation; principles such as certainty and fairness.'],
+    ['What should a conclusion do?', 'Answer the question directly, weighing the arguments; no new material.'],
+    ['Component 1 Section B structure?', 'One question from two; part (a) explain, part (b) analyse and evaluate.']
+  ],
+  quiz: [
+    { q: 'Component 3 questions are mainly assessed on…', o: ['AO1 and AO3', 'AO1 and AO2', 'AO2 only', 'AO2 and AO3'], x: 'No AO2 in Component 3.' },
+    { q: 'Which is evaluation rather than description?', o: ['“This rule creates uncertainty because juries may reach different verdicts on similar facts.”', '“Section 1 of the Theft Act 1968 defines theft.”', '“The case was decided in 1995.”', '“There are five elements of theft.”'], x: 'Judgment with a reason.' },
+    { q: 'A good conclusion should…', o: ['answer the question and weigh the arguments', 'introduce new cases', 'repeat the introduction word for word', 'avoid taking a view'], x: 'Justified judgment.' },
+    { q: 'Which is a strong source of evaluation?', o: ['A Law Commission report', 'Your personal opinion alone', 'A dictionary definition', 'The date of a case'], x: 'Authority for reform.' }
+  ],
+  exam: [{ q: 'Practise: Analyse and evaluate the role of juries in criminal trials. [15]', m: 15, ms: ['intro — role of juries in Crown Court trials', 'advantages — public participation, jury equity (Ponting), impartiality', 'disadvantages — no reasons, secrecy, media influence, internet research (Fraill)', 'bias and perverse verdicts', 'cost and time', 'reform — restricting jury trial (Leveson review 2025); judge-only trials', 'justified conclusion'] }],
+  tools: ['aosort', 'essaysteps']
+});
+
+TOPICS.push({
+  id: 'S3', unit: 'S', ref: 'Skills', title: 'The papers, command words and timing',
+  short: 'What each component looks like, how the marks are split and how to plan your time',
+  summary: 'Knowing exactly what each paper looks like — and what each command word asks for — lets you spend your time where the marks are. This topic sets out the structure of the three papers, the assessment objectives they test and a timing plan for each.',
+  spec: ['Structure of Components 1, 2 and 3', 'Assessment objectives and weightings', 'Command words', 'Time management'],
+  learn: [
+    { h: 'The three papers', html: `
+<div class="tbl"><table><tr><th>Paper</th><th>Time · marks</th><th>What you answer</th><th>AOs</th></tr>
+<tr><td><b>Component 1</b><br>Nature of law and the English legal system (25%)</td><td>1 hr 30 · 50 marks</td><td><b>Section A</b>: two short-answer questions and one scenario question on law making. <b>Section B</b>: one question from two, each with parts (a) and (b), on the legal system.</td><td>AO1 10% · AO2 7.5% · AO3 7.5%</td></tr>
+<tr><td><b>Component 2</b><br>Substantive law in practice (37.5%)</td><td>2 hrs 15 · 75 marks</td><td>One <b>scenario</b> question from each of your three areas (25 marks each)</td><td>AO1 15% · AO2 22.5%</td></tr>
+<tr><td><b>Component 3</b><br>Perspectives of substantive law (37.5%)</td><td>2 hrs 15 · 75 marks</td><td>One <b>essay</b> question from each of your three areas (25 marks each)</td><td>AO1 15% · AO3 22.5%</td></tr></table></div>
+<p>Your three areas must be <b>two private + one public</b> or <b>one private + two public</b> (contract and tort are private; criminal and human rights are public). You can change your areas in Settings.</p>` },
+    { h: 'Command words', html: `
+<div class="tbl"><table><tr><th>Command</th><th>What it wants</th></tr>
+<tr><td><b>Explain / Describe / Outline</b></td><td>AO1 — accurate knowledge with examples and authority; no evaluation needed</td></tr>
+<tr><td><b>Apply / Advise / Consider liability</b></td><td>AO2 — use the rules on the facts; conclude for each party</td></tr>
+<tr><td><b>Analyse and evaluate</b></td><td>AO3 — break the law down, weigh strengths and weaknesses, consider reform, conclude</td></tr>
+<tr><td><b>Discuss / Assess the extent to which</b></td><td>AO3 — a balanced argument leading to a judgment on how far a statement is true</td></tr></table></div>` },
+    { h: 'Timing plan', html: `
+<ul><li><b>Component 1</b> (90 min, 50 marks ≈ 1.8 min per mark): Section A about 45 minutes, Section B about 45 minutes. Short-answer questions should be short.</li>
+<li><b>Component 2 and 3</b> (135 min, 75 marks): about <b>45 minutes per question</b> — 5 minutes planning, 38 writing, 2 checking.</li>
+<li>Plan every 15+ mark answer: list the issues (Component 2) or your argument and conclusion (Component 3) before you write.</li>
+<li>If you run out of time, bullet the remaining issues with authority — you may earn some credit.</li></ul>` }
+  ],
+  debate: [],
+  cases: [],
+  worked: [],
+  pitfalls: ['Answering more than one area in the same section.', 'Spending an hour on the first question.', 'Treating “explain” like “evaluate” and running out of time.'],
+  cards: [
+    ['Component 1 length and marks?', '1 hour 30 minutes; 50 marks; 25%.'],
+    ['Component 2 length and marks?', '2 hours 15 minutes; 75 marks; 37.5% — three scenarios.'],
+    ['Component 3 length and marks?', '2 hours 15 minutes; 75 marks; 37.5% — three essays.'],
+    ['Valid combinations of areas?', 'Two private + one public, or one private + two public.'],
+    ['AO weightings overall?', 'AO1 40%, AO2 30%, AO3 30%.'],
+    ['Time per question in Components 2 and 3?', 'About 45 minutes.']
+  ],
+  quiz: [
+    { q: 'Component 3 consists of…', o: ['three essay questions, one from each area', 'three scenario questions', 'short-answer questions only', 'a coursework essay'], x: 'Perspectives of substantive law.' },
+    { q: 'Which combination of areas is NOT allowed?', o: ['Contract, tort and one other private area — i.e. three private areas', 'Contract, tort and criminal', 'Tort, criminal and human rights', 'Contract, criminal and human rights'], x: 'Only two private areas exist, so you must take at least one public.' },
+    { q: 'What is the overall weighting of AO1?', o: ['40%', '30%', '25%', '50%'], x: 'AO2 and AO3 are 30% each.' },
+    { q: '“Advise” is a command word testing mainly…', o: ['AO2', 'AO3', 'AO1 only', 'none'], x: 'Application.' }
+  ],
+  exam: [],
+  tools: ['aosort']
+});
+
+/* ---------- skills tools ---------- */
+TOOLS.iracsteps = { type: 'steps', title: 'Problem question method', intro: 'Work through each issue in a scenario like this.', steps: [
+  { h: '1 · Read and annotate', html: '<p>Read the scenario twice. Underline every fact that could raise a legal issue — dates, words used, injuries, states of mind, relationships. Note each party.</p>' },
+  { h: '2 · Identify the issues', html: '<p>List the issues in order (e.g. offer? acceptance? term? breach? remedy?). For criminal law, list each defendant, each victim and the possible offences.</p>' },
+  { h: '3 · Define the law', html: '<p>State the rule precisely: statute section or leading case. One or two sentences — this is AO1.</p>' },
+  { h: '4 · Apply to the facts', html: '<p>Use the parties’ names and the facts. Compare with the case: similar or distinguishable? Where facts are unclear, argue both ways. This is AO2 — where most marks are.</p>' },
+  { h: '5 · Mini-conclusion', html: '<p>Finish each issue: “Therefore Alia has accepted the offer.”</p>' },
+  { h: '6 · Overall conclusion', html: '<p>Advise each party: liability, defences, and remedies or likely outcome.</p>' }
+] };
+TOOLS.essaysteps = { type: 'steps', title: 'Evaluative essay method', intro: 'A reliable plan for a 25-mark Component 3 essay.', steps: [
+  { h: '1 · Decode the question', html: '<p>Underline the command words and the precise topic. What judgment is it asking for?</p>' },
+  { h: '2 · Decide your line', html: '<p>Before writing, decide your conclusion. The whole essay should build towards it.</p>' },
+  { h: '3 · Introduction', html: '<p>Define key terms and state your line of argument in 2–3 sentences.</p>' },
+  { h: '4 · PEEL paragraphs', html: '<p>4–6 paragraphs: Point, Evidence (case, statute, report), Evaluate (counter-argument, how far?), Link back to the question.</p>' },
+  { h: '5 · Reform', html: '<p>Law Commission proposals, recent statutes, alternatives from other jurisdictions — are they better?</p>' },
+  { h: '6 · Conclusion', html: '<p>Answer the question, weighing the arguments. No new material.</p>' }
+] };
+TOOLS.aosort = { type: 'sort', title: 'Which assessment objective?', intro: 'Sort each piece of writing by the assessment objective it mainly shows.', cats: ['AO1 knowledge', 'AO2 application', 'AO3 evaluation'], items: [
+  ['“Under s1 Theft Act 1968, theft is the dishonest appropriation of property belonging to another with intention to permanently deprive.”', 'AO1 knowledge', 'Stating the law.'],
+  ['“Because Jamal took the phone from Kate’s bag, he appropriated property belonging to another.”', 'AO2 application', 'Applying to facts.'],
+  ['“The Ivey test is fairer than Ghosh because it no longer excuses defendants with warped moral standards.”', 'AO3 evaluation', 'A judgment with a reason.'],
+  ['“In Donoghue v Stevenson, Lord Atkin set out the neighbour principle.”', 'AO1 knowledge', 'Knowledge of authority.'],
+  ['“As Pria’s email arrived during office hours, following Brinkibon, acceptance took effect when it was received.”', 'AO2 application', 'Applying case law to facts.'],
+  ['“The Law Commission argued that the 1861 Act is outdated and inconsistent, and proposed a new statute.”', 'AO3 evaluation', 'Reform as evaluation.']
+] };
+
 /* ---- data/tools-data.js ---- */
 /* ==========================================================
    Interactive tools for Component 1 Section A (law making)
@@ -6928,8 +7106,250 @@ TOOLS.avoidsort = { type: 'sort', title: 'Overruling, reversing or distinguishin
   ['[[c:rvg]] — the objective Caldwell test abandoned.', 'Overruling', 'Subjective recklessness restored.']
 ] };
 
+/* ---- data/reference.js ---- */
+/* ==========================================================
+   STATUTE BOOK and GLOSSARY
+   ========================================================== */
+STATUTES.push(
+  // Component 1
+  { n: 'Parliament Acts 1911 and 1949', a: '1A', s: [['Money Bills', 'The Lords can delay a Money Bill for only one month.'], ['Other public Bills', 'The Lords can delay for about one year; the Commons can then pass the Bill without Lords’ consent (e.g. Hunting Act 2004 — [[c:jackson]]).']] },
+  { n: 'European Communities Act 1972 / European Union (Withdrawal) Act 2018', a: '1A', s: [['ECA 1972 s2', 'Gave EU law effect and supremacy in the UK (until 31 January 2020) — [[c:factortame]].'], ['EUWA 2018 ss2–3', 'Converted EU-derived law into “retained” (now “assimilated”) domestic law.'], ['REUL Act 2023', 'Ended the supremacy of EU law from 1 January 2024 and renamed retained law “assimilated law”.']] },
+  { n: 'Statutory Instruments Act 1946', a: '1A', s: [['Procedure', 'Statutory instruments are laid before Parliament under the affirmative or negative resolution procedure.']] },
+  { n: 'Legislative and Regulatory Reform Act 2006', a: '1A', s: [['s1', 'Ministers can make orders to remove or reduce regulatory burdens, subject to safeguards and Parliamentary scrutiny.']] },
+  { n: 'Interpretation Act 1978', a: '1A', s: [['s6', 'Unless the contrary intention appears, words importing the masculine include the feminine, and the singular includes the plural.']] },
+  { n: 'Constitutional Reform Act 2005', a: '1B', s: [['s1', 'Preserves the rule of law.'], ['s3', 'Ministers must uphold the continued independence of the judiciary.'], ['s23', 'Created the Supreme Court (from October 2009).'], ['ss61–64', 'Judicial Appointments Commission; selection on merit.']] },
+  { n: 'Courts and Legal Services Act 1990', a: '1B', s: [['s58', 'Conditional fee agreements (“no win, no fee”).'], ['Rights of audience', 'Extended rights of audience to solicitors and others.']] },
+  { n: 'Legal Aid, Sentencing and Punishment of Offenders Act 2012', a: '1B', s: [['Part 1', 'Legal Aid Agency; civil legal aid only for cases in Schedule 1 (with exceptional case funding in s10).'], ['s44', 'Success fees under CFAs no longer recoverable from losing party.'], ['s45', 'Damages-based agreements.']] },
+  { n: 'Criminal Justice Act 2003', a: '1B', s: [['Part 7', 'Trials on indictment without a jury where there is a danger of jury tampering (s44) — [[c:twomey]].'], ['s142 (now Sentencing Act 2020 s57)', 'Purposes of sentencing: punishment, reduction of crime, reform and rehabilitation, protection of the public, reparation.']] },
+  { n: 'Sentencing Act 2020', a: '1B', s: [['s57', 'Purposes of sentencing for adults.'], ['s59', 'Courts must follow Sentencing Council guidelines unless contrary to the interests of justice.'], ['s63', 'Seriousness: culpability and harm.'], ['s73', 'Reduction for a guilty plea (up to one third).']] },
+  { n: 'Bail Act 1976', a: '1B', s: [['s4', 'A general right to bail for unconvicted defendants.'], ['Sch 1', 'Grounds to refuse bail: failure to surrender, offending on bail, interfering with witnesses.']] },
+  { n: 'Juries Act 1974', a: '1B', s: [['s1', 'Jurors: aged 18–75, on the electoral register, resident in the UK for 5 years since age 13.'], ['s17', 'Majority verdicts (10–2 or 11–1) after at least two hours.'], ['ss20A–20D', 'Offences of researching the case and disclosing deliberations (from 2015).']] },
+  { n: 'Arbitration Act 1996', a: '1B', s: [['s1', 'Parties are free to agree how disputes are resolved.'], ['s68–69', 'Limited challenges for serious irregularity or points of law.']] },
+  // Contract
+  { n: 'Consumer Rights Act 2015', a: 'CT', s: [['s9', 'Goods must be of satisfactory quality.'], ['s10', 'Goods must be fit for a particular purpose made known to the trader.'], ['s11', 'Goods must match the description.'], ['s19–24', 'Remedies: short-term right to reject (30 days), repair or replacement, price reduction or final right to reject.'], ['s49', 'Services must be performed with reasonable care and skill.'], ['s31, s65', 'Liability for these terms, and for death or personal injury from negligence, cannot be excluded.'], ['s62', 'An unfair term (contrary to good faith, causing a significant imbalance to the consumer’s detriment) is not binding.']] },
+  { n: 'Unfair Contract Terms Act 1977', a: 'CT', s: [['s2(1)', 'Business cannot exclude liability for death or personal injury caused by negligence.'], ['s2(2)', 'Other negligence exclusions must be reasonable.'], ['s3', 'Standard terms between businesses must be reasonable.'], ['s11 and Sch 2', 'The reasonableness test.']] },
+  { n: 'Misrepresentation Act 1967', a: 'CT', s: [['s2(1)', 'Damages for negligent misrepresentation unless the maker had reasonable grounds to believe the statement was true — [[c:royscot]].'], ['s2(2)', 'Court may award damages in lieu of rescission.'], ['s3', 'Exclusion of liability for misrepresentation must be reasonable.']] },
+  { n: 'Contracts (Rights of Third Parties) Act 1999', a: 'CT', s: [['s1', 'A third party may enforce a term if the contract expressly allows it or the term purports to confer a benefit on them.']] },
+  { n: 'Law Reform (Frustrated Contracts) Act 1943', a: 'CT', s: [['s1(2)', 'Money paid is recoverable and money payable ceases to be payable; court may allow expenses.'], ['s1(3)', 'A just sum for a valuable benefit conferred.']] },
+  // Tort
+  { n: 'Occupiers’ Liability Act 1957', a: 'TO', s: [['s2(1)', 'An occupier owes the common duty of care to all visitors.'], ['s2(2)', 'To take reasonable care to see that the visitor is reasonably safe in using the premises for the purposes for which they are permitted.'], ['s2(3)(a)', 'Occupiers must be prepared for children to be less careful than adults.'], ['s2(3)(b)', 'Skilled visitors can be expected to guard against risks of their trade.'], ['s2(4)', 'Warnings; independent contractors.']] },
+  { n: 'Occupiers’ Liability Act 1984', a: 'TO', s: [['s1(3)', 'Duty to non-visitors arises if the occupier is aware of the danger, knows or has reasonable grounds to believe a trespasser is in the vicinity, and the risk is one they may reasonably be expected to offer protection against.'], ['s1(4)', 'Duty to take reasonable care to see the trespasser is not injured by the danger.'], ['s1(8)', 'No liability for damage to property.']] },
+  { n: 'Law Reform (Contributory Negligence) Act 1945', a: 'TO', s: [['s1', 'Damages reduced to the extent the court thinks just and equitable having regard to the claimant’s share of responsibility.']] },
+  { n: 'Social Action, Responsibility and Heroism Act 2015', a: 'TO', s: [['ss2–4', 'Courts must consider whether the defendant was acting for the benefit of society, demonstrated a responsible approach, or acted heroically.']] },
+  { n: 'Compensation Act 2006', a: 'TO', s: [['s1', 'Courts may consider whether requiring precautions would prevent a desirable activity.'], ['s3', 'Mesothelioma: joint and several liability.']] },
+  // Criminal
+  { n: 'Homicide Act 1957 (as amended)', a: 'CR', s: [['s2', 'Diminished responsibility: abnormality of mental functioning from a recognised medical condition, substantially impairing ability to understand conduct, form rational judgment or exercise self-control, providing an explanation.']] },
+  { n: 'Coroners and Justice Act 2009', a: 'CR', s: [['s52', 'Amended diminished responsibility.'], ['s54', 'Loss of control: loss of self-control, a qualifying trigger, and a person of D’s sex and age with normal tolerance and self-restraint might have reacted in the same or a similar way.'], ['s55', 'Qualifying triggers: fear of serious violence; things said or done constituting circumstances of an extremely grave character causing a justifiable sense of being seriously wronged. Sexual infidelity is disregarded — [[c:clinton]].']] },
+  { n: 'Offences Against the Person Act 1861', a: 'CR', s: [['s47', 'Assault occasioning actual bodily harm.'], ['s20', 'Unlawfully and maliciously wounding or inflicting grievous bodily harm.'], ['s18', 'Wounding or causing GBH with intent.']] },
+  { n: 'Criminal Justice Act 1988', a: 'CR', s: [['s39', 'Common assault and battery are summary offences.']] },
+  { n: 'Theft Act 1968', a: 'CR', s: [['s1', 'Dishonestly appropriating property belonging to another with the intention of permanently depriving the other of it.'], ['s2', 'Not dishonest: belief in legal right, belief in owner’s consent, belief owner cannot be found.'], ['s3', 'Appropriation: any assumption of the rights of an owner.'], ['s4', 'Property includes money and all other property, real or personal, including things in action.'], ['s5', 'Belonging to another: possession or control, or any proprietary interest.'], ['s6', 'Intention to permanently deprive includes treating the thing as one’s own to dispose of.'], ['s8', 'Robbery: steals and immediately before or at the time uses force or puts in fear of force to steal.'], ['s9', 'Burglary: s9(1)(a) enters as a trespasser with intent to steal, inflict GBH or do criminal damage; s9(1)(b) having entered as a trespasser, steals or inflicts GBH.']] },
+  { n: 'Criminal Damage Act 1971', a: 'CR', s: [['s1(1)', 'Destroying or damaging property belonging to another without lawful excuse, intending or reckless.'], ['s5', 'Lawful excuse: belief in consent; protecting property.']] },
+  { n: 'Criminal Attempts Act 1981', a: 'CR', s: [['s1(1)', 'Doing an act more than merely preparatory to the commission of the offence, with intent to commit it.'], ['s1(2)–(3)', 'Attempting the impossible is still an attempt — [[c:shivpuri]].']] },
+  { n: 'Criminal Justice and Immigration Act 2008', a: 'CR', s: [['s76', 'Reasonable force for self-defence and prevention of crime: judged on the circumstances as D believed them; disproportionate force is never reasonable; grossly disproportionate force in householder cases.']] },
+  // Human rights
+  { n: 'Human Rights Act 1998', a: 'HR', s: [['s2', 'Courts must take into account Strasbourg case law.'], ['s3', 'Legislation must be read and given effect compatibly with Convention rights so far as possible — [[c:ghaidan]].'], ['s4', 'Declaration of incompatibility — [[c:belmarsh]].'], ['s6', 'Unlawful for a public authority to act incompatibly with Convention rights.'], ['s7', 'Victims may bring proceedings.'], ['s8', 'Just and appropriate remedies.'], ['s10', 'Remedial orders.'], ['s12', 'Regard to freedom of expression.'], ['s19', 'Statements of compatibility for Bills.']] },
+  { n: 'Police and Criminal Evidence Act 1984', a: 'HR', s: [['s1', 'Stop and search on reasonable suspicion of stolen or prohibited articles.'], ['s8', 'Search warrants.'], ['ss17, 18, 32', 'Entry and search without warrant.'], ['s24', 'Arrest without warrant: reasonable grounds and necessity.'], ['s28', 'Information to be given on arrest.'], ['ss41–44', 'Detention limits: 24, 36 and 96 hours.'], ['s56', 'Right to have someone informed.'], ['s58', 'Right to legal advice.'], ['s76', 'Confessions obtained by oppression or likely to be unreliable are excluded.'], ['s78', 'Exclusion of unfair evidence.']] },
+  { n: 'Public Order Act 1986', a: 'HR', s: [['ss1–3', 'Riot, violent disorder and affray.'], ['ss4, 4A, 5', 'Fear or provocation of violence; intentional harassment, alarm or distress; harassment, alarm or distress.'], ['s11', 'Six days’ notice of public processions.'], ['ss12–14', 'Conditions on and bans of processions; conditions on assemblies.'], ['Parts 3 and 3A', 'Stirring up racial and religious hatred.']] },
+  { n: 'Protection from Harassment Act 1997', a: 'HR', s: [['s1', 'Course of conduct amounting to harassment that D knows or ought to know amounts to harassment.'], ['s2, 2A, 4', 'Criminal offences: harassment, stalking, fear of violence.'], ['s3', 'Civil remedy.']] },
+  { n: 'Defamation Act 2013', a: 'HR', s: [['s1', 'Serious harm requirement.'], ['s2', 'Truth.'], ['s3', 'Honest opinion.'], ['s4', 'Publication on a matter of public interest.'], ['s5', 'Operators of websites.']] },
+  { n: 'Contempt of Court Act 1981', a: 'HR', s: [['s1–2', 'Strict liability rule: substantial risk of serious prejudice to active proceedings.'], ['s5', 'Discussion of public affairs.'], ['s10', 'Journalists’ sources.']] },
+  { n: 'Obscene Publications Act 1959', a: 'HR', s: [['s1', 'Tendency to deprave and corrupt likely readers.'], ['s2', 'Offence of publishing.'], ['s4', 'Public good defence.']] },
+  { n: 'Investigatory Powers Act 2016', a: 'HR', s: [['Part 2', 'Targeted interception warrants — the “double lock” of Secretary of State and Judicial Commissioner.'], ['Part 6', 'Bulk warrants.']] }
+);
+
+GLOSSARY.push(
+  // Latin
+  ['actus reus', 'The guilty act — the physical element of a crime', 'Latin'],
+  ['mens rea', 'The guilty mind — the mental element of a crime', 'Latin'],
+  ['ratio decidendi', 'The reason for the decision — the binding part of a judgment', 'Latin'],
+  ['obiter dicta', 'Things said by the way — persuasive, not binding', 'Latin'],
+  ['stare decisis', 'Stand by what has been decided — the doctrine of precedent', 'Latin'],
+  ['per incuriam', 'Through lack of care — a decision made ignoring a relevant law', 'Latin'],
+  ['ultra vires', 'Beyond the powers — delegated legislation made outside the enabling Act', 'Latin'],
+  ['intra vires', 'Within the powers', 'Latin'],
+  ['ejusdem generis', 'Of the same kind — general words following a list take their meaning from it', 'Latin'],
+  ['noscitur a sociis', 'A word is known by the company it keeps', 'Latin'],
+  ['expressio unius est exclusio alterius', 'Expressing one thing excludes others', 'Latin'],
+  ['consensus ad idem', 'Agreement on the same thing — a meeting of minds', 'Latin'],
+  ['caveat emptor', 'Let the buyer beware', 'Latin'],
+  ['quantum meruit', 'As much as it deserves — payment for work done', 'Latin'],
+  ['volenti non fit injuria', 'No injury is done to one who consents — a tort defence', 'Latin'],
+  ['res ipsa loquitur', 'The thing speaks for itself — negligence inferred from the facts', 'Latin'],
+  ['novus actus interveniens', 'A new intervening act breaking the chain of causation', 'Latin'],
+  ['de minimis', 'Too trivial for the law to be concerned with', 'Latin'],
+  ['ex turpi causa non oritur actio', 'No action arises from a wrongful act — illegality defence', 'Latin'],
+  ['audi alteram partem', 'Hear the other side — a rule of natural justice', 'Latin'],
+  ['nemo judex in causa sua', 'No one should be a judge in their own cause — the rule against bias', 'Latin'],
+  ['habeas corpus', 'You shall have the body — a writ to test the lawfulness of detention', 'Latin'],
+  ['doli incapax', 'Incapable of wrong — a child under 10 cannot be criminally liable', 'Latin'],
+  ['nulla poena sine lege', 'No punishment without law — Article 7', 'Latin'],
+  ['certiorari', 'Old name for a quashing order', 'Latin'],
+  ['mandamus', 'Old name for a mandatory order', 'Latin'],
+  ['inter alia', 'Among other things', 'Latin'],
+  ['prima facie', 'On the face of it', 'Latin'],
+  ['bona fide', 'In good faith', 'Latin'],
+  ['sub judice', 'Under judicial consideration — pending proceedings', 'Latin'],
+  ['locus standi', 'Standing — the right to bring an action', 'Latin'],
+  ['restitutio in integrum', 'Restoration to the original position — a condition of rescission', 'Latin'],
+  // English terms
+  ['invitation to treat', 'An invitation to others to make offers — e.g. goods on display', 'Contract'],
+  ['consideration', 'Something of value given in return for a promise', 'Contract'],
+  ['condition', 'A term going to the root of the contract; breach allows termination', 'Contract'],
+  ['warranty', 'A minor term; breach gives damages only', 'Contract'],
+  ['innominate term', 'A term whose effect depends on the seriousness of the breach', 'Contract'],
+  ['rescission', 'Setting a contract aside and restoring the parties to their original positions', 'Contract'],
+  ['frustration', 'A contract ends because an event makes performance impossible or radically different', 'Contract'],
+  ['duty of care', 'A legal obligation to take reasonable care to avoid causing harm', 'Tort'],
+  ['vicarious liability', 'Liability of one person (usually an employer) for the torts of another', 'Tort'],
+  ['nuisance', 'Unlawful interference with a person’s use or enjoyment of land', 'Tort'],
+  ['oblique intent', 'Foresight of a virtual certainty from which intention may be found', 'Criminal'],
+  ['transferred malice', 'Mens rea towards one victim transfers to the actual victim', 'Criminal'],
+  ['strict liability', 'An offence requiring no mens rea for at least one element of the actus reus', 'Criminal'],
+  ['basic intent', 'An offence that can be committed recklessly', 'Criminal'],
+  ['specific intent', 'An offence that requires intention only', 'Criminal'],
+  ['either-way offence', 'An offence triable in the magistrates’ court or the Crown Court', 'Legal system'],
+  ['indictable offence', 'A serious offence tried only in the Crown Court', 'Legal system'],
+  ['summary offence', 'A minor offence tried only in the magistrates’ court', 'Legal system'],
+  ['jury equity', 'A jury acquitting against the evidence because the law or prosecution seems unjust', 'Legal system'],
+  ['declaration of incompatibility', 'A statement under s4 HRA that legislation is incompatible with Convention rights', 'Human rights'],
+  ['margin of appreciation', 'The latitude the ECtHR gives states in applying Convention rights', 'Human rights'],
+  ['proportionality', 'Whether an interference with a right is no more than necessary to achieve a legitimate aim', 'Human rights'],
+  ['parliamentary sovereignty', 'Parliament can make or unmake any law and no Parliament can bind its successors', 'Law making'],
+  ['rule of law', 'Everyone, including the state, is subject to the law', 'Law making'],
+  ['separation of powers', 'Division of state power between legislature, executive and judiciary', 'Law making']
+);
+
 /* ---- data/mocks.js ---- */
-const ASSESS_HTML = '<p>TBD</p>'; const MOCKS = [];
+/* ==========================================================
+   ASSESSMENT GUIDE and MOCK PAPERS
+   ========================================================== */
+const ASSESS_HTML = rich(`
+<div class="eyebrow">Eduqas GCE A level Law · A150QS</div>
+<h1 class="display" style="font-size:clamp(32px,5vw,50px);margin-top:6px">How you are assessed</h1>
+<p class="lede">Three written exams, all taken at the end of the course. No coursework. Every paper rewards the same three assessment objectives, in different proportions.</p>
+
+<h2>Assessment objectives</h2>
+<div class="tbl"><table><tr><th></th><th>AO1 knowledge and understanding</th><th>AO2 application</th><th>AO3 analysis and evaluation</th><th>Total</th></tr>
+<tr><td><b>Component 1</b></td><td>10%</td><td>7.5%</td><td>7.5%</td><td>25%</td></tr>
+<tr><td><b>Component 2</b></td><td>15%</td><td>22.5%</td><td>—</td><td>37.5%</td></tr>
+<tr><td><b>Component 3</b></td><td>15%</td><td>—</td><td>22.5%</td><td>37.5%</td></tr>
+<tr><td><b>Overall</b></td><td><b>40%</b></td><td><b>30%</b></td><td><b>30%</b></td><td>100%</td></tr></table></div>
+<ul><li><b>AO1</b> — demonstrate knowledge and understanding of the English legal system and legal rules and principles.</li>
+<li><b>AO2</b> — apply legal rules and principles to given scenarios in order to present a legal argument using appropriate legal terminology.</li>
+<li><b>AO3</b> — analyse and evaluate legal rules, principles, concepts and issues.</li></ul>
+
+<h2>The papers</h2>
+<div class="tbl"><table><tr><th>Paper</th><th>Format</th><th>Typical question pattern</th></tr>
+<tr><td><b>Component 1</b> · The nature of law and the English legal system<br><span class="small muted">1 hr 30 · 50 marks · 25%</span></td><td><b>Section A</b> (law making and the nature of law): two short-answer questions and one scenario-based question — all compulsory.<br><b>Section B</b> (the English legal system and the nature of law): one question from a choice of two, each with parts (a) and (b).</td><td>Section A: two short explanations (around 5 marks each) and a scenario applying statutory interpretation, precedent or law making (around 15).<br>Section B: (a) an explanation (around 10) and (b) an analyse-and-evaluate essay (around 15).</td></tr>
+<tr><td><b>Component 2</b> · Substantive law in practice<br><span class="small muted">2 hrs 15 · 75 marks · 37.5%</span></td><td>One <b>scenario-based</b> question from each of your three areas.</td><td>3 × 25 marks. AO1 + AO2: identify the issues, state the law, apply it and advise.</td></tr>
+<tr><td><b>Component 3</b> · Perspectives of substantive law<br><span class="small muted">2 hrs 15 · 75 marks · 37.5%</span></td><td>One <b>essay</b> question from each of the same three areas.</td><td>3 × 25 marks. AO1 + AO3: analyse and evaluate the law, with reform, and conclude.</td></tr></table></div>
+<p class="small muted">The mark splits shown are the usual pattern; exact allocations can vary slightly from series to series, so always check the marks printed on the paper.</p>
+
+<h2>Choosing your areas</h2>
+<p>You study three of the four substantive areas: <b>two private + one public</b> or <b>one private + two public</b>. Contract and tort are private law; criminal and human rights law are public law. The same three areas are tested in Components 2 and 3. Set yours in <a href="#" data-settings>Settings</a> so the topics, games and mocks match.</p>
+
+<h2>Command words</h2>
+<div class="tbl"><table><tr><th>Command</th><th>What the examiner wants</th><th>Main AO</th></tr>
+<tr><td>Explain · Describe · Outline</td><td>Accurate, detailed knowledge with examples and authority</td><td>AO1</td></tr>
+<tr><td>Apply · Advise · Consider the liability of · Using the rules of…</td><td>Identify the issues in the facts; state the rule; apply it; conclude for each party</td><td>AO2</td></tr>
+<tr><td>Analyse and evaluate · Discuss · Assess the extent to which</td><td>Weigh strengths and weaknesses with authority; consider reform; reach a justified judgment</td><td>AO3</td></tr></table></div>
+
+<h2>Answer structures that work</h2>
+<div class="grid g2"><div class="card"><div class="eyebrow">Scenario · AO2</div><h3 class="h3">IDEA</h3><p><b>I</b>dentify the issue → <b>D</b>efine the law with authority → <b>E</b>xplain and apply it to the facts → <b>A</b>nswer with a mini-conclusion. End by advising each party.</p><p><a href="#/t/S1/learn">Problem questions →</a></p></div>
+<div class="card"><div class="eyebrow">Essay · AO3</div><h3 class="h3">PEEL</h3><p><b>P</b>oint → <b>E</b>vidence (case, statute, report) → <b>E</b>valuate (counter-argument, how far?) → <b>L</b>ink to the question. Cover both sides and reform, then conclude.</p><p><a href="#/t/S2/learn">Evaluative essays →</a></p></div></div>
+
+<h2>Timing</h2>
+<ul><li>Component 1: roughly 45 minutes per section; keep short-answer questions short.</li><li>Components 2 and 3: about <b>45 minutes per 25-mark question</b> — 5 planning, 38 writing, 2 checking.</li></ul>
+
+<h2>Synoptic themes</h2>
+<p>The nature of law — law and <b>society</b>, <b>morality</b> and <b>justice</b> — runs through every component. Use it for evaluation, e.g. [[c:brown]] (consent and morality), [[c:gillick]] (autonomy), or corrective and distributive justice in tort damages.</p>`);
+
+/* ---------- question banks ---------- */
+const C1_BANK = [
+  { A: [
+    { q: 'Explain what is meant by the <b>rule of law</b>. [5]', m: 5, ms: ['no one is above the law — Dicey', 'no punishment except for breach of law established in the ordinary courts', 'equality before the law', 'rights secured by the ordinary courts', 'example — Entick v Carrington; Miller (2019); s1 CRA 2005'] },
+    { q: 'Explain the role of the <b>Law Commission</b> in reforming the law. [5]', m: 5, ms: ['Law Commissions Act 1965; independent; chaired by a senior judge', 'reviews areas of law; consults; publishes reports with draft Bills', 'codification, consolidation and repeal of obsolete law', 'implementation rate — e.g. Fraud Act 2006', 'Law Commission Act 2009 — ministers report to Parliament'] },
+    { q: 'Using the rules of statutory interpretation, consider whether Zoe has committed an offence. [15]', m: 15, scen: 'The (fictional) Park Safety Act 2025 s1 states: “It is an offence to ride any bicycle, scooter or other vehicle in a public park.” Zoe rides an electric wheelchair along a park path. Yusuf, aged 6, rides a toy pedal car on the grass.', ms: ['literal rule — “vehicle” in its ordinary meaning; Whiteley v Chappell; may include both', 'golden rule — avoid absurdity; Adler v George; Re Sigsworth', 'mischief rule — Heydon’s Case; safety of park users; Smith v Hughes', 'purposive approach — Pepper v Hart; Hansard; Royal College of Nursing', 'ejusdem generis — “bicycle, scooter” → similar recreational vehicles; Powell v Kempton Park', 'intrinsic and extrinsic aids', 'application to Zoe — wheelchair is a mobility aid; probably not intended; Equality Act context', 'application to Yusuf — doli incapax (under 10) cannot be convicted', 'conclusion'] }
+  ], B: [
+    [{ q: '(a) Explain the role of <b>lay magistrates</b> in the criminal justice system. [10]', m: 10, ms: ['qualifications and selection — Local Advisory Committees', 'training — Judicial College', 'summary trials, mode of trial, bail, early hearings, youth court', 'sentencing powers — 12 months (Sentencing Act 2020 as amended)', 'assisted by a legal adviser'] },
+     { q: '(b) Analyse and evaluate the use of lay people in the criminal justice system. [15]', m: 15, ms: ['advantages — local knowledge, cost, public participation, jury equity (Ponting)', 'disadvantages — case-hardening, prosecution bias, inconsistency', 'jury secrecy; no reasons; Fraill; Mirza', 'media and internet influence', 'diversity of magistracy', 'reform — Leveson review 2025; judge-only trials; Criminal Justice Act 2003 s44 (Twomey)', 'conclusion'] }],
+    [{ q: '(a) Explain the different methods of funding available for <b>civil cases</b>. [10]', m: 10, ms: ['civil legal aid — LASPO 2012 Sch 1; means and merits tests', 'exceptional case funding s10', 'conditional fee agreements — CLSA 1990 s58; success fee', 'damages-based agreements', 'insurance; before-the-event and after-the-event', 'pro bono; law centres; Citizens Advice'] },
+     { q: '(b) Analyse and evaluate whether there is adequate access to justice in civil cases. [15]', m: 15, ms: ['LASPO cuts — advice deserts', 'litigants in person — effect on courts', 'CFAs — cherry-picking of cases', 'court fees — R (UNISON)', 'online courts and ADR', 'Bach Commission; review of legal aid', 'conclusion'] }]
+  ] },
+  { A: [
+    { q: 'Explain what is meant by <b>parliamentary sovereignty</b>. [5]', m: 5, ms: ['Dicey — Parliament can make or unmake any law', 'no Parliament can bind its successors', 'no body can set aside an Act — Pickin; Jackson', 'limits — EU membership (Factortame), HRA s4, devolution', 'Brexit restored'] },
+    { q: 'Explain the <b>parliamentary controls</b> over delegated legislation. [5]', m: 5, ms: ['enabling Act sets limits', 'affirmative and negative resolution procedures', 'Joint Committee on Statutory Instruments', 'Secondary Legislation Scrutiny Committee', 'ministerial questioning; super-affirmative procedure'] },
+    { q: 'Using the doctrine of precedent, advise whether the High Court judge must follow the earlier decisions. [15]', m: 15, scen: 'A High Court judge is hearing a negligence claim. A 1998 Court of Appeal decision is directly on point but has been widely criticised. A 2024 Privy Council decision, from a case about the same issue, reached the opposite result and expressly stated it represented English law. There is also an obiter comment in a 2022 Supreme Court case suggesting the 1998 case was wrongly decided.', ms: ['hierarchy — High Court bound by Court of Appeal and Supreme Court', 'stare decisis; ratio v obiter', 'obiter from Supreme Court is persuasive only — Hedley Byrne', 'Privy Council normally persuasive — but Willers v Joyce: may be followed if it states that it represents English law', 'Court of Appeal bound by own decisions — Young v Bristol Aeroplane exceptions', 'distinguishing — Balfour v Balfour/Merritt v Merritt', 'advice to the judge', 'conclusion'] }
+  ], B: [
+    [{ q: '(a) Explain the process of <b>appeals</b> in criminal cases from the Crown Court. [10]', m: 10, ms: ['defence appeals to Court of Appeal (Criminal Division) — leave', 'Criminal Appeal Act 1995 — conviction unsafe', 'appeals against sentence', 'prosecution — AG’s references; unduly lenient sentences', 'double jeopardy exception — CJA 2003 Part 10', 'Supreme Court — point of law of general public importance', 'Criminal Cases Review Commission'] },
+     { q: '(b) Analyse and evaluate the effectiveness of the criminal appeals system. [15]', m: 15, ms: ['safeguards against miscarriages', 'CCRC — Andrew Malkinson; Post Office Horizon cases', 'leave requirement and backlog', 'fresh evidence rules', 'double jeopardy reform — Dobson', 'unduly lenient sentence scheme', 'conclusion'] }],
+    [{ q: '(a) Explain the forms of <b>alternative dispute resolution</b>. [10]', m: 10, ms: ['negotiation', 'mediation — facilitative; e.g. family mediation', 'conciliation — ACAS', 'arbitration — Arbitration Act 1996; binding', 'tribunals distinguished', 'Churchill v Merthyr Tydfil — court may order ADR'] },
+     { q: '(b) Analyse and evaluate the use of ADR in civil disputes. [15]', m: 15, ms: ['advantages — cost, speed, privacy, relationships', 'disadvantages — imbalance of power, no precedent, no legal aid', 'Halsey v Milton Keynes — compulsion', 'Churchill (2023) and CPR 2024 changes', 'online dispute resolution', 'conclusion'] }]
+  ] }
+];
+
+const AREA_BANK = {
+  CT: {
+    scen: [
+      { q: 'Advise Harriet on her rights against Iqbal. [25]', m: 25, scen: 'Iqbal placed an advert on a local website: “Vintage Vespa scooter for sale, £3,000, first to pay gets it. Excellent condition, never been in an accident.” Harriet emailed at 9pm on Friday: “I accept, will pay on Monday.” Iqbal did not read the email until Saturday, when he sold the scooter to Jack. On Monday, Harriet learned that the scooter she had seen had in fact been badly damaged in a crash last year. She had already paid £200 to a mechanic to inspect it.', ms: ['offer v invitation to treat — Partridge v Crittenden; Carlill (unilateral)', '“first to pay” — acceptance by performance; promise to pay later not acceptance', 'email acceptance — Brinkibon; Entores; out of office hours', 'revocation by sale — Dickinson v Dodds', 'misrepresentation — false statement of fact; induced the contract', 'types — fraudulent (Derry v Peek), negligent s2(1) MA 1967, innocent', 'remedies — rescission; damages; reliance loss (mechanic)', 'consumer protection — CRA 2015 if a trader', 'conclusion'] },
+      { q: 'Advise Kaz whether he can recover his losses from Lumina Ltd. [25]', m: 25, scen: 'Kaz, a wedding photographer, hired a studio from Lumina Ltd for a shoot. Lumina’s standard terms, printed on the back of an invoice sent after the booking, said: “Lumina accepts no liability for any loss or damage however caused.” On the day, the studio’s ceiling light fell because of poor maintenance, breaking Kaz’s £4,000 camera. The shoot was cancelled, and Kaz lost a £15,000 contract with a magazine that he had not mentioned to Lumina.', ms: ['incorporation — signature, notice, course of dealing; Olley v Marlborough Court', 'invoice after contract — too late', 'construction — contra proferentem; negligence clearly covered? Canada Steamship', 'UCTA 1977 s2(2) — reasonableness; business-to-business', 'CRA 2015 if Kaz a consumer — not here', 'breach of implied term of reasonable care and skill', 'damages — Hadley v Baxendale remoteness; camera recoverable', 'magazine contract — Victoria Laundry; not communicated', 'mitigation', 'conclusion'] }
+    ],
+    ess: [
+      { q: 'Analyse and evaluate the rules on offer and acceptance in modern commercial practice. [25]', m: 25, ms: ['offer/invitation to treat distinctions — Boots; Fisher v Bell', 'postal rule — Adams v Lindsell; justifications; Holwell', 'instantaneous communications — Entores; Brinkibon; email uncertainty', 'battle of the forms — Butler; Tekdata', 'unilateral contracts — Carlill', 'certainty v flexibility', 'reform — codification; international practice', 'conclusion'] },
+      { q: 'Analyse and evaluate the extent to which the law protects consumers from unfair contract terms. [25]', m: 25, ms: ['common law incorporation and construction', 'UCTA 1977 — business contracts', 'CRA 2015 — s31, s62 fairness test; transparency', 'CMA enforcement', 'freedom of contract v inequality of bargaining power', 'effectiveness — consumer awareness, costs of enforcement', 'conclusion'] }
+    ]
+  },
+  TO: {
+    scen: [
+      { q: 'Discuss the liability of Mo and of Harbourview Council. [25]', m: 25, scen: 'Harbourview Council runs a seaside car park with a sign reading “Cliff edge — keep behind the fence”. Part of the fence has been broken for months. Mo, who has just passed his driving test, is reversing out of a space while checking his phone. He hits Nell, who falls through the gap in the fence onto the rocks and breaks her back. Nell’s son Ollie, aged 12, arrives ten minutes later and sees his mother being carried into an ambulance. He develops PTSD.', ms: ['Mo — duty (established category; Robinson); breach — objective standard of reasonable driver; Nettleship', 'causation and remoteness — but for; Wagon Mound', 'Council — OLA 1957 s2; Nell a visitor; warnings s2(4)', 'fence broken — reasonable care; contributory negligence?', 'joint liability; contribution', 'Ollie — secondary victim; Alcock; Paul v Wolverhampton (2024)', 'immediate aftermath — McLoughlin; horrific event', 'remedies — damages', 'conclusion'] },
+      { q: 'Advise Priya of any claims in tort. [25]', m: 25, scen: 'Priya lives next to a newly opened night-time outdoor go-kart track run by Quickspin Ltd. Floodlights and engine noise continue until 1am every night. One evening, a large tank of fuel stored at the track leaks and seeps into Priya’s garden, killing her plants and damaging her shed. Quickspin says the area is “mixed industrial and residential” and that it has planning permission.', ms: ['private nuisance — unlawful interference; standing (Hunter)', 'reasonableness factors — locality (Sturges v Bridgman), duration, time of day', 'planning permission not a defence — Coventry v Lawrence', 'Rylands v Fletcher — non-natural use; escape; foreseeability (Cambridge Water; Transco)', 'defences — statutory authority; prescription; coming to the nuisance', 'remedies — injunction or damages in lieu (Coventry v Lawrence)', 'conclusion'] }
+    ],
+    ess: [
+      { q: 'Analyse and evaluate the law on liability for psychiatric injury. [25]', m: 25, ms: ['primary v secondary victims — Page v Smith; Alcock', 'Alcock control mechanisms', 'rescuers — White v Chief Constable', 'Paul v Wolverhampton (2024) — medical negligence', 'floodgates v fairness', 'Law Commission 1998 report', 'conclusion'] },
+      { q: 'Analyse and evaluate the effectiveness of the law of occupiers’ liability. [25]', m: 25, ms: ['OLA 1957 duties; children and professionals', 'OLA 1984 duty to trespassers', 'Tomlinson — obvious risks; personal responsibility', 'warnings and exclusion — CRA 2015', 'SARAH 2015; Compensation Act 2006', 'balance between occupiers and entrants', 'conclusion'] }
+    ]
+  },
+  CR: {
+    scen: [
+      { q: 'Discuss the criminal liability of Rhys for the death of Sam. [25]', m: 25, scen: 'Rhys found messages on his partner’s phone from Sam, a work colleague, including one mocking Rhys’s recent redundancy and his late father. Rhys brooded for two days, then drove to Sam’s house and hit him twice with a hammer he took from his car. Sam died in hospital after doctors failed to notice a second skull fracture. Rhys has a diagnosed depressive disorder, and says he “just snapped”.', ms: ['murder — actus reus; causation (Smith, Cheshire, Jordan)', 'mens rea — intention to kill or GBH; Woollin if relevant', 'loss of control — s54 CJA 2009; loss of self-control; delay (Ahluwalia/Dawes)', 'qualifying trigger — s55; things said or done; considered desire for revenge', 'diminished responsibility — s2 Homicide Act; recognised medical condition; substantial impairment (Golds)', 'burden of proof on defence for DR', 'conclusion — likely outcome'] },
+      { q: 'Discuss the criminal liability of Tia. [25]', m: 25, scen: 'Tia, who is very drunk, is refused entry to a nightclub. She pushes the door supervisor, Uma, who falls and breaks her wrist. Tia then grabs a bag from a table outside, thinking it is her own, and runs off. When Vic, the bag’s owner, chases her, Tia swings the bag at him, cutting his cheek.', ms: ['s47 ABH / s20 GBH — Uma; Savage; broken wrist', 'intoxication — Majewski; basic intent', 'bag — theft s1; mistake as to ownership; s2(1)(a); intoxicated mistake', 'robbery s8 — force at time of stealing; Hale', 'wounding — Vic; s20 (Eisenhower)', 'self-defence — mistaken belief (Williams (Gladstone)); intoxicated mistake not allowed (O’Grady; s76(5))', 'conclusion'] }
+    ],
+    ess: [
+      { q: 'Analyse and evaluate the law on non-fatal offences against the person. [25]', m: 25, ms: ['OAPA 1861 structure; ss47, 20, 18', 'inconsistencies — s47 mens rea (Savage); “inflict”', 'outdated language', 'psychiatric harm — Ireland; Burstow', 'Law Commission 2015 proposals', 'consent — Brown; Wilson', 'conclusion'] },
+      { q: 'Analyse and evaluate whether the defence of insanity is in need of reform. [25]', m: 25, ms: ['M’Naghten rules', 'disease of the mind — Kemp, Sullivan, Hennessy (diabetes)', 'automatism distinctions — Quick', 'medical v legal definitions', 'Criminal Procedure (Insanity) Act 1964/1991 disposals', 'Law Commission discussion paper 2013', 'conclusion'] }
+    ]
+  },
+  HR: {
+    scen: [
+      { q: 'Advise Wren on her rights. [25]', m: 25, scen: 'Wren joins a climate protest outside a city bank. The police impose a condition that the protest must end by 2pm. At 2.15pm, officers surround the remaining 50 protesters for four hours. Wren is then arrested “for being part of the problem”, taken to the station and held for 30 hours. She is refused a solicitor. Her phone is searched and messages later appear in a newspaper.', ms: ['Arts 10 and 11 — Ziegler; conditions under s14 POA 1986', 'kettling — Austin; Art 5', 'arrest — s24 PACE; reasonable suspicion and necessity; s28', 'detention — 24 hours; ss41–42', 's58 legal advice — Samuel', 'search of phone — Art 8', 'leak to press — misuse of private information; Campbell', 'remedies — false imprisonment; HRA s7; IOPC', 'conclusion'] },
+      { q: 'Advise Xander and the Daily Clarion. [25]', m: 25, scen: 'Xander, a famous footballer, has been treated at a private clinic for addiction. A clinic nurse gives the Daily Clarion photographs of him leaving treatment and his medical notes. The Clarion plans to publish them under the headline “Drug cheat Xander”, although he has never failed a drug test. Xander wants to stop publication.', ms: ['Art 8 v Art 10; balancing — Re S', 'misuse of private information — reasonable expectation of privacy; Campbell', 'photographs — Murray; Von Hannover', 'public interest — role model argument; hypocrisy (Campbell)', 'breach of confidence — nurse (Coco)', 'defamation — “drug cheat”; serious harm; truth defence fails', 'interim injunction — s12 HRA; Cream Holdings; PJS', 'conclusion'] }
+    ],
+    ess: [
+      { q: 'Analyse and evaluate the extent to which the Human Rights Act 1998 has been effective in protecting rights in the UK. [25]', m: 25, ms: ['ss2, 3, 4, 6', 's3 — Ghaidan', 's4 — Belmarsh; government responses', 'horizontal effect', 'parliamentary sovereignty preserved', 'criticism — Hirst; deportation', 'Gross Review; Bill of Rights Bill 2022', 'conclusion'] },
+      { q: 'Analyse and evaluate whether the law strikes an appropriate balance between freedom of expression and other interests. [25]', m: 25, ms: ['Art 10 and restrictions in 10(2)', 'public order — s5 POA; Hammond; Percy', 'defamation — Defamation Act 2013', 'privacy — Campbell; PJS', 'obscenity — Handyside; OPA 1959', 'contempt — Sunday Times; strict liability', 'conclusion'] }
+    ]
+  }
+};
+
+/* ---------- papers ---------- */
+function c1Paper(set) {
+  const b = C1_BANK[set];
+  return () => [
+    { h: 'Section A — Law making and the nature of law', css: 'var(--u1a)', note: 'Answer all questions.', qs: b.A },
+    { h: 'Section B — The English legal system and the nature of law', css: 'var(--u1b)', note: 'Answer one question: both parts of Question 4 or both parts of Question 5 (both shown here for practice — choose one).', qs: [...b.B[0], ...b.B[1]] }
+  ];
+}
+function areaPaper(kind, set) {
+  return () => S.settings.areas.map((a, i) => ({ h: `${unitOf(a).code.replace(/ · .*/, '')} — ${unitOf(a).name}`, css: unitOf(a).css, note: (i === 0 && S.settings.areas.length > 3 ? 'All four areas are showing — in the real exam you answer only your three. ' : '') + (kind === 'scen' ? 'Scenario question: identify the issues, apply the law, advise.' : 'Essay question: analyse and evaluate.'), qs: [AREA_BANK[a][kind][set]] }));
+}
+const MOCKS = [
+  { id: 'c1a', title: 'Component 1 · Paper A', meta: '1 hr 30 · 50 marks', mins: 90, blurb: 'Rule of law, the Law Commission, statutory interpretation; lay people or civil funding.', instr: 'Answer all of Section A and one question (both parts) from Section B. Plan each 15-mark answer before writing.', build: c1Paper(0) },
+  { id: 'c1b', title: 'Component 1 · Paper B', meta: '1 hr 30 · 50 marks', mins: 90, blurb: 'Sovereignty, delegated legislation, precedent; criminal appeals or ADR.', instr: 'Answer all of Section A and one question (both parts) from Section B. Plan each 15-mark answer before writing.', build: c1Paper(1) },
+  { id: 'c2a', title: 'Component 2 · Paper A', meta: '2 hrs 15 · 75 marks', mins: 135, blurb: 'Three scenario questions — one from each of your areas.', instr: 'Answer one question from each of your three areas. About 45 minutes each. Identify every issue, state the law with authority, apply it and advise.', build: areaPaper('scen', 0) },
+  { id: 'c2b', title: 'Component 2 · Paper B', meta: '2 hrs 15 · 75 marks', mins: 135, blurb: 'A second set of scenarios for your areas.', instr: 'Answer one question from each of your three areas. About 45 minutes each.', build: areaPaper('scen', 1) },
+  { id: 'c3a', title: 'Component 3 · Paper A', meta: '2 hrs 15 · 75 marks', mins: 135, blurb: 'Three essays: analyse and evaluate, with reform.', instr: 'Answer one question from each of your three areas. About 45 minutes each. Build an argument, consider reform and reach a conclusion.', build: areaPaper('ess', 0) },
+  { id: 'c3b', title: 'Component 3 · Paper B', meta: '2 hrs 15 · 75 marks', mins: 135, blurb: 'A second set of essays for your areas.', instr: 'Answer one question from each of your three areas. About 45 minutes each.', build: areaPaper('ess', 1) }
+];
 
 /* ---- games.js ---- */
 /* ==========================================================
@@ -6978,7 +7398,7 @@ function mountGame(host, id) {
     let make;
     if (id === 'casematch') make = () => { const bank = caseBank(), c = pick(bank), same = shuffle(bank.filter(x => x !== c && x.a === c.a)); const others = (same.length >= 3 ? same : shuffle(bank.filter(x => x !== c))).slice(0, 3); return { prompt: c.f, eyebrow: 'Which case?', ans: `<i class="cn">${esc(c.n)}</i> (${c.y})`, wrong: others.map(o => `<i class="cn">${esc(o.n)}</i> (${o.y})`), fb: c.p }; };
     if (id === 'principle') make = () => { const bank = caseBank(), c = pick(bank), same = shuffle(bank.filter(x => x !== c && x.a === c.a)); const others = (same.length >= 3 ? same : shuffle(bank.filter(x => x !== c))).slice(0, 3); return { prompt: `<i class="cn">${esc(c.n)}</i> (${c.y})`, eyebrow: 'What does it decide?', ans: esc(c.p), wrong: others.map(o => esc(o.p)), fb: '' }; };
-    if (id === 'latin') make = () => { const g = pick(GLOSSARY), others = shuffle(GLOSSARY.filter(x => x !== g)).slice(0, 3); return { prompt: `<i class="cn">${esc(g[0])}</i>`, eyebrow: 'What does it mean?', ans: esc(g[1]), wrong: others.map(o => esc(o[1])), fb: '' }; };
+    if (id === 'latin') make = () => { const L = GLOSSARY.filter(x => x[2] === 'Latin'), g = pick(L), others = shuffle(L.filter(x => x !== g)).slice(0, 3); return { prompt: `<i class="cn">${esc(g[0])}</i>`, eyebrow: 'What does it mean?', ans: esc(g[1]), wrong: others.map(o => esc(o[1])), fb: '' }; };
     if (id === 'binding') make = () => { const ids = ['uksc', 'cacv', 'cacr', 'dc', 'hc', 'crown', 'county', 'mags']; const dec = pick(ids); const prev = pick(['uksc', 'cacv', 'cacr', 'dc', 'hc', 'jcpc', 'echr']); const [cls] = precedentRule(dec, prev); const nm = k => COURTS.find(c => c.id === k).n; const lab = { bind: 'Binding', pers: 'Persuasive only', free: dec === 'uksc' && prev === 'uksc' ? 'Can depart (Practice Statement)' : 'Not binding' }; const opts = ['Binding', 'Persuasive only', dec === 'uksc' && prev === 'uksc' ? 'Can depart (Practice Statement)' : 'Not binding']; return { prompt: `The <b>${nm(dec)}</b> is considering a precedent set by the <b>${nm(prev)}</b>.`, eyebrow: 'Is it binding?', ans: lab[cls], wrong: opts.filter(o => o !== lab[cls]), fb: precedentRule(dec, prev)[2] }; };
     const total = 60; let score = 0, streak = 0, left = total, cur, answered = 0, right = 0, locked = false;
     const next = () => { cur = make(); cur.opts = shuffle([cur.ans, ...cur.wrong]); locked = false; render(); };
@@ -7490,7 +7910,7 @@ const App = (() => {
   /* ---------- ASSESSMENT ---------- */
   function assess() {
     crumbs('<b>Assessment</b>'); if (!S.assessSeen) { S.assessSeen = 1; save(); checkBadges(); }
-    V().innerHTML = `<div class="notes" style="max-width:none">${ASSESS_HTML}</div>`;
+    V().innerHTML = `<div class="notes" style="max-width:none">${ASSESS_HTML}</div>`; wireSettingsLinks();
   }
 
   /* ---------- MOCK PAPERS ---------- */
