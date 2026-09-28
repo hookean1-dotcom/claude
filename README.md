@@ -30,3 +30,14 @@ The `aqa-gcse-physics/` folder contains **Live Wire**, a self-contained study ap
 # Proof — WJEC Level 3 Food Science and Nutrition
 
 The `food-science/` folder contains **Proof**, a self-contained study app for the WJEC Level 3 Alternative Academic Qualification in Food Science and Nutrition (Extended Certificate). It covers all five units and has a setting for the optional unit (Unit 4 or Unit 5). To use it, download **`wjec-food-science-proof.html`** from the repository root and open it in any browser. See [`food-science/README.md`](food-science/README.md) for details.
+
+---
+
+# Parallax — Edexcel International GCSE Physics
+
+The `edexcel-igcse-physics/` folder contains **Parallax**, a self-contained study app for Pearson Edexcel International GCSE Physics (4PH1).
+- It covers every statement, including the bold ‘P’ content. There is also a Science (Double Award) mode that hides the ‘P’ content.
+- It includes a bank of harder, exam-style structured questions and full practice papers of exactly 110 and 70 marks.
+- To use it, download **`edexcel-igcse-physics-parallax.html`** from the repository root and open it in any browser.
+
+See [`edexcel-igcse-physics/README.md`](edexcel-igcse-physics/README.md) for details.
