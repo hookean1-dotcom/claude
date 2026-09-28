@@ -26,3 +26,18 @@ A single-file study app for the whole Eduqas GCE A level Law specification (A150
 - **Arcade games**, XP, streaks, badges and a mastery "bookshelf".
 
 Open `ratio-law/index.html` in a browser. Source lives in `ratio-law/src/`. To validate the content and rebuild `index.html` (plus `dist/artifact.html`), run `node build.js` inside `ratio-law/`.
+
+---
+
+# Casefile · Criminology (`casefile-crim/`)
+
+A single-file study app for the WJEC/Eduqas Level 3 Applied Diploma in Criminology (all four units, with an Applied Certificate option for Units 1 and 2 only). It reuses the Ratio engine with a new identity and all-new content.
+
+- **45 topics**: one for each assessment criterion, plus assessment skills. Each topic has Learn, Case files, Explore, Flashcards, Quiz and Exam/Assessment practice tabs.
+- **150 case files** covering real cases, key studies, theorists, campaigns and reports.
+- **Practice tasks for Units 1 and 3** that show the real WJEC mark bands for each criterion.
+- **Interactive tools**, including an attrition funnel (the dark figure of crime), a campaign planner, the CPS Full Code Test, a detention clock, an evidence admissibility checker and a sentencing-aims assessment.
+- **Mock papers**: four timed exam papers (Units 2 and 4) and two practice assignment briefs (Units 1 and 3).
+- **Arcade games**, an evidence-board hero that stamps topics "closed" as you master them, XP, streaks and badges.
+
+Open `casefile-crim/index.html` in a browser. To rebuild after editing `src/`, run `node build.js` inside `casefile-crim/`.
