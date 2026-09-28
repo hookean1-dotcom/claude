@@ -41,3 +41,15 @@ The `edexcel-igcse-physics/` folder contains **Parallax**, a self-contained stud
 - To use it, download **`edexcel-igcse-physics-parallax.html`** from the repository root and open it in any browser.
 
 See [`edexcel-igcse-physics/README.md`](edexcel-igcse-physics/README.md) for details.
+
+---
+
+# Pulse — WJEC AS/A level Physical Education
+
+The `wjec-pe/` folder contains **Pulse**, a self-contained study app for WJEC GCE AS/A level Physical Education.
+
+- It covers all of Units 1 and 3, plus guides to the Unit 2 and Unit 4 NEA and a switch between AS only and the full A level.
+- Extended exam answers are levels-marked with band descriptors, and full practice papers come to exactly 72 marks (Unit 1) and 90 marks (Unit 3).
+- To use it, download **`wjec-pe-pulse.html`** from the repository root and open it in any browser.
+
+See [`wjec-pe/README.md`](wjec-pe/README.md) for details.
