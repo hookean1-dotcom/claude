@@ -1,6 +1,48 @@
 /* ==========================================================
    Diagrams part 2: atomic structure, forces, waves, magnetism, space, skills
    ========================================================== */
+/* ---- Magnetic field lines as contours of the magnetic vector potential ----
+   A bar magnet or solenoid is modelled (in 2-D cross-section) as two rows of line currents
+   along its long faces. In 2-D, B = curl(A k̂), so every field line is a contour of the
+   scalar A: lines close on themselves, can never cross, are symmetric wherever the magnet
+   is, and are closer together where the field is stronger. */
+const FIELD = {
+  /* wires on the faces of a magnet/solenoid from x0 to x1, centred on y, half-height h. I > 0 → B inside points +x */
+  sheet(x0, x1, y, h, n, I) { const w = []; for (let i = 0; i < n; i++) { const x = x0 + (i + 0.5) * (x1 - x0) / n; w.push([x, y - h, I], [x, y + h, -I]); } return w; },
+  A(ws, x, y) { let a = 0; for (let k = 0; k < ws.length; k++) { const w = ws[k], dx = x - w[0], dy = y - w[1]; a += w[2] * Math.log(dx * dx + dy * dy + 1); } return 0.5 * a; },
+  B(ws, x, y) { const h = 0.5; return [(this.A(ws, x, y + h) - this.A(ws, x, y - h)) / (2 * h), -(this.A(ws, x + h, y) - this.A(ws, x - h, y)) / (2 * h)]; },
+  /* n evenly spaced contour levels spanning the inside of a magnet (from 0.7 × half-height above to below its centre line) */
+  levels(ws, x, y, h, n, f = 0.7) { const a = this.A(ws, x, y - f * h), b = this.A(ws, x, y + f * h); return Array.from({ length: n }, (_, k) => a + (b - a) * (k + 0.5) / n); },
+  /* marching squares + stitching → [{L, pts:[[x,y],…]}] */
+  lines(ws, W, H, levels, step = 3) {
+    const nx = Math.ceil(W / step) + 1, ny = Math.ceil(H / step) + 1, g = new Float64Array(nx * ny), out = [];
+    for (let j = 0; j < ny; j++) for (let i = 0; i < nx; i++) g[j * nx + i] = this.A(ws, i * step, j * step);
+    levels.forEach(L => {
+      const edges = [];
+      const ep = (i, j, v) => { const a = g[j * nx + i], b = v ? g[(j + 1) * nx + i] : g[j * nx + i + 1], t = (L - a) / (b - a); return [(v ? 'v' : 'h') + i + ',' + j, v ? [i * step, (j + t) * step] : [(i + t) * step, j * step]]; };
+      for (let j = 0; j < ny - 1; j++) for (let i = 0; i < nx - 1; i++) {
+        const v0 = g[j * nx + i] > L, v1 = g[j * nx + i + 1] > L, v2 = g[(j + 1) * nx + i + 1] > L, v3 = g[(j + 1) * nx + i] > L, cs = [];
+        if (v0 !== v1) cs.push(ep(i, j, 0)); if (v1 !== v2) cs.push(ep(i + 1, j, 1)); if (v3 !== v2) cs.push(ep(i, j + 1, 0)); if (v0 !== v3) cs.push(ep(i, j, 1));
+        if (cs.length === 2) edges.push(cs); else if (cs.length === 4) edges.push([cs[0], cs[1]], [cs[2], cs[3]]);
+      }
+      const adj = new Map(); edges.forEach((e, k) => e.forEach(p => { const l = adj.get(p[0]); l ? l.push(k) : adj.set(p[0], [k]); }));
+      const used = new Uint8Array(edges.length);
+      for (let k = 0; k < edges.length; k++) { if (used[k]) continue; used[k] = 1; const chain = [edges[k][0][1], edges[k][1][1]];
+        for (const fwd of [1, 0]) { let key = edges[k][fwd][0]; for (;;) { const m = (adj.get(key) || []).find(q => !used[q]); if (m == null) break; used[m] = 1; const e = edges[m], nx_ = e[0][0] === key ? e[1] : e[0]; fwd ? chain.push(nx_[1]) : chain.unshift(nx_[1]); key = nx_[0]; } }
+        if (chain.length > 3) out.push({ L, pts: chain }); }
+    });
+    return out;
+  },
+  /* arrowheads where lines cross the vertical guides xs, skipping points inside any rect [x0,y0,x1,y1] → [[x,y,ux,uy]] */
+  arrows(ws, lines, xs, skip = [], W = 1e9, H = 1e9) { const out = [];
+    lines.forEach(({ pts }) => { for (let k = 1; k < pts.length; k++) { const [x1, y1] = pts[k - 1], [x2, y2] = pts[k];
+      xs.forEach(gx => { if ((x1 - gx) * (x2 - gx) > 0 || x1 === x2) return; const y = y1 + (y2 - y1) * (gx - x1) / (x2 - x1); if (y < 8 || y > H - 8 || skip.some(r => gx >= r[0] && gx <= r[2] && y >= r[1] && y <= r[3])) return;
+        if (out.some(a => Math.hypot(a[0] - gx, a[1] - y) < 9)) return; const [bx, by] = this.B(ws, gx, y), m = Math.hypot(bx, by) || 1; out.push([gx, y, bx / m, by / m]); }); } });
+    return out; },
+  svgPath(pts) { return pts.filter((p, i) => i % 2 === 0 || i === pts.length - 1).map((p, i) => (i ? 'L' : 'M') + p[0].toFixed(1) + ',' + p[1].toFixed(1)).join(''); },
+  svgArrow(a, col, s = 7) { const [x, y, ux, uy] = a; return `<path d="M${(x + ux * s).toFixed(1)},${(y + uy * s).toFixed(1)} L${(x - ux * s * .6 - uy * s * .6).toFixed(1)},${(y - uy * s * .6 + ux * s * .6).toFixed(1)} L${(x - ux * s * .6 + uy * s * .6).toFixed(1)},${(y - uy * s * .6 - ux * s * .6).toFixed(1)} Z" fill="${col}"/>`; }
+};
+
 Object.assign(DIAG, {
   /* ================= 4.4 ATOMIC ================= */
   atom: () => { let s = '';
@@ -161,17 +203,21 @@ Object.assign(DIAG, {
     return svg(520, 305, s, 'Earth radiation balance') + cap('(Higher) The Earth’s temperature is steady when it emits radiation at the same rate as it absorbs it. Reflection into space and absorption by atmospheric gases affect the balance.'); },
 
   /* ================= 4.7 MAGNETISM ================= */
-  barfield: () => { let s = ''; const cy = 130; for (let k = 1; k <= 4; k++) { const h = 20 * k; s += pth(`M190,${cy} C${178 - 26 * k},${cy - h * 1.9} ${342 + 26 * k},${cy - h * 1.9} 330,${cy}`, C7, 1.6) + pth(`M190,${cy} C${178 - 26 * k},${cy + h * 1.9} ${342 + 26 * k},${cy + h * 1.9} 330,${cy}`, C7, 1.6); const yt = cy - h * 1.43, yb = cy + h * 1.43; s += arrow(256, yt, 264, yt, C7, 1.6) + arrow(256, yb, 264, yb, C7, 1.6); }
-    s += arrow(150, cy, 70, cy, C7, 1.6) + arrow(450, cy, 372, cy, C7, 1.6) + box(190, cy - 14, 70, 28, C1, INK, 2) + box(260, cy - 14, 70, 28, C6, INK, 2) + tx(225, cy + 5, 'N', { a: 'middle', fs: 14, c: '#fff', w: 700 }) + tx(295, cy + 5, 'S', { a: 'middle', fs: 14, c: '#fff', w: 700 });
-    return svg(520, 260, s, 'Magnetic field of a bar magnet') + cap('Field lines go from north to south, never cross, and are closest together — the field is strongest — at the poles.'); },
+  barfield: () => { const W = 520, H = 260, cy = 130, x0 = 190, x1 = 330, h = 14, ws = FIELD.sheet(x0, x1, cy, h, 14, -1);
+    const lines = FIELD.lines(ws, W, H, FIELD.levels(ws, 260, cy, h, 10), 3); let s = lines.map(l => pth(FIELD.svgPath(l.pts), C7, 1.5)).join('');
+    s += ln(8, cy, x0, cy, C7, 1.5) + ln(x1, cy, W - 8, cy, C7, 1.5);
+    FIELD.arrows(ws, lines, [260, 50, 470], [[x0 - 2, cy - h - 2, x1 + 2, cy + h + 2]], W, H).concat([[100, cy, -1, 0], [425, cy, -1, 0]]).forEach(a => s += FIELD.svgArrow(a, C7));
+    s += box(x0, cy - h, 70, 2 * h, C1, INK, 2) + box(260, cy - h, 70, 2 * h, C6, INK, 2) + tx(225, cy + 5, 'N', { a: 'middle', fs: 14, c: '#fff', w: 700 }) + tx(295, cy + 5, 'S', { a: 'middle', fs: 14, c: '#fff', w: 700 });
+    return svg(W, H, s, 'Magnetic field of a bar magnet') + cap('Field lines go from north to south, never cross, and are closest together — the field is strongest — at the poles. The pattern is the same on both sides of the magnet.'); },
   wirefield: () => { let s = ''; [26, 48, 74, 104].forEach(r => { s += circ(160, 110, r, 'none', C7, 1.5); s += arrow(160 + r, 108, 160 + r, 104, C7, 1.6); });
     s += circ(160, 110, 9, 'var(--surface)', INK, 2) + dot(160, 110, INK, 3) + tx(20, 218, '⊙ current out of the page', { fs: 11 }) + tx(300, 60, 'concentric circles', { fs: 12, c: INK }) + tx(300, 78, 'stronger: bigger current,', { fs: 12, c: INK }) + tx(300, 96, 'closer to the wire', { fs: 12, c: INK });
     return svg(480, 225, s, 'Magnetic field around a straight wire') + cap('A current in a straight wire makes circular field lines around it (right-hand grip rule). The field is stronger closer to the wire and with a bigger current.'); },
-  solenoid: () => { let s = ''; for (let i = 0; i < 9; i++) s += `<ellipse cx="${150 + i * 26}" cy="100" rx="9" ry="40" fill="none" stroke="#B87333" stroke-width="3"/>`;
-    [70, 85, 100, 115, 130].forEach(y => s += ln(130, y, 380, y, C7, 1.4)) ; s += arrow(250, 100, 262, 100, C7, 1.6);
-    s += pth('M380,70 C450,62 444,24 255,24 C66,24 60,62 130,70', C7, 1.4) + pth('M380,130 C450,138 444,176 255,176 C66,176 60,138 130,130', C7, 1.4) + arrow(262, 24, 250, 24, C7, 1.6) + arrow(262, 176, 250, 176, C7, 1.6);
-    s += tx(400, 104, 'N', { fs: 16, c: C1, w: 700 }) + tx(96, 104, 'S', { fs: 16, c: C6, w: 700 }) + tx(255, 206, 'inside: strong and uniform · outside: like a bar magnet', { a: 'middle', fs: 12, c: INK });
-    return svg(520, 215, s, 'Field of a solenoid') + cap('The field inside a solenoid is strong and uniform; outside it is shaped like a bar magnet’s. An iron core makes it stronger — an electromagnet.'); },
+  solenoid: () => { const W = 520, H = 320, cy = 160, xs = Array.from({ length: 9 }, (_, i) => 150 + i * 26), ws = xs.flatMap(x => [[x, cy - 40, 1], [x, cy + 40, -1]]);
+    const lines = FIELD.lines(ws, W, H, FIELD.levels(ws, 254, cy, 40, 6, 0.66), 3); let s = lines.map(l => pth(FIELD.svgPath(l.pts), C7, 1.4)).join('') + ln(8, cy, W - 8, cy, C7, 1.4);
+    FIELD.arrows(ws, lines, [254, 40, 480, 104, 404], [[140, cy - 44, 370, cy + 44], [90, cy - 22, 420, cy + 22]], W, H).concat([[254, cy, 1, 0], [60, cy, 1, 0], [460, cy, 1, 0]]).forEach(a => s += FIELD.svgArrow(a, C7));
+    xs.forEach(x => s += `<ellipse cx="${x}" cy="${cy}" rx="9" ry="40" fill="none" stroke="#B87333" stroke-width="3"/>`);
+    s += tx(398, cy - 10, 'N', { fs: 16, c: C1, w: 700 }) + tx(98, cy - 10, 'S', { fs: 16, c: C6, w: 700, a: 'end' });
+    return svg(W, H, s, 'Field of a solenoid') + cap('Inside a solenoid the field is strong and uniform (parallel, evenly spaced lines); outside it is shaped like a bar magnet’s field. The lines never cross. An iron core makes it stronger — an electromagnet.'); },
   fleming: () => { let s = ''; s += arrow(200, 150, 200, 30, C1, 3) + tx(210, 40, 'thuMb = Motion (force)', { fs: 13, c: C1, w: 700 }) + arrow(200, 150, 340, 150, C7, 3) + tx(300, 172, 'First finger = Field', { fs: 13, c: C7, w: 700 }) + arrow(200, 150, 110, 210, C2, 3) + tx(20, 226, 'seCond finger = Current', { fs: 13, c: C2, w: 700 });
     s += tx(360, 60, 'LEFT hand', { fs: 14, c: INK, w: 700 }) + tx(360, 78, 'for the motor effect', { fs: 12 }) + tx(360, 96, '(field N → S,', { fs: 12 }) + tx(360, 112, 'current + → −)', { fs: 12 });
     return svg(520, 240, s, 'Fleming’s left-hand rule') + cap('(Higher) Fleming’s left-hand rule: hold thumb, first and second fingers at right angles. First finger = field, second finger = current, thumb = force (motion).'); },

@@ -347,23 +347,33 @@ SIMS.magfield = {
     { id: 'lines', type: 'seg', label: 'Show', value: 1, options: [[1, 'Field lines'], [0, 'Compasses only']] }
   ],
   readouts: ['Force between the magnets', 'Field at the compass', 'Field strength (relative)', 'Tip'],
-  note: 'Field lines go from the north pole to the south pole — the direction a compass needle points. Lines closest together = strongest field, at the poles. Unlike poles attract; like poles repel. Move the pointer over the field to place the red compass.',
+  note: 'Field lines go from the north pole to the south pole — the direction a compass needle points. Lines closest together = strongest field, at the poles. The lines never cross, and the pattern is the same on both sides of a magnet. Unlike poles attract; like poles repel. Move the pointer over the field to place the red compass.',
   poles(p, W, H) { const cy = H / 2, L = Math.min(W * 0.12, 60); if (p.cfg === 'one') return [[W / 2 + L, cy, 1], [W / 2 - L, cy, -1]]; const g = W * 0.08; const a = [[W / 2 - g, cy, 1], [W / 2 - g - 2 * L, cy, -1]]; return p.cfg === 'att' ? a.concat([[W / 2 + g, cy, -1], [W / 2 + g + 2 * L, cy, 1]]) : a.concat([[W / 2 + g, cy, 1], [W / 2 + g + 2 * L, cy, -1]]); },
-  B(ps, x, y) { let bx = 0, by = 0; ps.forEach(([px, py, q]) => { const dx = x - px, dy = y - py, r2 = dx * dx + dy * dy + 30, r = Math.sqrt(r2); bx += q * dx / (r2 * r) * 1e4; by += q * dy / (r2 * r) * 1e4; }); return [bx, by]; },
+  /* each magnet → a box [x0, x1, cy, N-on-right?] and a sheet of face currents (field inside points S → N) */
+  mags(p, W, H) { const ps = this.poles(p, W, H), out = []; for (let i = 0; i < ps.length; i += 2) { const n = ps[i][2] > 0 ? ps[i] : ps[i + 1], s = ps[i][2] > 0 ? ps[i + 1] : ps[i]; out.push({ x0: Math.min(n[0], s[0]) - 10, x1: Math.max(n[0], s[0]) + 10, cy: n[1], nR: n[0] > s[0] }); } return out; },
+  wires(ms) { return ms.flatMap(m => FIELD.sheet(m.x0, m.x1, m.cy, 14, 14, m.nR ? 1 : -1)); },
+  field(p, W, H) { const k = p.cfg + W + 'x' + H; if (this._c && this._c.k === k) return this._c;
+    const ms = this.mags(p, W, H).sort((a, b) => a.x0 - b.x0), ws = this.wires(ms), m0 = ms[0], cy = m0.cy;
+    const lines = FIELD.lines(ws, W, H, FIELD.levels(ws, (m0.x0 + m0.x1) / 2, cy, 14, 12), 3).map(l => { const P = new Path2D(); l.pts.forEach((q, i) => i ? P.lineTo(q[0], q[1]) : P.moveTo(q[0], q[1])); return Object.assign(l, { P }); });
+    // the axis line: out of the outer ends on both sides, and across a gap only between unlike poles (like poles leave a neutral point)
+    const axis = [[0, m0.x0]]; for (let i = 0; i + 1 < ms.length; i++) if (ms[i].nR === ms[i + 1].nR) axis.push([ms[i].x1, ms[i + 1].x0]); axis.push([ms[ms.length - 1].x1, W]);
+    const skip = ms.map(m => [m.x0 - 3, cy - 17, m.x1 + 3, cy + 17]), gx = [W * 0.07, W * 0.93].concat(ms.map(m => (m.x0 + m.x1) / 2));
+    const arrows = FIELD.arrows(ws, lines, gx, skip, W, H).concat(axis.map(([a, b]) => { const x = (a + b) / 2, [bx] = FIELD.B(ws, x, cy); return [x, cy, Math.sign(bx) || 1, 0]; }));
+    return (this._c = { k, ms, ws, lines, axis, arrows }); },
   init(st) { st.mx = null; },
   pointer(type, x, y, st) { if (type === 'move' || type === 'drag' || type === 'down') { st.mx = x; st.my = y; } },
   draw(c, W, H, st, C) {
-    CV.grid(c, W, H, C); const p = st.p, ps = this.poles(p, W, H);
-    if (p.lines) { const starts = []; ps.filter(q => q[2] > 0).forEach(([px, py]) => { for (let k = 0; k < 14; k++) { const a = k / 14 * 2 * Math.PI + 0.1; starts.push([px + 8 * Math.cos(a), py + 8 * Math.sin(a)]); } });
-      starts.forEach(([x, y]) => { c.strokeStyle = hexA(C.u6, .7); c.lineWidth = 1.3; c.beginPath(); c.moveTo(x, y); let mid = null; for (let i = 0; i < 900; i++) { const [bx, by] = this.B(ps, x, y), m = Math.hypot(bx, by); if (!m) break; x += bx / m * 3; y += by / m * 3; c.lineTo(x, y); if (i === 60) mid = [x, y, bx / m, by / m]; if (x < -20 || x > W + 20 || y < -20 || y > H + 20) break; if (ps.some(([px, py, q]) => q < 0 && Math.hypot(x - px, y - py) < 7)) break; } c.stroke(); if (mid) { const [mx, my, ux, uy] = mid; c.fillStyle = C.u6; c.beginPath(); c.moveTo(mx + ux * 5, my + uy * 5); c.lineTo(mx - ux * 4 - uy * 4, my - uy * 4 + ux * 4); c.lineTo(mx - ux * 4 + uy * 4, my - uy * 4 - ux * 4); c.closePath(); c.fill(); } }); }
+    CV.grid(c, W, H, C); const p = st.p, F = this.field(p, W, H), cy = H / 2;
+    if (p.lines) { c.strokeStyle = hexA(C.u6, .75); c.lineWidth = 1.3; F.lines.forEach(l => c.stroke(l.P)); F.axis.forEach(([a, b]) => CV.line(c, a, cy, b, cy, hexA(C.u6, .75), 1.3));
+      c.fillStyle = C.u6; F.arrows.forEach(([x, y, ux, uy]) => { c.beginPath(); c.moveTo(x + ux * 6, y + uy * 6); c.lineTo(x - ux * 4 - uy * 4, y - uy * 4 + ux * 4); c.lineTo(x - ux * 4 + uy * 4, y - uy * 4 - ux * 4); c.closePath(); c.fill(); }); }
     // magnets
-    for (let i = 0; i < ps.length; i += 2) { const pr = ps.slice(i, i + 2).sort((a, b) => b[2] - a[2]), [nx, ny, q1] = pr[0], [sx] = pr[1]; const x0 = Math.min(nx, sx) - 10, w = Math.abs(nx - sx) + 20; const nLeft = nx < sx; CV.rrect(c, x0, ny - 14, w / 2, 28, 3, nLeft ? C.u1 : C.u4); CV.rrect(c, x0 + w / 2, ny - 14, w / 2, 28, 3, nLeft ? C.u4 : C.u1); CV.text(c, nLeft ? 'N' : 'S', x0 + w / 4, ny, '#fff', 13, 'center', 800); CV.text(c, nLeft ? 'S' : 'N', x0 + 3 * w / 4, ny, '#fff', 13, 'center', 800); void q1; }
-    // compass grid
-    const comp = (x, y, r, hl) => { const [bx, by] = this.B(ps, x, y), a = Math.atan2(by, bx); CV.circle(c, x, y, r, hl ? C.surface : hexA(C.surface, .8), C.ink, 1); c.save(); c.translate(x, y); c.rotate(a); c.fillStyle = C.u1; c.beginPath(); c.moveTo(r - 2, 0); c.lineTo(0, -3); c.lineTo(0, 3); c.fill(); c.fillStyle = C.muted; c.beginPath(); c.moveTo(-r + 2, 0); c.lineTo(0, -3); c.lineTo(0, 3); c.fill(); c.restore(); };
-    if (!p.lines) for (let x = 30; x < W; x += 50) for (let y = 30; y < H; y += 50) { if (ps.some(([px, py]) => Math.abs(y - py) < 24 && Math.abs(x - px) < 40)) continue; comp(x, y, 9); }
+    F.ms.forEach(m => { const w = (m.x1 - m.x0) / 2; CV.rrect(c, m.x0, m.cy - 14, w, 28, 3, m.nR ? C.u4 : C.u1); CV.rrect(c, m.x0 + w, m.cy - 14, w, 28, 3, m.nR ? C.u1 : C.u4); CV.text(c, m.nR ? 'S' : 'N', m.x0 + w / 2, m.cy, '#fff', 13, 'center', 800); CV.text(c, m.nR ? 'N' : 'S', m.x0 + 1.5 * w, m.cy, '#fff', 13, 'center', 800); });
+    // compasses
+    const comp = (x, y, r, hl) => { const [bx, by] = FIELD.B(F.ws, x, y), a = Math.atan2(by, bx); CV.circle(c, x, y, r, hl ? C.surface : hexA(C.surface, .8), C.ink, 1); c.save(); c.translate(x, y); c.rotate(a); c.fillStyle = C.u1; c.beginPath(); c.moveTo(r - 2, 0); c.lineTo(0, -3); c.lineTo(0, 3); c.fill(); c.fillStyle = C.muted; c.beginPath(); c.moveTo(-r + 2, 0); c.lineTo(0, -3); c.lineTo(0, 3); c.fill(); c.restore(); };
+    if (!p.lines) for (let x = 30; x < W; x += 50) for (let y = 30; y < H; y += 50) { if (F.ms.some(m => Math.abs(y - m.cy) < 24 && x > m.x0 - 12 && x < m.x1 + 12)) continue; comp(x, y, 9); }
     const mx = st.mx ?? W / 2 + Math.cos(st.t * 0.5) * W * 0.3, my = st.my ?? H / 2 + Math.sin(st.t * 0.5) * H * 0.33; comp(mx, my, 16, true);
   },
-  read(st) { const W = st.W || 600, H = st.H || 440, ps = this.poles(st.p, W, H), mx = st.mx ?? W / 2 + Math.cos(st.t * 0.5) * W * 0.3, my = st.my ?? H / 2 + Math.sin(st.t * 0.5) * H * 0.33, [bx, by] = this.B(ps, mx, my), m = Math.hypot(bx, by), a = Math.atan2(-by, bx) / deg;
+  read(st) { const W = st.W || 600, H = st.H || 440, ws = this.wires(this.mags(st.p, W, H)), mx = st.mx ?? W / 2 + Math.cos(st.t * 0.5) * W * 0.3, my = st.my ?? H / 2 + Math.sin(st.t * 0.5) * H * 0.33, [bx, by] = FIELD.B(ws, mx, my), m = Math.hypot(bx, by) * 5, a = Math.atan2(-by, bx) / deg;
     return [st.p.cfg === 'one' ? '—' : st.p.cfg === 'att' ? 'attract' : 'repel', 'points ' + ['→ east', '↗', '↑ north', '↖', '← west', '↙', '↓ south', '↘'][Math.round(((a + 360) % 360) / 45) % 8], m.toFixed(2), st.p.cfg === 'rep' ? 'a neutral point sits between like poles' : 'strongest near the poles']; }
 };
 
@@ -376,13 +386,20 @@ SIMS.solenoid = {
     { id: 'core', type: 'seg', label: 'Core', value: 1, options: [[0, 'Air'], [1, 'Iron core']] }
   ],
   readouts: ['Field strength (relative)', 'North pole at', 'Paper clips held', 'Switch off'],
-  note: 'Inside a solenoid the field is strong and uniform; outside it looks like a bar magnet’s field. The field is stronger with more current, more turns, or an iron core — an electromagnet. Reversing the current reverses the poles. Turn the current to zero and the soft iron core loses its magnetism.',
+  note: 'Inside a solenoid the field is strong and uniform; outside it looks like a bar magnet’s field. Field lines never cross. The field is stronger with more current, more turns, or an iron core — an electromagnet — so the lines are drawn closer together. Reversing the current reverses the poles. Turn the current to zero and the soft iron core loses its magnetism.',
   B(p) { return Math.abs(p.I) * p.N * (p.core ? 40 : 1) / 20; },
+  /* field lines = contours of the vector potential of the turns (cached), so they can never cross */
+  field(p, W, H, cx, cy, L, r) { const dir = Math.sign(p.I), k = [p.I, p.N, p.core, W, H].join(); if (this._c && this._c.k === k) return this._c;
+    const xs = Array.from({ length: p.N }, (_, i) => cx - L / 2 + (i + 0.5) * L / p.N), ws = xs.flatMap(x => [[x, cy - r, dir], [x, cy + r, -dir]]), nl = clamp(Math.round(2 + Math.log2(1 + this.B(p)) * 0.9), 2, 8);
+    const lines = FIELD.lines(ws, W, H, FIELD.levels(ws, cx, cy, r, nl, 0.62), 3).map(l => { const P = new Path2D(); l.pts.forEach((q, i) => i ? P.lineTo(q[0], q[1]) : P.moveTo(q[0], q[1])); return Object.assign(l, { P }); });
+    const arrows = FIELD.arrows(ws, lines, [cx, W * 0.08, W * 0.92], [], W, H).concat([[cx, cy, dir, 0], [(cx - L / 2) / 2, cy, dir, 0], [(W + cx + L / 2) / 2, cy, dir, 0]]);
+    return (this._c = { k, lines, arrows }); },
   draw(c, W, H, st, C) {
     CV.grid(c, W, H, C); const p = st.p, cx = W / 2, cy = H * 0.42, L = Math.min(W * 0.5, 280), r = 40, B = this.B(p), dir = Math.sign(p.I) || 0;
-    if (p.core) CV.rrect(c, cx - L / 2 - 10, cy - r + 10, L + 20, 2 * r - 20, 4, '#9AA3AC', C.ink, 1);
+    if (p.core) CV.rrect(c, cx - L / 2 - 10, cy - r + 10, L + 20, 2 * r - 20, 4, hexA('#9AA3AC', .45), C.ink, 1);
     // field lines
-    if (dir) { const nl = clamp(Math.round(1 + B / 20), 1, 5); for (let k = 1; k <= nl; k++) { const off = k * (r - 12) / (nl + 0.5); [-1, 1].forEach(s => { c.strokeStyle = hexA(C.u6, .8); c.lineWidth = 1.4; c.beginPath(); c.moveTo(cx - L / 2, cy + s * off * 0.5); c.lineTo(cx + L / 2, cy + s * off * 0.5); c.bezierCurveTo(cx + L / 2 + 60 + k * 20, cy + s * off * 0.5, cx + L / 2 + 40 + k * 20, cy + s * (r + 30 + k * 22), cx, cy + s * (r + 30 + k * 22)); c.bezierCurveTo(cx - L / 2 - 40 - k * 20, cy + s * (r + 30 + k * 22), cx - L / 2 - 60 - k * 20, cy + s * off * 0.5, cx - L / 2, cy + s * off * 0.5); c.stroke(); CV.arrow(c, cx - 10 * dir, cy + s * off * 0.5, cx + 10 * dir, cy + s * off * 0.5, C.u6, 1.4, 6); }); } }
+    if (dir) { const F = this.field(p, W, H, cx, cy, L, r); c.strokeStyle = hexA(C.u6, .8); c.lineWidth = 1.4; F.lines.forEach(l => c.stroke(l.P)); CV.line(c, 0, cy, W, cy, hexA(C.u6, .8), 1.4);
+      c.fillStyle = C.u6; F.arrows.forEach(([x, y, ux, uy]) => { c.beginPath(); c.moveTo(x + ux * 6, y + uy * 6); c.lineTo(x - ux * 4 - uy * 4, y - uy * 4 + ux * 4); c.lineTo(x - ux * 4 + uy * 4, y - uy * 4 - ux * 4); c.closePath(); c.fill(); }); }
     // coil
     for (let i = 0; i < p.N; i++) { const x = cx - L / 2 + (i + 0.5) * L / p.N; c.strokeStyle = '#B87333'; c.lineWidth = 3; c.beginPath(); c.ellipse(x, cy, 6, r, 0, 0, 2 * Math.PI); c.stroke(); }
     const yb = H - 44, xa = cx + L / 4; CS.gaps(c, W, H, [[cx, yb, CS.HALF.cell], [xa, yb, CS.HALF.meter]], () => CS.wire(c, [[cx - L / 2 + 0.5 * L / p.N, cy + r], [cx - L / 2 + 0.5 * L / p.N, yb], [cx + L / 2 - 0.5 * L / p.N, yb], [cx + L / 2 - 0.5 * L / p.N, cy + r]], C.ink));
