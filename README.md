@@ -53,3 +53,15 @@ The `wjec-pe/` folder contains **Pulse**, a self-contained study app for WJEC GC
 - To use it, download **`wjec-pe-pulse.html`** from the repository root and open it in any browser.
 
 See [`wjec-pe/README.md`](wjec-pe/README.md) for details.
+
+---
+
+# Launchpad — KS3 Physics (Years 7 and 8)
+
+The `ks3-physics/` folder contains **Launchpad**, a self-contained study app for Key Stage 3 physics.
+
+- It has a Year 7 / Year 8 / both-years switch. The additional Year 7 Magnetism unit can be hidden.
+- It includes notes, 48 simulations, every practical, flashcards, quizzes, unlimited calculations, a test-question bank, and one-hour end-of-year tests of exactly 60 marks.
+- To use it, download **`ks3-physics-launchpad.html`** from the repository root and open it in any browser.
+
+See [`ks3-physics/README.md`](ks3-physics/README.md) for details.
