@@ -859,7 +859,7 @@ function mountApportion(host) {
       <div class="ctl"><label for="ap-p">Claimant’s share of responsibility <output>${pct}%</output></label><input id="ap-p" type="range" min="0" max="75" step="5" value="${pct}" style="--p:${pct / .75}%"></div>
       <label class="small" style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="ap-b" ${belt ? 'checked' : ''}> Apply the <i class="cn">Froom v Butcher</i> seatbelt guideline</label></div>
       <div><div class="readouts"><div class="ro"><span>Full damages</span><b>£${dmg.toLocaleString('en-GB')}</b></div><div class="ro"><span>Reduction (${pct}%)</span><b>−£${red.toLocaleString('en-GB')}</b></div><div class="ro"><span>Claimant receives</span><b>£${(dmg - red).toLocaleString('en-GB')}</b></div></div>
-      <div class="box tip" style="margin-top:12px"><b class="lbl">Guide from the cases</b><ul class="small"><li>[[c:froom]]: no seatbelt — 25% if wearing one would have prevented the injury entirely; 15% if it would have made it less severe; 0% if it would have made no difference.</li><li>[[c:sayers]]: 25% for climbing out over a toilet-roll holder when locked in a cubicle.</li><li>[[c:owens]]: 20% for accepting a lift from a driver known to have been drinking.</li><li>[[c:jayes]]: 100% reductions are not possible — the Act assumes both parties share fault.</li></ul></div></div></div>`);
+      <div class="box tip" style="margin-top:12px"><b class="lbl">Guide from the cases</b><ul class="small"><li>[[c:froom]]: no seatbelt — 25% if wearing one would have prevented the injury entirely; 15% if it would have made it less severe; 0% if it would have made no difference.</li><li>[[c:sayers]]: 25% for climbing out over a toilet-roll holder when locked in a cubicle.</li><li>[[c:owens]]: 20% for accepting a lift from a driver known to have been drinking.</li><li>[[c:pittshunt]]: a 100% reduction is logically impossible — the Act assumes both parties share fault (doubting [[c:jayes]], where 100% was allowed).</li></ul></div></div></div>`);
     $('#ap-d', body).oninput = e => { dmg = +e.target.value; render(); $('#ap-d', host).focus(); };
     $('#ap-p', body).oninput = e => { pct = +e.target.value; belt = false; render(); $('#ap-p', host).focus(); };
     $('#ap-b', body).onchange = e => { belt = e.target.checked; if (belt) pct = 25; render(); };
@@ -4135,7 +4135,7 @@ addCases([
   { id: 'froom', n: 'Froom v Butcher', y: 1976, a: 'TO', t: '2.2.6', c: 'CA', f: 'A driver was injured in a crash caused by the defendant; he was not wearing a seatbelt.', p: 'Guidelines for contributory negligence: 25% reduction if a seatbelt would have prevented the injury altogether; 15% if it would have reduced its severity; nothing if it would have made no difference.' },
   { id: 'sayers', n: 'Sayers v Harlow UDC', y: 1957, a: 'TO', t: '2.2.6', c: 'CA', f: 'A woman was locked in a public toilet with no inside handle. She tried to climb out by standing on the toilet-roll holder, which rotated and she fell.', p: 'Damages reduced by 25% for her contributory negligence in the way she tried to escape.' },
   { id: 'owens', n: 'Owens v Brimmell', y: 1977, a: 'TO', t: '2.2.6', c: 'HC', f: 'A passenger went drinking with the driver and then accepted a lift home; the driver crashed.', p: 'Damages reduced by 20% for contributory negligence in travelling with a driver he knew had been drinking heavily.' },
-  { id: 'jayes', n: 'Jayes v IMI (Kynoch)', y: 2004, a: 'TO', t: '2.2.6', c: 'CA', f: 'An experienced worker put his hand into a moving machine while its guard was off, knowing it was dangerous.', p: 'A 100% reduction for contributory negligence is not possible: the 1945 Act assumes responsibility is shared. (The claimant’s 100% reduction was reduced.)' },
+  { id: 'jayes', n: 'Jayes v IMI (Kynoch)', y: 1985, a: 'TO', t: '2.2.6', c: 'CA', f: 'An experienced worker put his hand into a moving machine while its guard was off, knowing it was dangerous. The employer had breached its statutory duty to keep the machine guarded.', p: 'The Court of Appeal upheld a 100% reduction for contributory negligence. Later cases, especially Pitts v Hunt (1991), said a 100% reduction is logically impossible because the Act assumes responsibility is shared, so Jayes is now treated as doubtful.' },
   { id: 'jonesliviox', n: 'Jones v Livox Quarries', y: 1952, a: 'TO', t: '2.2.6', c: 'CA', f: 'A worker rode on the back towbar of a traxcavator against instructions; another vehicle ran into the back of it.', p: 'Contributory negligence: he exposed himself to the risk of being thrown off or run into; damages reduced.' },
   { id: 'gough', n: 'Gough v Thorne', y: 1966, a: 'TO', t: '2.2.6', c: 'CA', f: 'A 13½-year-old girl crossed a road when a lorry driver waved her across; a car overtook the lorry and hit her.', p: 'No contributory negligence: she acted as a reasonable child of her age would.' },
   { id: 'pittshunt', n: 'Pitts v Hunt', y: 1991, a: 'TO', t: '2.2.6', c: 'CA', f: 'A pillion passenger encouraged a 16-year-old unlicensed, drunk motorcyclist to drive dangerously; they crashed.', p: 'Volenti was barred by s149 Road Traffic Act 1988, and a 100% reduction for contributory negligence was impossible, but the claim failed on the ground of illegality (ex turpi causa).' },
@@ -4477,7 +4477,7 @@ TOPICS.push({
 <ul><li>The defendant must prove the claimant failed to take reasonable care for their <b>own safety</b>, and that this contributed to the <b>damage</b> (not necessarily the accident) — [[c:froom]]; [[c:jonesliviox]].</li>
 <li>Guidelines: seatbelts — [[c:froom]] (25% / 15% / 0%); escaping in a dangerous way — [[c:sayers]] (25%); accepting a lift from a drunk driver — [[c:owens]] (20%); [[c:revill]] (burglar, two-thirds).</li>
 <li><b>Children</b> are judged by the standard of a reasonable child of their age — [[c:gough]].</li>
-<li>A 100% reduction is not possible — [[c:jayes]].</li>
+<li>A 100% reduction is not possible — [[c:pittshunt]] (doubting [[c:jayes]]).</li>
 <li>Emergencies: claimants are not negligent for reasonable reactions in “the agony of the moment”.</li></ul>
 <p>Try the calculator in the <b>Explore</b> tab.</p>` },
     { h: 'Other defences', html: `
@@ -4501,7 +4501,7 @@ TOPICS.push({
     ['LR(CN)A 1945 s1(1)?', 'Damages reduced as just and equitable according to the claimant’s share of responsibility.'],
     ['Froom v Butcher guidelines?', '25% if seatbelt would have prevented injury; 15% if reduced it; 0% if no difference.'],
     ['Sayers v Harlow UDC (1957)?', '25% reduction for climbing on a toilet-roll holder.'],
-    ['Can damages be reduced by 100%?', 'No — Jayes v IMI (Kynoch).'],
+    ['Can damages be reduced by 100%?', 'No — Pitts v Hunt (1991) said it is logically impossible (Jayes v IMI, 1985, which allowed 100%, is now doubted).'],
     ['Gough v Thorne (1966)?', 'A child judged as a reasonable child of the same age — no contributory negligence.'],
     ['Pitts v Hunt (1991)?', 'Illegality defeated a pillion passenger’s claim.']
   ],
@@ -4511,11 +4511,11 @@ TOPICS.push({
     { q: 'Section 149 of the Road Traffic Act 1988 prevents…', o: ['volenti being used against passengers in motor vehicles', 'contributory negligence claims', 'rescuers from suing', 'drivers from being insured'], x: 'Pitts v Hunt.' },
     { q: 'Under Froom v Butcher, if a seatbelt would have prevented the injury entirely, damages are reduced by…', o: ['25%', '15%', '50%', '100%'], x: '15% if it would have reduced severity.' },
     { q: 'Rescuers are generally…', o: ['not treated as volenti', 'always volenti', 'contributorily negligent', 'trespassers'], x: 'Haynes v Harwood.' },
-    { q: 'Which case held that a 100% reduction for contributory negligence is not possible?', o: ['Jayes v IMI (Kynoch)', 'Froom v Butcher', 'Owens v Brimmell', 'Sayers v Harlow'], x: 'The Act assumes shared responsibility.' },
+    { q: 'Which case held that a 100% reduction for contributory negligence is not possible?', o: ['Pitts v Hunt', 'Froom v Butcher', 'Owens v Brimmell', 'Sayers v Harlow'], x: 'The Act assumes shared responsibility. Jayes v IMI (1985) had allowed 100%.' },
     { q: 'In Morris v Murray the defence of volenti succeeded because…', o: ['the risk from the drunk pilot was so obvious and extreme', 'the claimant was an employee', 'there was a written waiver', 'the plane was a motor vehicle'], x: 'Planes are not covered by s149.' },
     { q: 'In Gough v Thorne a 13½-year-old was not contributorily negligent because…', o: ['she acted as a reasonable child of her age', 'children can never be negligent', 'the lorry driver consented', 'there was no crash'], x: 'Child standard.' }
   ],
-  exam: [{ q: 'Explain the defences of volenti non fit injuria and contributory negligence. [10]', m: 10, ms: ['volenti — meaning; complete defence', 'knowledge not consent — Smith v Baker', 'voluntary — employees; Shatwell', 'Morris v Murray v Dann v Hamilton', 's149 RTA 1988; rescuers — Haynes', 'contributory negligence — 1945 Act s1(1)', 'Froom; Sayers; Owens', 'children — Gough; no 100% — Jayes'] }],
+  exam: [{ q: 'Explain the defences of volenti non fit injuria and contributory negligence. [10]', m: 10, ms: ['volenti — meaning; complete defence', 'knowledge not consent — Smith v Baker', 'voluntary — employees; Shatwell', 'Morris v Murray v Dann v Hamilton', 's149 RTA 1988; rescuers — Haynes', 'contributory negligence — 1945 Act s1(1)', 'Froom; Sayers; Owens', 'children — Gough; no 100% — Pitts v Hunt (doubting Jayes)'] }],
   tools: ['apportion', 'defencesort']
 });
 
