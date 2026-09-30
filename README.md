@@ -41,3 +41,18 @@ A single-file study app for the WJEC/Eduqas Level 3 Applied Diploma in Criminolo
 - **Arcade games**, an evidence-board hero that stamps topics "closed" as you master them, XP, streaks and badges.
 
 Open `casefile-crim/index.html` in a browser. To rebuild after editing `src/`, run `node build.js` inside `casefile-crim/`.
+
+---
+
+# Brief · BTEC Applied Law (`brief-law/`)
+
+A single-file study app for the Pearson BTEC Level 3 National Certificate in Applied Law. It covers Unit 1 (Dispute solving in civil law, external) and Unit 2 (Investigating aspects of criminal law and the legal system, internal), plus a legal-skills unit. It reuses the Ratio engine with a new identity and BTEC-specific content.
+
+- **Topics mapped to the specification's learning aims**. Each topic has Learn, Key cases, Explore, Flashcards, Quiz and Exam/Assessment practice tabs.
+- **Unit 2 practice** marked against the Pass, Merit and Distinction criteria (A.P1 to D.D3).
+- **Casebook, statute book and glossary**.
+- **A BTEC grade calculator** that works out the qualification grade from unit points (Pass, Merit, Distinction, Distinction*).
+- **Practice papers**: two Unit 1 pre-release-style tasks worth 60 marks each, and two Unit 2 assignment briefs.
+- **A "Daily Cause List" home screen** that lists each topic as it moves from listed to part heard to judgment given. Also arcade games, XP, streaks and badges.
+
+Open `brief-law/index.html` in a browser. To rebuild after editing `src/`, run `node build.js` inside `brief-law/`.
