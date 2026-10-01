@@ -77,3 +77,15 @@ The `eduqas-gcse-pe/` folder contains **Stride**, a self-contained study app for
 - To use it, download **`eduqas-gcse-pe-stride.html`** from the repository root and open it in any browser.
 
 See [`eduqas-gcse-pe/README.md`](eduqas-gcse-pe/README.md) for details.
+
+---
+
+# Podium — Pearson BTEC Level 3 National Extended Certificate in Sport
+
+The `btec-sport/` folder contains **Podium**, a self-contained study app for the BTEC Level 3 National Extended Certificate in Sport (360 GLH).
+
+- It covers Unit 1 Anatomy and Physiology, Unit 2 Fitness Training and Programming, Unit 3 Professional Development in the Sports Industry, and Unit 6 Sports Psychology.
+- It includes 80-mark Unit 1 practice papers, three 60-mark Unit 2 set tasks with client case studies, P/M/D criteria trackers for the internal units, and a qualification grade calculator.
+- To use it, download **`btec-sport-podium.html`** from the repository root and open it in any browser.
+
+See [`btec-sport/README.md`](btec-sport/README.md) for details.
