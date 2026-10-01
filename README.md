@@ -65,3 +65,15 @@ The `ks3-physics/` folder contains **Launchpad**, a self-contained study app for
 - To use it, download **`ks3-physics-launchpad.html`** from the repository root and open it in any browser.
 
 See [`ks3-physics/README.md`](ks3-physics/README.md) for details.
+
+---
+
+# Stride — WJEC Eduqas GCSE (9–1) Physical Education
+
+The `eduqas-gcse-pe/` folder contains **Stride**, a self-contained study app for Eduqas GCSE Physical Education.
+
+- It covers all five key areas of Component 1, plus guides to the Component 2 practical performance and the performance analysis and evaluation.
+- Extended exam answers are levels-marked with band descriptors, and practice papers come to exactly 120 marks (full) or 60 marks (half).
+- To use it, download **`eduqas-gcse-pe-stride.html`** from the repository root and open it in any browser.
+
+See [`eduqas-gcse-pe/README.md`](eduqas-gcse-pe/README.md) for details.
