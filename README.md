@@ -89,3 +89,16 @@ The `btec-sport/` folder contains **Podium**, a self-contained study app for the
 - To use it, download **`btec-sport-podium.html`** from the repository root and open it in any browser.
 
 See [`btec-sport/README.md`](btec-sport/README.md) for details.
+
+---
+
+# MYP — concept-based MYP Physics, Grade 10
+
+The `myp-physics/` folder contains **MYP**, a self-contained study app for Grade 10 MYP Physics. It is built from the *Concept Based Physics (G10)* unit plans and uses the Live Wire engine.
+
+- It covers six units: What is validity?, Motion of a particle, Thermal physics, Wave particle duality, Electricity, and Radioactivity.
+- Each unit page has its conceptual understanding, global context, key concepts, strands, ATLs, and applications and skills. It also has 84 factual, conceptual and debatable inquiry questions with model answers.
+- It includes 13 labs and tasks for criteria B and C, criterion-tagged written questions, combined unit tests and an end-of-year exam, and a criteria A–D tracker that estimates an MYP grade.
+- To use it, download **`myp-physics.html`** from the repository root and open it in any browser.
+
+See [`myp-physics/README.md`](myp-physics/README.md) for details.
